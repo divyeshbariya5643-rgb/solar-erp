@@ -9,42 +9,55 @@
 <style>
 :root {
   font-family: Arial, sans-serif;
-  color: #e8edf5;
-  background: #0b1020;
+  color: #243447;
+  background: #f3f6f8;
+  --navy: #20577f;
+  --navy-dark: #17415f;
+  --orange: #f58220;
+  --green: #76b82a;
+  --brown: #604637;
+  --border: #dce4ea;
 }
 * { box-sizing: border-box; }
-body { margin: 0; }
+body { margin: 0; background: #f3f6f8; }
 .wrap { max-width: 1200px; margin: auto; padding: 22px; }
 header {
   display: flex; justify-content: space-between;
   align-items: center; gap: 15px; margin-bottom: 22px;
+  background: #ffffff; border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 18px;
 }
-.brand { font-size: 22px; font-weight: 800; }
-.brand span { color: #e0b65b; }
-.muted { color: #94a3b8; }
+.brand { font-size: 22px; font-weight: 800; color: var(--navy); }
+.brand span { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 14px; }
+.company-logo { width: 86px; height: 70px; object-fit: contain; display: block; }
+.login-logo { width: min(100%, 300px); max-height: 170px; object-fit: contain; display: block; margin: 0 auto 14px; }
+.muted { color: #647789; }
 .panel {
-  background: #131c30; border: 1px solid #26344d;
+  background: #ffffff; border: 1px solid var(--border);
   border-radius: 14px; padding: 18px; margin-bottom: 16px;
+  box-shadow: 0 3px 12px rgba(23,65,95,.045);
 }
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
   gap: 12px;
 }
-.stat { font-size: 27px; font-weight: 800; margin-top: 8px; }
+.stat { font-size: 27px; font-weight: 800; margin-top: 8px; color: var(--navy); }
 input, select, button {
   font: inherit; border-radius: 8px; padding: 11px;
-  border: 1px solid #34445f;
-  background: #0d1527; color: #eef2ff;
+  border: 1px solid #cbd7df;
+  background: #ffffff; color: #243447;
 }
 input, select { width: 100%; margin: 5px 0 12px; }
 button {
-  cursor: pointer; background: #d7aa4b;
-  color: #171717; border: 0; font-weight: 700;
+  cursor: pointer; background: var(--orange);
+  color: #ffffff; border: 0; font-weight: 700;
 }
-.secondary, nav button { background: #263650; color: white; }
+button:hover { filter: brightness(.96); }
+.secondary, nav button { background: var(--navy); color: white; }
 nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-nav button.active { background: #d7aa4b; color: #111; }
+nav button.active { background: var(--orange); color: #fff; }
 .formgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(170px,1fr));
@@ -53,20 +66,26 @@ nav button.active { background: #d7aa4b; color: #111; }
 table { width: 100%; border-collapse: collapse; margin-top: 12px; }
 td, th {
   text-align: left; padding: 10px;
-  border-bottom: 1px solid #29364c; font-size: 14px;
+  border-bottom: 1px solid var(--border); font-size: 14px;
 }
+th { color: var(--navy-dark); background: #f5f8fa; }
 .hidden { display: none !important; }
-.msg { margin: 12px 0; color: #f4d68e; }
-.good { color: #4ade80; }
-.danger { color: #fb7185; }
+.msg { margin: 12px 0; color: var(--brown); }
+.good { color: #39851d; }
+.danger { color: #c43d3d; }
 .link {
-  background: transparent; color: #e0b65b;
+  background: transparent; color: var(--navy);
   padding: 3px; text-align: left;
 }
 .small { font-size: 12px; padding: 7px; }
+#auth { max-width: 480px; margin: 32px auto; }
+#auth h2 { text-align: center; color: var(--navy); }
 @media(max-width:600px) {
   .wrap { padding: 12px; }
   header { align-items: flex-start; flex-direction: column; }
+  .brand-row { align-items: flex-start; }
+  .company-logo { width: 68px; height: 58px; }
+  .brand { font-size: 18px; }
   table { display: block; overflow-x: auto; }
 }
 </style>
@@ -76,14 +95,18 @@ td, th {
 <main class="wrap">
 
 <header>
-  <div>
-    <div class="brand">SIDDHIVINAYAK <span>ENGINEERING COMPANY</span></div>
-    <div class="muted">Solar Business Management System</div>
+  <div class="brand-row">
+    <img class="company-logo" src="logo.png" alt="Siddhivinayak Engineering Company original logo">
+    <div>
+      <div class="brand">SIDDHIVINAYAK <span>ENGINEERING COMPANY</span></div>
+      <div class="muted">Solar Business Management System</div>
+    </div>
   </div>
   <button id="logout" class="secondary hidden">Log out</button>
 </header>
 
 <section id="auth" class="panel hidden">
+  <img class="login-logo" src="logo.png" alt="Siddhivinayak Engineering Company original logo">
   <h2>Team Login</h2>
   <label>Email</label>
   <input id="email" type="email" placeholder="Enter email">
