@@ -1,2 +1,2 @@
 # solar-erp
-Stark Enterprise Solar Management System
+ SIDDHIVINAYAK ENGINEERING COMPANY  Management System
