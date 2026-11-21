@@ -254,7 +254,7 @@ tbody tr:hover { background:#f9fbfc; }
       <div class="page-heading">
         <div>
           <h2>Dealer Management</h2>
-          <p>Add and manage your solar dealers</p>
+          <p>Add, edit and manage your solar dealers</p>
         </div>
       </div>
       <div class="panel">
@@ -349,14 +349,9 @@ tbody tr:hover { background:#f9fbfc; }
           <h3>Payment Records</h3>
           <span class="muted" id="paymentCount"></span>
         </div>
-        <input
-          id="paymentSearch"
-          class="payment-search"
-          type="search"
+        <input id="paymentSearch" class="payment-search" type="search"
           placeholder="Search customer, date, amount, mode or transaction ID..."
-          oninput="renderPayments()"
-          autocomplete="off"
-        >
+          oninput="renderPayments()" autocomplete="off">
         <div id="paymentList"></div>
       </div>
     </section>
@@ -554,28 +549,133 @@ function renderDashboard() {
     }).join("")}</tbody></table>` : '<div class="empty-state">No payment records available.</div>';
 }
 
-async function renderDealers() {
+/* DEALER MANAGEMENT: ADD, EDIT AND REMOVE */
+
+function renderDealers() {
   $("dealerList").innerHTML = dealersData.length ? `
-    <table><thead><tr><th>Dealer</th><th>Phone</th><th>City</th><th>Customers</th></tr></thead>
-    <tbody>${dealersData.map(d=>{
-      const count = customersData.filter(c=>c.dealer_id===d.id).length;
-      return `<tr><td>${esc(d.name)}</td><td>${esc(d.phone)}</td><td>${esc(d.city)}</td><td>${count}</td></tr>`;
-    }).join("")}</tbody></table>` : '<div class="empty-state">No dealers added yet.</div>';
+    <table>
+      <thead>
+        <tr>
+          <th>Dealer</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>Customers</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${dealersData.map(d=>{
+          const count = customersData.filter(c=>c.dealer_id===d.id).length;
+          return `
+            <tr>
+              <td>${esc(d.name)}</td>
+              <td>${esc(d.phone)}</td>
+              <td>${esc(d.city)}</td>
+              <td>${count}</td>
+              <td>
+                <button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
+                <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove</button>
+              </td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : '<div class="empty-state">No dealers added yet.</div>';
 
   $("cDealer").innerHTML = '<option value="">Company Direct Customer</option>' +
-    dealersData.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join("");
+    dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
 }
 
 $("addDealer").onclick = async () => {
   const name = $("dName").value.trim();
   if(!name) { say("Enter dealer name."); return; }
+
   const {error} = await db.from("dealers").insert({
-    name,phone:$("dPhone").value.trim(),city:$("dCity").value.trim()
+    name,
+    phone:$("dPhone").value.trim(),
+    city:$("dCity").value.trim()
   });
-  if(error) { say(error.message); return; }
+
+  if(error) { say("Dealer add failed: "+error.message); return; }
+
   ["dName","dPhone","dCity"].forEach(id=>$(id).value="");
   await refreshData();
   say("Dealer added successfully.");
+};
+
+window.editDealer = async function(id) {
+  const dealer = dealersData.find(d=>String(d.id)===String(id));
+
+  if(!dealer) {
+    say("Dealer not found.");
+    return;
+  }
+
+  const name = prompt("Enter Dealer Name:",dealer.name||"");
+  if(name===null) return;
+
+  if(!name.trim()) {
+    say("Dealer name is required.");
+    return;
+  }
+
+  const phone = prompt("Enter Dealer Phone:",dealer.phone||"");
+  if(phone===null) return;
+
+  const city = prompt("Enter Dealer City:",dealer.city||"");
+  if(city===null) return;
+
+  const {error} = await db.from("dealers")
+    .update({
+      name:name.trim(),
+      phone:phone.trim(),
+      city:city.trim()
+    })
+    .eq("id",id);
+
+  if(error) {
+    say("Dealer update failed: "+error.message);
+    return;
+  }
+
+  await refreshData();
+  say("Dealer updated successfully.");
+};
+
+window.removeDealer = async function(id) {
+  const dealer = dealersData.find(d=>String(d.id)===String(id));
+
+  if(!dealer) {
+    say("Dealer not found.");
+    return;
+  }
+
+  const linkedCustomers = customersData.filter(c=>String(c.dealer_id)===String(id));
+
+  if(linkedCustomers.length>0) {
+    say("Cannot remove this dealer. "+linkedCustomers.length+
+      " customer(s) are linked. Reassign those customers first.");
+    return;
+  }
+
+  const confirmed = confirm(
+    "Are you sure you want to remove dealer: "+dealer.name+"?"
+  );
+
+  if(!confirmed) return;
+
+  const {error} = await db.from("dealers")
+    .delete()
+    .eq("id",id);
+
+  if(error) {
+    say("Dealer removal failed: "+error.message);
+    return;
+  }
+
+  await refreshData();
+  say("Dealer removed successfully.");
 };
 
 function renderCustomers() {
@@ -605,12 +705,14 @@ $("addCustomer").onclick = async () => {
     name,phone:$("cPhone").value.trim(),city:$("cCity").value.trim(),
     dealer_id:$("cDealer").value||null
   }).select().single();
+
   if(error) { say(error.message); return; }
 
   if(amount>0) {
     const result = await db.from("projects").insert({customer_id:data.id,project_amount:amount});
     if(result.error) { say("Customer created, but project save failed: "+result.error.message); return; }
   }
+
   ["cName","cPhone","cCity","cAmount"].forEach(id=>$(id).value="");
   $("cDealer").value="";
   await refreshData();
@@ -621,6 +723,7 @@ window.openCustomer = function(id) {
   selectedCustomer = id;
   const c = customersData.find(x=>x.id===id);
   if(!c) return;
+
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
   $("customerDetails").classList.add("active-page");
   document.querySelectorAll(".side-nav button").forEach(b=>b.classList.remove("active"));
@@ -652,42 +755,31 @@ function renderPayments() {
     const c = customersData.find(x => x.id === p.customer_id);
 
     const searchableText = [
-      c?.name,
-      c?.phone,
-      c?.city,
-      p.payment_date,
-      p.received_by,
-      p.amount,
-      p.payment_mode,
-      p.reference_no
+      c?.name,c?.phone,c?.city,p.payment_date,p.received_by,
+      p.amount,p.payment_mode,p.reference_no
     ].join(" ").toLowerCase();
 
     return searchableText.includes(search);
   });
 
   $("paymentCount").textContent =
-    filteredPayments.length + " of " + paymentsData.length + " records";
+    filteredPayments.length+" of "+paymentsData.length+" records";
 
   $("paymentList").innerHTML = filteredPayments.length ? `
     <table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Customer</th>
-          <th>Received By</th>
-          <th>Amount</th>
-          <th>Mode</th>
-          <th>Reference</th>
+          <th>Date</th><th>Customer</th><th>Received By</th>
+          <th>Amount</th><th>Mode</th><th>Reference</th>
         </tr>
       </thead>
       <tbody>
-        ${filteredPayments.map(p => {
-          const c = customersData.find(x => x.id === p.customer_id);
-
+        ${filteredPayments.map(p=>{
+          const c = customersData.find(x=>x.id===p.customer_id);
           return `
             <tr>
               <td>${esc(p.payment_date)}</td>
-              <td>${esc(c?.name || "Unknown")}</td>
+              <td>${esc(c?.name||"Unknown")}</td>
               <td>${esc(p.received_by)}</td>
               <td>${money(p.amount)}</td>
               <td>${esc(p.payment_mode)}</td>
@@ -697,21 +789,29 @@ function renderPayments() {
         }).join("")}
       </tbody>
     </table>
-  ` : `<div class="empty-state">${
-    search ? "No matching payment records found." : "No payment records yet."
-  }</div>`;
+  ` : `<div class="empty-state">${search?"No matching payment records found.":"No payment records yet."}</div>`;
 }
 
 $("addPayment").onclick = async () => {
   const customerId = $("pCustomer").value;
   const amount = Number($("pAmount").value);
-  if(!customerId||amount<=0) { say("Select a customer and enter a valid amount."); return; }
+
+  if(!customerId||amount<=0) {
+    say("Select a customer and enter a valid amount.");
+    return;
+  }
+
   const {error} = await db.from("payments").insert({
-    customer_id:customerId,amount,received_by:$("pRecipient").value,
+    customer_id:customerId,
+    amount,
+    received_by:$("pRecipient").value,
     payment_date:$("pDate").value||new Date().toISOString().slice(0,10),
-    payment_mode:$("pMode").value,reference_no:$("pRef").value.trim()
+    payment_mode:$("pMode").value,
+    reference_no:$("pRef").value.trim()
   });
+
   if(error) { say(error.message); return; }
+
   $("pAmount").value="";
   $("pRef").value="";
   await refreshData();
@@ -728,8 +828,18 @@ function renderAll() {
 window.goTab = function(id) {
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
   $(id).classList.add("active-page");
-  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
-  const titles = {dashboard:"Dashboard",dealers:"Dealers",customers:"Customers",payments:"Payments",customerDetails:"Customer Details"};
+  document.querySelectorAll(".side-nav button").forEach(b=>
+    b.classList.toggle("active",b.dataset.tab===id)
+  );
+
+  const titles = {
+    dashboard:"Dashboard",
+    dealers:"Dealers",
+    customers:"Customers",
+    payments:"Payments",
+    customerDetails:"Customer Details"
+  };
+
   $("pageTitle").textContent = titles[id]||"Solar ERP";
 };
 
