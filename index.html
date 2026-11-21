@@ -93,7 +93,7 @@ tbody tr:hover{background:#f9fbfc}
 .item-row input,.item-row select{margin:4px 0 9px}
 .item-row button{margin-bottom:5px}
 .challan-search{max-width:500px}
-.challan-paper{background:white;color:#111;padding:24px}
+
 @media(max-width:800px){
  .app-layout{flex-direction:column}
  .sidebar{width:100%;padding:12px;border-right:0;border-bottom:1px solid var(--border)}
@@ -294,7 +294,6 @@ tbody tr:hover{background:#f9fbfc}
   </div>
 </section>
 
-<!-- DISPATCH CHALLAN MODULE -->
 <section id="dispatch" class="tab">
   <div class="page-heading">
     <div><h2>Dispatch Challan Management</h2><p>Create and manage material dispatch challans</p></div>
@@ -859,14 +858,22 @@ window.cancelChallan=async function(id){
  say("Challan "+c.challan_no+" cancelled.");
 };
 
+/* ======================================
+   PRINT CHALLAN WITH LOGO + WATERMARK
+====================================== */
+
 window.printChallan=function(id){
  const c=challansData.find(x=>x.id===id);
  if(!c){say("Challan not found.");return}
+
  const items=challanItemsData.filter(i=>i.challan_id===id);
  const recipient=recipientLabel(c.recipient_type,c.recipient_type==="dealer"?c.dealer_id:c.customer_id);
+
  const recipientRecord=c.recipient_type==="dealer"
   ?dealersData.find(d=>d.id===c.dealer_id)
   :customersData.find(x=>x.id===c.customer_id);
+
+ const logoUrl=new URL("LOGO.Png.jpeg",window.location.href).href;
 
  const rows=items.map((i,index)=>`
   <tr>
@@ -875,72 +882,255 @@ window.printChallan=function(id){
    <td>${esc(i.description||"—")}</td>
    <td style="text-align:right">${esc(i.quantity)}</td>
    <td>${esc(i.unit)}</td>
-  </tr>`).join("");
+  </tr>
+ `).join("");
 
  const html=`<!DOCTYPE html>
- <html><head><meta charset="UTF-8"><title>${esc(c.challan_no)}</title>
+ <html>
+ <head>
+ <meta charset="UTF-8">
+ <title>${esc(c.challan_no)}</title>
+
  <style>
- body{font-family:Arial,sans-serif;color:#111;margin:25px}
- .sheet{max-width:850px;margin:auto;border:1px solid #333;padding:25px}
- .head{text-align:center;border-bottom:2px solid #222;padding-bottom:14px}
+ *{box-sizing:border-box}
+
+ body{
+  font-family:Arial,sans-serif;
+  color:#111;
+  margin:25px;
+ }
+
+ .sheet{
+  max-width:850px;
+  margin:auto;
+  border:1px solid #333;
+  padding:25px;
+  position:relative;
+  background:#fff;
+  overflow:hidden;
+ }
+
+ .watermark{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:380px;
+  height:380px;
+  object-fit:contain;
+  opacity:0.075;
+  z-index:0;
+  pointer-events:none;
+ }
+
+ .sheet-content{
+  position:relative;
+  z-index:1;
+ }
+
+ .head{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  border-bottom:2px solid #222;
+  padding-bottom:15px;
+  text-align:center;
+ }
+
+ .company-logo{
+  width:105px;
+  height:90px;
+  object-fit:contain;
+ }
+
+ .company-info{flex:1}
+
  h1{font-size:23px;margin:5px 0}
  h2{font-size:18px;margin:18px 0}
  .phone{font-size:13px;margin:7px}
- .meta{display:flex;justify-content:space-between;gap:20px;margin:20px 0}
- .box{width:50%;line-height:1.7;font-size:13px}
- table{width:100%;border-collapse:collapse;margin-top:18px}
- th,td{border:1px solid #444;padding:9px;font-size:12px;text-align:left}
+
+ .meta{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin:20px 0;
+ }
+
+ .box{
+  width:50%;
+  line-height:1.8;
+  font-size:13px;
+ }
+
+ table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+ }
+
+ th,td{
+  border:1px solid #444;
+  padding:9px;
+  font-size:12px;
+  text-align:left;
+ }
+
  th{background:#eee}
- .remarks{margin-top:18px;font-size:13px}
- .sign{display:flex;justify-content:space-between;margin-top:75px;font-size:13px}
- .footer{margin-top:30px;text-align:center;font-size:11px}
- .cancel{color:#b00020;font-size:20px;font-weight:bold}
- @media print{body{margin:0}.sheet{border:0}}
- </style></head><body>
+
+ .remarks{
+  margin-top:18px;
+  font-size:13px;
+  line-height:1.9;
+ }
+
+ .sign{
+  display:flex;
+  justify-content:space-between;
+  margin-top:75px;
+  font-size:13px;
+ }
+
+ .footer{
+  margin-top:30px;
+  text-align:center;
+  font-size:11px;
+  border-top:1px solid #aaa;
+  padding-top:10px;
+ }
+
+ .cancel{
+  color:#b00020;
+  font-size:20px;
+  font-weight:bold;
+ }
+
+ @page{
+  size:A4;
+  margin:12mm;
+ }
+
+ @media print{
+  body{
+   margin:0;
+   -webkit-print-color-adjust:exact;
+   print-color-adjust:exact;
+  }
+
+  .sheet{
+   border:0;
+   max-width:100%;
+   padding:10px;
+  }
+
+  .watermark{opacity:0.075}
+  th{background:#eee!important}
+ }
+
+ @media(max-width:600px){
+  .head{gap:8px}
+  .company-logo{width:75px;height:70px}
+  h1{font-size:17px}
+  h2{font-size:15px}
+ }
+ </style>
+ </head>
+
+ <body>
+
  <div class="sheet">
-  <div class="head">
-   <h1>${COMPANY_NAME}</h1>
-   <div class="phone">Contact: ${COMPANY_PHONE}</div>
-   <h2>DELIVERY / DISPATCH CHALLAN</h2>
-   ${c.status==="Cancelled"?'<div class="cancel">CANCELLED</div>':""}
-  </div>
-  <div class="meta">
-   <div class="box">
-    <strong>Challan No:</strong> ${esc(c.challan_no)}<br>
-    <strong>Dispatch Date:</strong> ${esc(c.dispatch_date)}<br>
-    <strong>Dispatch From:</strong> ${esc(c.dispatch_from||COMPANY_NAME)}
+
+  <img class="watermark" src="${logoUrl}" alt="Company Watermark">
+
+  <div class="sheet-content">
+
+   <div class="head">
+    <img class="company-logo" src="${logoUrl}" alt="Company Logo">
+
+    <div class="company-info">
+     <h1>${esc(COMPANY_NAME)}</h1>
+     <div class="phone">Contact: ${esc(COMPANY_PHONE)}</div>
+     <h2>DELIVERY / DISPATCH CHALLAN</h2>
+     ${c.status==="Cancelled"?'<div class="cancel">CANCELLED</div>':""}
+    </div>
    </div>
-   <div class="box">
-    <strong>Recipient Type:</strong> ${esc(c.recipient_type)}<br>
-    <strong>Recipient Name:</strong> ${esc(recipient)}<br>
-    <strong>Phone:</strong> ${esc(recipientRecord?.phone||"—")}
+
+   <div class="meta">
+    <div class="box">
+     <strong>Challan No:</strong> ${esc(c.challan_no)}<br>
+     <strong>Dispatch Date:</strong> ${esc(c.dispatch_date)}<br>
+     <strong>Dispatch From:</strong> ${esc(c.dispatch_from||COMPANY_NAME)}
+    </div>
+
+    <div class="box">
+     <strong>Recipient Type:</strong> ${esc(c.recipient_type)}<br>
+     <strong>Recipient Name:</strong> ${esc(recipient)}<br>
+     <strong>Phone:</strong> ${esc(recipientRecord?.phone||"—")}
+    </div>
    </div>
+
+   <div style="font-size:13px;line-height:1.7">
+    <strong>Delivery Address:</strong> ${esc(c.delivery_address||"—")}
+   </div>
+
+   <table>
+    <thead>
+     <tr>
+      <th style="width:45px">Sr.</th>
+      <th>Material Name</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Unit</th>
+     </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+   </table>
+
+   <div class="remarks">
+    <strong>Vehicle Number:</strong> ${esc(c.vehicle_number||"—")}<br>
+    <strong>Driver Name:</strong> ${esc(c.driver_name||"—")}<br>
+    <strong>Driver Mobile:</strong> ${esc(c.driver_phone||"—")}<br>
+    <strong>Transporter:</strong> ${esc(c.transporter_name||"—")}<br>
+    <strong>Remarks:</strong> ${esc(c.remarks||"—")}
+   </div>
+
+   <div class="sign">
+    <div>Receiver's Signature<br><br>________________________</div>
+    <div>Authorized Signature<br><br>________________________</div>
+   </div>
+
+   <div class="footer">
+    ${esc(COMPANY_NAME)} | ${esc(COMPANY_PHONE)}
+   </div>
+
   </div>
-  <div style="font-size:13px;line-height:1.7">
-   <strong>Delivery Address:</strong> ${esc(c.delivery_address||"—")}
-  </div>
-  <table>
-   <thead><tr><th style="width:45px">Sr.</th><th>Material Name</th><th>Description</th><th>Quantity</th><th>Unit</th></tr></thead>
-   <tbody>${rows}</tbody>
-  </table>
-  <div class="remarks">
-   <strong>Vehicle Number:</strong> ${esc(c.vehicle_number||"—")}<br>
-   <strong>Driver Name:</strong> ${esc(c.driver_name||"—")}<br>
-   <strong>Driver Mobile:</strong> ${esc(c.driver_phone||"—")}<br>
-   <strong>Transporter:</strong> ${esc(c.transporter_name||"—")}<br>
-   <strong>Remarks:</strong> ${esc(c.remarks||"—")}
-  </div>
-  <div class="sign">
-   <div>Receiver's Signature<br><br>________________________</div>
-   <div>Authorized Signature<br><br>________________________</div>
-  </div>
-  <div class="footer">${COMPANY_NAME} | ${COMPANY_PHONE}</div>
  </div>
- <script>window.onload=function(){window.print()}<\/script>
- </body></html>`;
+
+ <script>
+ window.onload=function(){
+  const images=document.images;
+  Promise.all([...images].map(img=>{
+   if(img.complete)return Promise.resolve();
+   return new Promise(resolve=>{
+    img.onload=resolve;
+    img.onerror=resolve;
+   });
+  })).then(()=>{
+   setTimeout(()=>window.print(),300);
+  });
+ };
+ <\/script>
+
+ </body>
+ </html>`;
 
  const win=window.open("","_blank");
- if(!win){say("Please allow pop-ups to print the challan.");return}
+
+ if(!win){
+  say("Please allow pop-ups to print the challan.");
+  return;
+ }
+
  win.document.open();
  win.document.write(html);
  win.document.close();
