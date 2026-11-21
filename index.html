@@ -1,1 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="NyAo6XfS3Ei0SigfZioNrGDNwIAukzpVOl3QCi-DbGg" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siddhivinayak Engineering Company | Solar ERP</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
+:root {
+  font-family: Arial, sans-serif;
+  color: #243447;
+  background: #f3f6f8;
+  --navy: #20577f;
+  --navy-dark: #17415f;
+  --orange: #f58220;
+  --green: #76b82a;
+  --brown: #604637;
+  --border: #dce4ea;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #f3f6f8; }
+.wrap { max-width: 1200px; margin: auto; padding: 22px; }
+header {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 15px; margin-bottom: 22px;
+  background: #ffffff; border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 18px;
+}
+.brand { font-size: 22px; font-weight: 800; color: var(--navy); }
+.brand span { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 14px; }
+.company-logo { width: 86px; height: 70px; object-fit: contain; display: block; }
+.login-logo { width: min(100%, 300px); max-height: 170px; object-fit: contain; display: block; margin: 0 auto 14px; }
+.muted { color: #647789; }
+.panel {
+  background: #ffffff; border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px; margin-bottom: 16px;
+  box-shadow: 0 3px 12px rgba(23,65,95,.045);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+  gap: 12px;
+}
+.stat { font-size: 27px; font-weight: 800; margin-top: 8px; color: var(--navy); }
+input, select, button {
+  font: inherit; border-radius: 8px; padding: 11px;
+  border: 1px solid #cbd7df;
+  background: #ffffff; color: #243447;
+}
+input, select { width: 100%; margin: 5px 0 12px; }
+button {
+  cursor: pointer; background: var(--orange);
+  color: #ffffff; border: 0; font-weight: 700;
+}
+button:hover { filter: brightness(.96); }
+.secondary, nav button { background: var(--navy); color: white; }
+nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+nav button.active { background: var(--orange); color: #fff; }
+.formgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(170px,1fr));
+  gap: 8px;
+}
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+td, th {
+  text-align: left; padding: 10px;
+  border-bottom: 1px solid var(--border); font-size: 14px;
+}
+th { color: var(--navy-dark); background: #f5f8fa; }
+.hidden { display: none !important; }
+.msg { margin: 12px 0; color: var(--brown); }
+.good { color: #39851d; }
+.danger { color: #c43d3d; }
+.link {
+  background: transparent; color: var(--navy);
+  padding: 3px; text-align: left;
+}
+.small { font-size: 12px; padding: 7px; }
+#auth { max-width: 480px; margin: 32px auto; }
+#auth h2 { text-align: center; color: var(--navy); }
+.auth-actions { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin: 2px 0 12px; }
+.auth-actions label { display:flex; align-items:center; gap:7px; margin:0; font-size:14px; }
+.auth-actions input[type="checkbox"] { width:auto; margin:0; }
+.auth-link { background:transparent; color:var(--navy); padding:4px; font-weight:700; }
+.auth-modes { display:flex; gap:8px; margin: 10px 0 14px; }
+.auth-modes button { flex:1; }
+.auth-modes button.active { background:var(--orange); }
+.auth-note { font-size:12px; color:#647789; margin-top:8px; }
+@media(max-width:600px) {
+  .wrap { padding: 12px; }
+  header { align-items: flex-start; flex-direction: column; }
+  .brand-row { align-items: flex-start; }
+  .company-logo { width: 68px; height: 58px; }
+  .brand { font-size: 18px; }
+  table { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+<header>
+  <div class="brand-row">
+    <img class="company-logo" src="LOGO.Png.jpeg" alt="Siddhivinayak Engineering Company original logo">
+    <div>
+      <div class="brand">SIDDHIVINAYAK <span>ENGINEERING COMPANY</span></div>
+      <div class="muted">Solar Business Management System</div>
+    </div>
+  </div>
+  <button id="logout" class="secondary hidden">Log out</button>
+</header>
+
+<section id="auth" class="panel hidden">
+  <img class="login-logo" src="LOGO.Png.jpeg" alt="Siddhivinayak Engineering Company original logo">
+  <h2>Team Login</h2>
+
+  <div class="auth-modes">
+    <button type="button" id="passwordMode" class="active">Password Login</button>
+    <button type="button" id="otpMode" class="secondary">OTP Login</button>
+  </div>
+
+  <div id="passwordPanel">
+    <label>Email or Mobile Number</label>
+    <input id="loginId" type="text" autocomplete="username" placeholder="Enter registered email or mobile">
+    <label>Password</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="Enter password">
+    <div class="auth-actions">
+      <label><input id="rememberMe" type="checkbox"> Remember Me</label>
+      <button type="button" id="forgotPassword" class="auth-link">Forgot Password?</button>
+    </div>
+    <button id="login" type="button">Sign In</button>
+  </div>
+
+  <div id="otpPanel" class="hidden">
+    <label>Email or Mobile Number</label>
+    <input id="otpId" type="text" autocomplete="username" placeholder="Enter registered email or mobile">
+    <button id="sendOtp" type="button">Send OTP</button>
+    <div id="otpVerifyPanel" class="hidden">
+      <label>Enter OTP</label>
+      <input id="otpCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter verification code">
+      <button id="verifyOtp" type="button">Verify & Login</button>
+    </div>
+    <div class="auth-note">Email OTP requires Supabase email configuration. Mobile OTP requires an SMS provider configured in Supabase.</div>
+  </div>
+
+  <div id="resetPanel" class="hidden">
+    <label>Registered Email</label>
+    <input id="resetEmail" type="email" autocomplete="email" placeholder="Enter your account email">
+    <button id="sendReset" type="button">Send Password Reset Link</button>
+    <button type="button" id="backToLogin" class="auth-link">← Back to Login</button>
+    <div class="auth-note">Password reset link will be sent to your registered email address.</div>
+  </div>
+
+  <div id="authMsg" class="msg" role="status" aria-live="polite"></div>
+</section>
+
+<section id="app" class="hidden">
+
+  <div class="grid">
+    <div class="panel">
+      <div class="muted">Total Dealers</div>
+      <div class="stat" id="dealerCount">0</div>
+    </div>
+    <div class="panel">
+      <div class="muted">Total Customers</div>
+      <div class="stat" id="customerCount">0</div>
+    </div>
+    <div class="panel">
+      <div class="muted">Project Value</div>
+      <div class="stat" id="projectTotal">₹0</div>
+    </div>
+    <div class="panel">
+      <div class="muted">Total Outstanding</div>
+      <div class="stat" id="outstanding">₹0</div>
+    </div>
+    <div class="panel">
+      <div class="muted">Received by Company</div>
+      <div class="stat good" id="companyReceived">₹0</div>
+    </div>
+    <div class="panel">
+      <div class="muted">Received by Dealers</div>
+      <div class="stat" id="dealerReceived">₹0</div>
+    </div>
+  </div>
+
+  <nav>
+    <button class="active" data-tab="dealers">Dealers</button>
+    <button data-tab="customers">Customers</button>
+    <button data-tab="payments">Payments</button>
+  </nav>
+
+  <!-- DEALERS -->
+  <section id="dealers" class="panel tab">
+    <h2>Dealer Management</h2>
+    <div class="formgrid">
+      <input id="dName" placeholder="Dealer name">
+      <input id="dPhone" placeholder="Phone">
+      <input id="dCity" placeholder="City">
+      <button id="addDealer">Add Dealer</button>
+    </div>
+    <div id="dealerList"></div>
+  </section>
+
+  <!-- CUSTOMERS -->
+  <section id="customers" class="panel tab hidden">
+    <h2>Customer Management</h2>
+    <div class="formgrid">
+      <input id="cName" placeholder="Customer name">
+      <input id="cPhone" placeholder="Phone">
+      <input id="cCity" placeholder="City">
+
+      <select id="cDealer">
+        <option value="">Company Direct Customer</option>
+      </select>
+
+      <input id="cAmount" type="number" min="0" placeholder="Project Amount ₹">
+      <button id="addCustomer">Add Customer</button>
+    </div>
+    <div id="customerList"></div>
+  </section>
+
+  <!-- CUSTOMER DETAILS -->
+  <section id="customerDetails" class="panel hidden">
+    <button class="secondary small" id="backCustomers">← Back to Customers</button>
+    <h2 id="detailName">Customer Details</h2>
+    <div id="detailInfo"></div>
+    <div class="grid">
+      <div class="panel">
+        <div class="muted">Project Amount</div>
+        <div class="stat" id="detailProject">₹0</div>
+      </div>
+      <div class="panel">
+        <div class="muted">Total Paid</div>
+        <div class="stat good" id="detailPaid">₹0</div>
+      </div>
+      <div class="panel">
+        <div class="muted">Remaining Balance</div>
+        <div class="stat" id="detailBalance">₹0</div>
+      </div>
+    </div>
+    <h3>Payment History</h3>
+    <div id="detailPayments"></div>
+  </section>
+
+  <!-- PAYMENTS -->
+  <section id="payments" class="panel tab hidden">
+    <h2>Payment Entry</h2>
+    <div class="formgrid">
+      <select id="pCustomer">
+        <option value="">Select Customer</option>
+      </select>
+
+      <select id="pRecipient">
+        <option value="company">Received by Company</option>
+        <option value="dealer">Received by Dealer</option>
+      </select>
+
+      <input id="pAmount" type="number" min="1" placeholder="Amount ₹">
+      <input id="pDate" type="date">
+
+      <select id="pMode">
+        <option value="UPI">UPI</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Cash">Cash</option>
+        <option value="Cheque">Cheque</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <input id="pRef" placeholder="Reference / Transaction ID">
+      <button id="addPayment">Save Payment</button>
+    </div>
+
+    <div id="paymentList"></div>
+  </section>
+
+</section>
+
+<div id="globalMsg" class="msg"></div>
+</main>
+
+<script>
+/* SUPABASE CONFIGURATION */
+const SUPABASE_URL = "https://mvrekgmqbmbtkgrdceqt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_XdzM6Q4fDD10jU4Pp8lVOw_6CTNcdni";
+
+// Remember Me: use persistent browser storage only when the user opts in.
+const rememberPreferenceKey = "solar_erp_remember_me";
+const authStorage = {
+  getItem: (key) => {
+    const remember = localStorage.getItem(rememberPreferenceKey) === "true";
+    return (remember ? localStorage : sessionStorage).getItem(key);
+  },
+  setItem: (key, value) => {
+    const remember = localStorage.getItem(rememberPreferenceKey) === "true";
+    (remember ? localStorage : sessionStorage).setItem(key, value);
+    (remember ? sessionStorage : localStorage).removeItem(key);
+  },
+  removeItem: key => {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+  }
+};
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  { auth: { storage: authStorage, persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
+);
+
+const $ = id => document.getElementById(id);
+
+const money = n =>
+  "₹" + Number(n || 0).toLocaleString("en-IN", {
+    maximumFractionDigits: 2
+  });
+
+const esc = s =>
+  String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[c]));
+
+const show = (id, value) =>
+  $(id).classList.toggle("hidden", !value);
+
+const say = message => {
+  $("globalMsg").textContent = message;
+};
+
+let dealersData = [];
+let customersData = [];
+let projectsData = [];
+let paymentsData = [];
+let selectedCustomer = null;
+
+/* AUTHENTICATION */
+function setAuthMessage(message, isError = false) {
+  $("authMsg").textContent = message;
+  $("authMsg").className = isError ? "msg danger" : "msg good";
+}
+
+function setAuthMode(mode) {
+  show("passwordPanel", mode === "password");
+  show("otpPanel", mode === "otp");
+  show("resetPanel", mode === "reset");
+  $("passwordMode").classList.toggle("active", mode === "password");
+  $("otpMode").classList.toggle("active", mode === "otp");
+  $("passwordMode").classList.toggle("secondary", mode !== "password");
+  $("otpMode").classList.toggle("secondary", mode !== "otp");
+  $("authMsg").textContent = "";
+}
+
+function isEmail(value) {
+  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+}
+
+function authIdentifier(value) {
+  const v = value.trim();
+  if (isEmail(v)) return { email: v.toLowerCase(), type: "email" };
+  // Supabase expects phone numbers in international E.164 format, e.g. +919876543210.
+  return { phone: v, type: "sms" };
+}
+
+async function checkLogin() {
+  const { data, error } = await db.auth.getSession();
+  if (error) {
+    say(error.message);
+    return;
+  }
+  const loggedIn = !!data.session;
+  show("auth", !loggedIn);
+  show("app", loggedIn);
+  show("logout", loggedIn);
+  if (loggedIn) await refreshData();
+}
+
+$("rememberMe").checked = localStorage.getItem(rememberPreferenceKey) === "true";
+
+$("passwordMode").onclick = () => setAuthMode("password");
+$("otpMode").onclick = () => setAuthMode("otp");
+
+$("login").onclick = async () => {
+  const identifier = authIdentifier($("loginId").value);
+  const password = $("password").value;
+  if (!identifier.email && !identifier.phone) {
+    setAuthMessage("Enter your registered email or mobile number.", true);
+    return;
+  }
+  if (identifier.type === "sms" && !/^\\+[1-9]\\d{7,14}$/.test(identifier.phone)) {
+    setAuthMessage("Enter mobile number with country code, e.g. +919876543210.", true);
+    return;
+  }
+  if (!password) {
+    setAuthMessage("Enter your password.", true);
+    return;
+  }
+
+  localStorage.setItem(rememberPreferenceKey, $("rememberMe").checked ? "true" : "false");
+  if (!$("rememberMe").checked) {
+    // Clear any previous persistent session when Remember Me is turned off.
+    Object.keys(localStorage).filter(k => k.startsWith("sb-") && k.endsWith("-auth-token")).forEach(k => localStorage.removeItem(k));
+  }
+
+  const credentials = identifier.type === "email"
+    ? { email: identifier.email, password }
+    : { phone: identifier.phone, password };
+
+  const { error } = await db.auth.signInWithPassword(credentials);
+  if (error) {
+    setAuthMessage(error.message, true);
+    return;
+  }
+  setAuthMessage("Login successful.");
+  await checkLogin();
+};
+
+$("forgotPassword").onclick = () => {
+  setAuthMode("reset");
+  $("resetEmail").value = isEmail($("loginId").value.trim()) ? $("loginId").value.trim() : "";
+};
+
+$("backToLogin").onclick = () => setAuthMode("password");
+
+$("sendReset").onclick = async () => {
+  const email = $("resetEmail").value.trim().toLowerCase();
+  if (!isEmail(email)) {
+    setAuthMessage("Enter a valid registered email address.", true);
+    return;
+  }
+  const redirectTo = window.location.origin + window.location.pathname;
+  const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo });
+  if (error) {
+    setAuthMessage(error.message, true);
+    return;
+  }
+  setAuthMessage("If this email belongs to an account, a password reset link has been sent. Check your inbox and spam folder.");
+};
+
+$("sendOtp").onclick = async () => {
+  const identifier = authIdentifier($("otpId").value);
+  if (identifier.type === "email" && !identifier.email) {
+    setAuthMessage("Enter a valid email address.", true);
+    return;
+  }
+  if (identifier.type === "sms" && !/^\\+[1-9]\\d{7,14}$/.test(identifier.phone)) {
+    setAuthMessage("Enter mobile number with country code, e.g. +919876543210.", true);
+    return;
+  }
+
+  const payload = identifier.type === "email"
+    ? { email: identifier.email, options: { shouldCreateUser: false } }
+    : { phone: identifier.phone, options: { shouldCreateUser: false } };
+
+  const { error } = await db.auth.signInWithOtp(payload);
+  if (error) {
+    setAuthMessage(error.message, true);
+    return;
+  }
+  $("otpVerifyPanel").classList.remove("hidden");
+  setAuthMessage("OTP sent. Check your email or SMS.");
+};
+
+$("verifyOtp").onclick = async () => {
+  const identifier = authIdentifier($("otpId").value);
+  const token = $("otpCode").value.trim();
+  if (!token) {
+    setAuthMessage("Enter the OTP.", true);
+    return;
+  }
+  const verifyPayload = identifier.type === "email"
+    ? { email: identifier.email, token, type: "email" }
+    : { phone: identifier.phone, token, type: "sms" };
+
+  const { error } = await db.auth.verifyOtp(verifyPayload);
+  if (error) {
+    setAuthMessage(error.message, true);
+    return;
+  }
+  setAuthMessage("OTP verified. Login successful.");
+  await checkLogin();
+};
+
+$("logout").onclick = async () => {
+  const { error } = await db.auth.signOut();
+  if (error) {
+    say(error.message);
+    return;
+  }
+  show("app", false);
+  show("auth", true);
+  show("logout", false);
+  setAuthMode("password");
+};
+
+/* LOAD DATABASE DATA */
+async function refreshData() {
+  say("Loading data...");
+
+  const results = await Promise.all([
+    db.from("dealers").select("*").order("created_at", { ascending: false }),
+    db.from("customers").select("*").order("created_at", { ascending: false }),
+    db.from("projects").select("*"),
+    db.from("payments").select("*").order("payment_date", { ascending: false })
+  ]);
+
+  const error = results.find(r => r.error);
+
+  if (error) {
+    say("Database error: " + error.error.message);
+    return;
+  }
+
+  dealersData = results[0].data || [];
+  customersData = results[1].data || [];
+  projectsData = results[2].data || [];
+  paymentsData = results[3].data || [];
+
+  renderAll();
+  say("Data loaded successfully.");
+}
+
+/* CALCULATIONS */
+function projectAmount(customerId) {
+  return projectsData
+    .filter(p => p.customer_id === customerId)
+    .reduce((sum, p) => sum + Number(p.project_amount || 0), 0);
+}
+
+function customerPayments(customerId) {
+  return paymentsData.filter(p => p.customer_id === customerId);
+}
+
+function totalPaid(customerId) {
+  return customerPayments(customerId)
+    .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+}
+
+function balance(customerId) {
+  return Math.max(0, projectAmount(customerId) - totalPaid(customerId));
+}
+
+function dealerName(id) {
+  return dealersData.find(d => d.id === id)?.name || "—";
+}
+
+/* DASHBOARD */
+function renderDashboard() {
+  $("dealerCount").textContent = dealersData.length;
+  $("customerCount").textContent = customersData.length;
+
+  const totalProjects = projectsData.reduce(
+    (s, p) => s + Number(p.project_amount || 0), 0
+  );
+
+  const totalOutstanding = customersData.reduce(
+    (s, c) => s + balance(c.id), 0
+  );
+
+  const companyTotal = paymentsData
+    .filter(p => p.received_by === "company")
+    .reduce((s, p) => s + Number(p.amount || 0), 0);
+
+  const dealerTotal = paymentsData
+    .filter(p => p.received_by === "dealer")
+    .reduce((s, p) => s + Number(p.amount || 0), 0);
+
+  $("projectTotal").textContent = money(totalProjects);
+  $("outstanding").textContent = money(totalOutstanding);
+  $("companyReceived").textContent = money(companyTotal);
+  $("dealerReceived").textContent = money(dealerTotal);
+}
+
+/* DEALERS */
+async function renderDealers() {
+  $("dealerList").innerHTML = `
+    <table>
+      <tr>
+        <th>Dealer</th>
+        <th>Phone</th>
+        <th>City</th>
+        <th>Customers</th>
+      </tr>
+      ${dealersData.map(d => {
+        const count = customersData.filter(
+          c => c.dealer_id === d.id
+        ).length;
+
+        return `
+          <tr>
+            <td>${esc(d.name)}</td>
+            <td>${esc(d.phone)}</td>
+            <td>${esc(d.city)}</td>
+            <td>${count}</td>
+          </tr>`;
+      }).join("")}
+    </table>`;
+
+  $("cDealer").innerHTML =
+    '<option value="">Company Direct Customer</option>' +
+    dealersData.map(d =>
+      `<option value="${d.id}">${esc(d.name)}</option>`
+    ).join("");
+}
+
+$("addDealer").onclick = async () => {
+  const name = $("dName").value.trim();
+
+  if (!name) {
+    say("Enter dealer name.");
+    return;
+  }
+
+  const { error } = await db.from("dealers").insert({
+    name,
+    phone: $("dPhone").value.trim(),
+    city: $("dCity").value.trim()
+  });
+
+  if (error) {
+    say(error.message);
+    return;
+  }
+
+  ["dName", "dPhone", "dCity"].forEach(id => $(id).value = "");
+  await refreshData();
+  say("Dealer added successfully.");
+};
+
+/* CUSTOMERS */
+function renderCustomers() {
+  $("customerList").innerHTML = `
+    <table>
+      <tr>
+        <th>Customer</th>
+        <th>Dealer</th>
+        <th>Project</th>
+        <th>Paid</th>
+        <th>Balance</th>
+        <th>Details</th>
+      </tr>
+      ${customersData.map(c => `
+        <tr>
+          <td>${esc(c.name)}</td>
+          <td>${c.dealer_id ? esc(dealerName(c.dealer_id)) : "Company Direct"}</td>
+          <td>${money(projectAmount(c.id))}</td>
+          <td>${money(totalPaid(c.id))}</td>
+          <td>${money(balance(c.id))}</td>
+          <td>
+            <button class="small" onclick="openCustomer('${c.id}')">
+              Open
+            </button>
+          </td>
+        </tr>
+      `).join("")}
+    </table>`;
+
+  $("pCustomer").innerHTML =
+    '<option value="">Select Customer</option>' +
+    customersData.map(c =>
+      `<option value="${c.id}">${esc(c.name)}</option>`
+    ).join("");
+}
+
+$("addCustomer").onclick = async () => {
+  const name = $("cName").value.trim();
+  const amount = Number($("cAmount").value || 0);
+
+  if (!name) {
+    say("Enter customer name.");
+    return;
+  }
+
+  if (amount < 0) {
+    say("Project amount cannot be negative.");
+    return;
+  }
+
+  const { data, error } = await db
+    .from("customers")
+    .insert({
+      name,
+      phone: $("cPhone").value.trim(),
+      city: $("cCity").value.trim(),
+      dealer_id: $("cDealer").value || null
+    })
+    .select()
+    .single();
+
+  if (error) {
+    say(error.message);
+    return;
+  }
+
+  if (amount > 0) {
+    const result = await db.from("projects").insert({
+      customer_id: data.id,
+      project_amount: amount
+    });
+
+    if (result.error) {
+      say("Customer created, but project save failed: " + result.error.message);
+      return;
+    }
+  }
+
+  ["cName", "cPhone", "cCity", "cAmount"].forEach(id => $(id).value = "");
+  $("cDealer").value = "";
+
+  await refreshData();
+  say("Customer added successfully.");
+};
+
+/* CUSTOMER DETAILS */
+window.openCustomer = function(id) {
+  selectedCustomer = id;
+
+  const c = customersData.find(x => x.id === id);
+  if (!c) return;
+
+  show("dealers", false);
+  show("customers", false);
+  show("payments", false);
+  show("customerDetails", true);
+
+  $("detailName").textContent = c.name;
+  $("detailInfo").textContent =
+    (c.dealer_id ? "Dealer: " + dealerName(c.dealer_id) : "Company Direct") +
+    " | Phone: " + (c.phone || "—") +
+    " | City: " + (c.city || "—");
+
+  $("detailProject").textContent = money(projectAmount(id));
+  $("detailPaid").textContent = money(totalPaid(id));
+  $("detailBalance").textContent = money(balance(id));
+
+  const list = customerPayments(id);
+
+  $("detailPayments").innerHTML = `
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Received By</th>
+        <th>Amount</th>
+        <th>Mode</th>
+        <th>Reference</th>
+      </tr>
+      ${list.map(p => `
+        <tr>
+          <td>${esc(p.payment_date)}</td>
+          <td>${esc(p.received_by)}</td>
+          <td>${money(p.amount)}</td>
+          <td>${esc(p.payment_mode)}</td>
+          <td>${esc(p.reference_no)}</td>
+        </tr>
+      `).join("")}
+    </table>`;
+};
+
+$("backCustomers").onclick = () => {
+  selectedCustomer = null;
+  show("customerDetails", false);
+  show("customers", true);
+};
+
+/* PAYMENTS */
+function renderPayments() {
+  $("paymentList").innerHTML = `
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Received By</th>
+        <th>Amount</th>
+        <th>Mode</th>
+        <th>Reference</th>
+      </tr>
+      ${paymentsData.map(p => {
+        const c = customersData.find(x => x.id === p.customer_id);
+
+        return `
+          <tr>
+            <td>${esc(p.payment_date)}</td>
+            <td>${esc(c?.name || "Unknown")}</td>
+            <td>${esc(p.received_by)}</td>
+            <td>${money(p.amount)}</td>
+            <td>${esc(p.payment_mode)}</td>
+            <td>${esc(p.reference_no)}</td>
+          </tr>`;
+      }).join("")}
+    </table>`;
+}
+
+$("addPayment").onclick = async () => {
+  const customerId = $("pCustomer").value;
+  const amount = Number($("pAmount").value);
+
+  if (!customerId || amount <= 0) {
+    say("Select a customer and enter a valid amount.");
+    return;
+  }
+
+  const { error } = await db.from("payments").insert({
+    customer_id: customerId,
+    amount,
+    received_by: $("pRecipient").value,
+    payment_date: $("pDate").value || new Date().toISOString().slice(0, 10),
+    payment_mode: $("pMode").value,
+    reference_no: $("pRef").value.trim()
+  });
+
+  if (error) {
+    say(error.message);
+    return;
+  }
+
+  $("pAmount").value = "";
+  $("pRef").value = "";
+
+  await refreshData();
+  say("Payment saved successfully.");
+};
+
+/* RENDER */
+function renderAll() {
+  renderDashboard();
+  renderDealers();
+  renderCustomers();
+  renderPayments();
+}
+
+/* NAVIGATION */
+document.querySelectorAll("nav button").forEach(button => {
+  button.onclick = () => {
+    document.querySelectorAll("nav button").forEach(b =>
+      b.classList.toggle("active", b === button)
+    );
+
+    document.querySelectorAll(".tab").forEach(tab =>
+      tab.classList.toggle("hidden", tab.id !== button.dataset.tab)
+    );
+
+    show("customerDetails", false);
+  };
+});
+
+checkLogin();
+</script>
+</body>
+</html>
