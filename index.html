@@ -118,14 +118,9 @@ th { color: var(--navy-dark); background: #f5f8fa; }
   <img class="login-logo" src="LOGO.Png.jpeg" alt="Siddhivinayak Engineering Company original logo">
   <h2>Team Login</h2>
 
-  <div class="auth-modes">
-    <button type="button" id="passwordMode" class="active">Password Login</button>
-    <button type="button" id="otpMode" class="secondary">OTP Login</button>
-  </div>
-
   <div id="passwordPanel">
-    <label>Email or Mobile Number</label>
-    <input id="loginId" type="text" autocomplete="username" placeholder="Enter registered email or mobile">
+    <label>Registered Email</label>
+    <input id="loginId" type="email" autocomplete="username" placeholder="Enter your registered email">
     <label>Password</label>
     <input id="password" type="password" autocomplete="current-password" placeholder="Enter password">
     <div class="auth-actions">
@@ -135,24 +130,27 @@ th { color: var(--navy-dark); background: #f5f8fa; }
     <button id="login" type="button">Sign In</button>
   </div>
 
-  <div id="otpPanel" class="hidden">
-    <label>Email or Mobile Number</label>
-    <input id="otpId" type="text" autocomplete="username" placeholder="Enter registered email or mobile">
-    <button id="sendOtp" type="button">Send OTP</button>
-    <div id="otpVerifyPanel" class="hidden">
-      <label>Enter OTP</label>
-      <input id="otpCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter verification code">
-      <button id="verifyOtp" type="button">Verify & Login</button>
-    </div>
-    <div class="auth-note">Email OTP requires Supabase email configuration. Mobile OTP requires an SMS provider configured in Supabase.</div>
-  </div>
-
   <div id="resetPanel" class="hidden">
     <label>Registered Email</label>
     <input id="resetEmail" type="email" autocomplete="email" placeholder="Enter your account email">
-    <button id="sendReset" type="button">Send Password Reset Link</button>
+    <button id="sendReset" type="button">Send 6-Digit OTP</button>
+
+    <div id="resetOtpPanel" class="hidden">
+      <label>Enter 6-Digit OTP</label>
+      <input id="resetOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter OTP from email">
+      <button id="verifyResetOtp" type="button">Verify OTP</button>
+    </div>
+
+    <div id="newPasswordPanel" class="hidden">
+      <label>New Password</label>
+      <input id="newPassword" type="password" autocomplete="new-password" placeholder="Enter new password">
+      <label>Confirm New Password</label>
+      <input id="confirmNewPassword" type="password" autocomplete="new-password" placeholder="Confirm new password">
+      <button id="saveNewPassword" type="button">Update Password</button>
+    </div>
+
     <button type="button" id="backToLogin" class="auth-link">← Back to Login</button>
-    <div class="auth-note">Password reset link will be sent to your registered email address.</div>
+    <div class="auth-note">A 6-digit password reset OTP will be sent to your registered email address.</div>
   </div>
 
   <div id="authMsg" class="msg" role="status" aria-live="polite"></div>
@@ -348,24 +346,14 @@ function setAuthMessage(message, isError = false) {
 
 function setAuthMode(mode) {
   show("passwordPanel", mode === "password");
-  show("otpPanel", mode === "otp");
   show("resetPanel", mode === "reset");
-  $("passwordMode").classList.toggle("active", mode === "password");
-  $("otpMode").classList.toggle("active", mode === "otp");
-  $("passwordMode").classList.toggle("secondary", mode !== "password");
-  $("otpMode").classList.toggle("secondary", mode !== "otp");
+  show("resetOtpPanel", false);
+  show("newPasswordPanel", false);
   $("authMsg").textContent = "";
 }
 
 function isEmail(value) {
-return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function authIdentifier(value) {
-  const v = value.trim();
-  if (isEmail(v)) return { email: v.toLowerCase(), type: "email" };
-  // Supabase expects phone numbers in international E.164 format, e.g. +919876543210.
-  return { phone: v, type: "sms" };
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 async function checkLogin() {
@@ -383,18 +371,12 @@ async function checkLogin() {
 
 $("rememberMe").checked = localStorage.getItem(rememberPreferenceKey) === "true";
 
-$("passwordMode").onclick = () => setAuthMode("password");
-$("otpMode").onclick = () => setAuthMode("otp");
-
 $("login").onclick = async () => {
-  const identifier = authIdentifier($("loginId").value);
+  const email = $("loginId").value.trim().toLowerCase();
   const password = $("password").value;
-  if (!identifier.email && !identifier.phone) {
-    setAuthMessage("Enter your registered email or mobile number.", true);
-    return;
-  }
-  if (!/^\+[1-9]\d{7,14}$/.test(identifier.phone)) {
-    setAuthMessage("Enter mobile number with country code, e.g. +919876543210.", true);
+
+  if (!isEmail(email)) {
+    setAuthMessage("Enter a valid registered email address.", true);
     return;
   }
   if (!password) {
@@ -408,11 +390,7 @@ $("login").onclick = async () => {
     Object.keys(localStorage).filter(k => k.startsWith("sb-") && k.endsWith("-auth-token")).forEach(k => localStorage.removeItem(k));
   }
 
-  const credentials = identifier.type === "email"
-    ? { email: identifier.email, password }
-    : { phone: identifier.phone, password };
-
-  const { error } = await db.auth.signInWithPassword(credentials);
+  const { error } = await db.auth.signInWithPassword({ email, password });
   if (error) {
     setAuthMessage(error.message, true);
     return;
@@ -434,57 +412,73 @@ $("sendReset").onclick = async () => {
     setAuthMessage("Enter a valid registered email address.", true);
     return;
   }
-  const redirectTo = window.location.origin + window.location.pathname;
-  const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo });
+
+  const { error } = await db.auth.resetPasswordForEmail(email);
   if (error) {
     setAuthMessage(error.message, true);
     return;
   }
-  setAuthMessage("If this email belongs to an account, a password reset link has been sent. Check your inbox and spam folder.");
+
+  show("resetOtpPanel", true);
+  show("newPasswordPanel", false);
+  setAuthMessage("If this email belongs to an account, a 6-digit OTP has been sent. Check your inbox and spam folder.");
 };
 
-$("sendOtp").onclick = async () => {
-  const identifier = authIdentifier($("otpId").value);
-  if (identifier.type === "email" && !identifier.email) {
-    setAuthMessage("Enter a valid email address.", true);
+$("verifyResetOtp").onclick = async () => {
+  const email = $("resetEmail").value.trim().toLowerCase();
+  const token = $("resetOtp").value.trim();
+
+  if (!isEmail(email)) {
+    setAuthMessage("Enter a valid registered email address.", true);
     return;
   }
-  if (identifier.type === "sms" && !/^\\+[1-9]\\d{7,14}$/.test(identifier.phone)) {
-    setAuthMessage("Enter mobile number with country code, e.g. +919876543210.", true);
+  if (!/^\d{6}$/.test(token)) {
+    setAuthMessage("Enter the 6-digit OTP from your email.", true);
     return;
   }
 
-  const payload = identifier.type === "email"
-    ? { email: identifier.email, options: { shouldCreateUser: false } }
-    : { phone: identifier.phone, options: { shouldCreateUser: false } };
+  const { error } = await db.auth.verifyOtp({
+    email,
+    token,
+    type: "recovery"
+  });
 
-  const { error } = await db.auth.signInWithOtp(payload);
   if (error) {
     setAuthMessage(error.message, true);
     return;
   }
-  $("otpVerifyPanel").classList.remove("hidden");
-  setAuthMessage("OTP sent. Check your email or SMS.");
+
+  show("newPasswordPanel", true);
+  setAuthMessage("OTP verified. Enter your new password.");
 };
 
-$("verifyOtp").onclick = async () => {
-  const identifier = authIdentifier($("otpId").value);
-  const token = $("otpCode").value.trim();
-  if (!token) {
-    setAuthMessage("Enter the OTP.", true);
+$("saveNewPassword").onclick = async () => {
+  const password = $("newPassword").value;
+  const confirmPassword = $("confirmNewPassword").value;
+
+  if (password.length < 8) {
+    setAuthMessage("New password must be at least 8 characters long.", true);
     return;
   }
-  const verifyPayload = identifier.type === "email"
-    ? { email: identifier.email, token, type: "email" }
-    : { phone: identifier.phone, token, type: "sms" };
+  if (password !== confirmPassword) {
+    setAuthMessage("New password and confirm password do not match.", true);
+    return;
+  }
 
-  const { error } = await db.auth.verifyOtp(verifyPayload);
+  const { error } = await db.auth.updateUser({ password });
   if (error) {
     setAuthMessage(error.message, true);
     return;
   }
-  setAuthMessage("OTP verified. Login successful.");
+
+  await db.auth.signOut();
+  $("password").value = "";
+  $("newPassword").value = "";
+  $("confirmNewPassword").value = "";
+  $("resetOtp").value = "";
+  setAuthMode("password");
   await checkLogin();
+  setAuthMessage("Password updated successfully. Please sign in with your new password.");
 };
 
 $("logout").onclick = async () => {
