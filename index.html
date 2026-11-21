@@ -10,111 +10,114 @@
 
 <style>
 :root {
-  font-family: Arial, sans-serif;
-  color: #243447;
-  background: #f3f6f8;
-  --navy: #20577f;
-  --navy-dark: #17415f;
-  --orange: #f58220;
-  --green: #76b82a;
-  --border: #dce4ea;
+  font-family:Arial,sans-serif;color:#243447;background:#f3f6f8;
+  --navy:#20577f;--navy-dark:#17415f;--orange:#f58220;
+  --green:#76b82a;--border:#dce4ea;
 }
-* { box-sizing: border-box; }
-body { margin:0; background:#f3f6f8; }
-button,input,select { font:inherit; }
-button { cursor:pointer; border:0; border-radius:8px; padding:11px 15px; background:var(--orange); color:white; font-weight:700; }
-button:hover { filter:brightness(.95); }
-input,select { width:100%; padding:11px; margin:5px 0 12px; border:1px solid #cbd7df; border-radius:8px; background:white; color:#243447; }
-label { font-size:14px; font-weight:600; }
-.hidden { display:none !important; }
-.muted { color:#647789; }
-.good { color:#39851d; }
-.danger { color:#c43d3d; }
-.msg { margin:12px 0; color:#604637; }
-.panel { background:white; border:1px solid var(--border); border-radius:13px; padding:20px; box-shadow:0 3px 12px rgba(23,65,95,.045); }
-.brand-row { display:flex; align-items:center; gap:12px; }
-.company-logo { width:65px; height:58px; object-fit:contain; }
-.login-logo { width:min(100%,280px); max-height:150px; object-fit:contain; display:block; margin:auto; }
-.brand { font-size:19px; font-weight:800; color:var(--navy); line-height:1.4; }
-.brand span { color:var(--orange); }
-.app-layout { min-height:100vh; display:flex; }
-.sidebar { width:255px; background:white; border-right:1px solid var(--border); padding:20px 15px; display:flex; flex-direction:column; flex-shrink:0; }
-.sidebar-brand { padding:5px 5px 22px; border-bottom:1px solid var(--border); }
-.sidebar-brand .brand { font-size:15px; }
-.sidebar-label { color:#8999a6; font-size:11px; font-weight:800; letter-spacing:1px; margin:24px 10px 10px; }
-.side-nav { display:flex; flex-direction:column; gap:7px; }
-.side-nav button { text-align:left; color:#506476; background:transparent; padding:13px 14px; border-radius:9px; font-weight:600; display:flex; gap:12px; align-items:center; }
-.side-nav button:hover { background:#f3f6f8; }
-.side-nav button.active { color:white; background:var(--navy); }
-.side-nav .nav-icon { width:22px; text-align:center; font-size:17px; }
-.sidebar-bottom { margin-top:auto; padding-top:20px; }
-.main-area { min-width:0; flex:1; }
-.topbar { height:75px; background:white; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; padding:0 28px; gap:15px; }
-.topbar h2 { font-size:19px; color:var(--navy-dark); margin:0; }
-.topbar-right { display:flex; align-items:center; gap:12px; }
-.user-chip { background:#f3f6f8; border:1px solid var(--border); padding:9px 13px; border-radius:25px; font-size:13px; color:var(--navy); font-weight:700; }
-.content { padding:26px; max-width:1500px; margin:auto; }
-.page-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:22px; flex-wrap:wrap; }
-.page-heading h2 { color:var(--navy-dark); margin:0 0 6px; font-size:23px; }
-.page-heading p { margin:0; color:#718292; font-size:13px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:15px; }
-.stat-card { position:relative; overflow:hidden; padding:20px; border-radius:13px; background:white; border:1px solid var(--border); box-shadow:0 3px 12px rgba(23,65,95,.04); }
-.stat-card:after { content:""; position:absolute; right:-22px; top:-25px; width:85px; height:85px; border-radius:50%; background:#edf3f7; }
-.stat-label { color:#718292; font-size:13px; font-weight:600; }
-.stat { font-size:26px; font-weight:800; margin-top:13px; color:var(--navy); }
-.stat-icon { font-size:21px; margin-bottom:13px; }
-.stat-card.orange .stat { color:var(--orange); }
-.stat-card.green .stat { color:var(--green); }
-.stat-card.brown .stat { color:#604637; }
-.section-card { margin-top:22px; }
-.section-title { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:15px; }
-.section-title h3 { margin:0; color:var(--navy-dark); font-size:17px; }
-.formgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:9px; align-items:start; }
-table { width:100%; border-collapse:collapse; margin-top:12px; }
-td,th { text-align:left; padding:13px 11px; border-bottom:1px solid var(--border); font-size:13px; }
-th { color:var(--navy-dark); background:#f5f8fa; font-weight:700; }
-tbody tr:hover { background:#f9fbfc; }
-.secondary { background:var(--navy); }
-.small { font-size:12px; padding:8px 11px; }
-.link { background:transparent; color:var(--navy); padding:3px; }
-.tab { display:none; }
-.tab.active-page { display:block; }
-.auth-panel { max-width:470px; margin:35px auto; }
-.auth-panel h2 { text-align:center; color:var(--navy); }
-.auth-actions { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin:3px 0 13px; }
-.auth-actions label { display:flex; align-items:center; gap:7px; font-weight:400; }
-.auth-actions input { width:auto; margin:0; }
-.auth-link { background:transparent; color:var(--navy); padding:4px; }
-.auth-note { font-size:12px; color:#647789; margin-top:10px; }
-.auth-panel > div > button:not(.auth-link) { width:100%; }
-#auth { max-width:470px; margin:35px auto; }
-#auth h2 { text-align:center; color:var(--navy); }
-#globalMsg { padding:0 26px; }
-.empty-state { color:#718292; text-align:center; padding:25px; font-size:14px; }
-.payment-search { margin:0 0 14px; max-width:500px; border:1px solid var(--border); }
-@media(max-width:800px) {
- .app-layout { flex-direction:column; }
- .sidebar { width:100%; padding:12px; border-right:0; border-bottom:1px solid var(--border); }
- .sidebar-brand { padding-bottom:10px; }
- .sidebar-brand .company-logo { width:48px; height:43px; }
- .sidebar-brand .brand { font-size:13px; }
- .sidebar-label { margin:12px 5px 7px; }
- .side-nav { flex-direction:row; overflow-x:auto; }
- .side-nav button { white-space:nowrap; padding:10px 12px; font-size:12px; }
- .sidebar-bottom { display:none; }
- .topbar { height:60px; padding:0 15px; }
- .content { padding:15px; }
- .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
- .stat-card { padding:14px; }
- .stat { font-size:20px; }
- .stat-label { font-size:11px; }
- .page-heading h2 { font-size:20px; }
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6f8}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 15px;background:var(--orange);color:white;font-weight:700}
+button:hover{filter:brightness(.95)}
+input,select,textarea{width:100%;padding:11px;margin:5px 0 12px;border:1px solid #cbd7df;border-radius:8px;background:white;color:#243447}
+textarea{min-height:75px;resize:vertical}
+label{font-size:14px;font-weight:600}
+.hidden{display:none!important}
+.muted{color:#647789}
+.good{color:#39851d}
+.danger{color:#c43d3d}
+.msg{margin:12px 0;color:#604637}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:20px;box-shadow:0 3px 12px rgba(23,65,95,.045)}
+.brand-row{display:flex;align-items:center;gap:12px}
+.company-logo{width:65px;height:58px;object-fit:contain}
+.login-logo{width:min(100%,280px);max-height:150px;object-fit:contain;display:block;margin:auto}
+.brand{font-size:19px;font-weight:800;color:var(--navy);line-height:1.4}
+.brand span{color:var(--orange)}
+.app-layout{min-height:100vh;display:flex}
+.sidebar{width:255px;background:white;border-right:1px solid var(--border);padding:20px 15px;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-brand{padding:5px 5px 22px;border-bottom:1px solid var(--border)}
+.sidebar-brand .brand{font-size:15px}
+.sidebar-label{color:#8999a6;font-size:11px;font-weight:800;letter-spacing:1px;margin:24px 10px 10px}
+.side-nav{display:flex;flex-direction:column;gap:7px}
+.side-nav button{text-align:left;color:#506476;background:transparent;padding:13px 14px;border-radius:9px;font-weight:600;display:flex;gap:12px;align-items:center}
+.side-nav button:hover{background:#f3f6f8}
+.side-nav button.active{color:white;background:var(--navy)}
+.side-nav .nav-icon{width:22px;text-align:center;font-size:17px}
+.sidebar-bottom{margin-top:auto;padding-top:20px}
+.main-area{min-width:0;flex:1}
+.topbar{min-height:75px;background:white;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:12px 28px;gap:15px}
+.topbar h2{font-size:19px;color:var(--navy-dark);margin:0}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.user-chip{background:#f3f6f8;border:1px solid var(--border);padding:9px 13px;border-radius:25px;font-size:13px;color:var(--navy);font-weight:700}
+.content{padding:26px;max-width:1500px;margin:auto}
+.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.page-heading h2{color:var(--navy-dark);margin:0 0 6px;font-size:23px}
+.page-heading p{margin:0;color:#718292;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
+.stat-card{position:relative;overflow:hidden;padding:20px;border-radius:13px;background:white;border:1px solid var(--border);box-shadow:0 3px 12px rgba(23,65,95,.04)}
+.stat-card:after{content:"";position:absolute;right:-22px;top:-25px;width:85px;height:85px;border-radius:50%;background:#edf3f7}
+.stat-label{color:#718292;font-size:13px;font-weight:600}
+.stat{font-size:26px;font-weight:800;margin-top:13px;color:var(--navy)}
+.stat-icon{font-size:21px;margin-bottom:13px}
+.stat-card.orange .stat{color:var(--orange)}
+.stat-card.green .stat{color:var(--green)}
+.stat-card.brown .stat{color:#604637}
+.section-card{margin-top:22px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap}
+.section-title h3{margin:0;color:var(--navy-dark);font-size:17px}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;align-items:start}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+td,th{text-align:left;padding:13px 11px;border-bottom:1px solid var(--border);font-size:13px}
+th{color:var(--navy-dark);background:#f5f8fa;font-weight:700}
+tbody tr:hover{background:#f9fbfc}
+.secondary{background:var(--navy)}
+.small{font-size:12px;padding:8px 11px}
+.link{background:transparent;color:var(--navy);padding:3px}
+.tab{display:none}
+.tab.active-page{display:block}
+.auth-panel{max-width:470px;margin:35px auto}
+.auth-panel h2{text-align:center;color:var(--navy)}
+.auth-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:3px 0 13px}
+.auth-actions label{display:flex;align-items:center;gap:7px;font-weight:400}
+.auth-actions input{width:auto;margin:0}
+.auth-link{background:transparent;color:var(--navy);padding:4px}
+.auth-note{font-size:12px;color:#647789;margin-top:10px}
+.auth-panel>div>button:not(.auth-link){width:100%}
+#auth{max-width:470px;margin:35px auto}
+#auth h2{text-align:center;color:var(--navy)}
+#globalMsg{padding:0 26px}
+.empty-state{color:#718292;text-align:center;padding:25px;font-size:14px}
+.payment-search{margin:0 0 14px;max-width:500px;border:1px solid var(--border)}
+.contact-line{font-size:12px;color:#647789;margin-top:5px}
+.item-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center}
+.item-row input,.item-row select{margin:4px 0 9px}
+.item-row button{margin-bottom:5px}
+.challan-search{max-width:500px}
+.challan-paper{background:white;color:#111;padding:24px}
+@media(max-width:800px){
+ .app-layout{flex-direction:column}
+ .sidebar{width:100%;padding:12px;border-right:0;border-bottom:1px solid var(--border)}
+ .sidebar-brand{padding-bottom:10px}
+ .sidebar-brand .company-logo{width:48px;height:43px}
+ .sidebar-brand .brand{font-size:13px}
+ .sidebar-label{margin:12px 5px 7px}
+ .side-nav{flex-direction:row;overflow-x:auto}
+ .side-nav button{white-space:nowrap;padding:10px 12px;font-size:12px}
+ .sidebar-bottom{display:none}
+ .topbar{min-height:60px;padding:10px 15px}
+ .content{padding:15px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .stat-card{padding:14px}
+ .stat{font-size:20px}
+ .stat-label{font-size:11px}
+ .page-heading h2{font-size:20px}
+ .item-row{grid-template-columns:1fr 1fr}
 }
-@media(max-width:420px) {
- .grid { grid-template-columns:1fr 1fr; }
- .user-chip { font-size:11px; padding:8px; }
- .topbar h2 { font-size:16px; }
- table { display:block; overflow-x:auto; white-space:nowrap; }
+@media(max-width:420px){
+ .grid{grid-template-columns:1fr 1fr}
+ .user-chip{font-size:11px;padding:8px}
+ .topbar h2{font-size:16px}
+ table{display:block;overflow-x:auto;white-space:nowrap}
 }
 </style>
 </head>
@@ -124,7 +127,6 @@ tbody tr:hover { background:#f9fbfc; }
 <section id="auth" class="panel auth-panel hidden">
   <img class="login-logo" src="LOGO.Png.jpeg" alt="Company Logo">
   <h2>Team Login</h2>
-
   <div id="passwordPanel">
     <label>Registered Email</label>
     <input id="loginId" type="email" autocomplete="username" placeholder="Enter your registered email">
@@ -160,7 +162,6 @@ tbody tr:hover { background:#f9fbfc; }
 </section>
 
 <div id="app" class="app-layout hidden">
-
 <aside class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-row">
@@ -169,6 +170,7 @@ tbody tr:hover { background:#f9fbfc; }
         <div class="brand">SIDDHIVINAYAK</div>
         <div class="brand"><span>ENGINEERING COMPANY</span></div>
         <div class="muted" style="font-size:11px;margin-top:4px">Solar ERP System</div>
+        <div class="contact-line">9905954548 / 9904954549</div>
       </div>
     </div>
   </div>
@@ -179,674 +181,797 @@ tbody tr:hover { background:#f9fbfc; }
     <button data-tab="dealers"><span class="nav-icon">♙</span>Dealers</button>
     <button data-tab="customers"><span class="nav-icon">♧</span>Customers</button>
     <button data-tab="payments"><span class="nav-icon">₹</span>Payments</button>
+    <button data-tab="dispatch"><span class="nav-icon">🚚</span>Dispatch Challan</button>
   </nav>
 
   <div class="sidebar-bottom">
     <div class="panel" style="padding:13px;background:#f5f8fa;box-shadow:none">
       <div style="font-weight:700;color:var(--navy);font-size:13px">Siddhivinayak ERP</div>
       <div class="muted" style="font-size:11px;margin-top:6px">Business Management System</div>
+      <div class="contact-line">9905954548 / 9904954549</div>
     </div>
   </div>
 </aside>
 
 <div class="main-area">
-  <header class="topbar">
-    <h2 id="pageTitle">Dashboard</h2>
-    <div class="topbar-right">
-      <div class="user-chip">● Team Workspace</div>
-      <button id="logout" class="secondary small">Log out</button>
+<header class="topbar">
+  <h2 id="pageTitle">Dashboard</h2>
+  <div class="topbar-right">
+    <div class="user-chip">● Team Workspace</div>
+    <button id="logout" class="secondary small">Log out</button>
+  </div>
+</header>
+
+<main class="content">
+
+<section id="dashboard" class="tab active-page">
+  <div class="page-heading">
+    <div>
+      <h2>Dashboard Overview</h2>
+      <p>Welcome to Siddhivinayak Engineering Company Solar ERP</p>
+      <p class="contact-line">Contact: 9905954548 / 9904954549</p>
     </div>
-  </header>
+  </div>
+  <div class="grid">
+    <div class="stat-card"><div class="stat-icon">♙</div><div class="stat-label">Total Dealers</div><div class="stat" id="dealerCount">0</div></div>
+    <div class="stat-card orange"><div class="stat-icon">♧</div><div class="stat-label">Total Customers</div><div class="stat" id="customerCount">0</div></div>
+    <div class="stat-card"><div class="stat-icon">☀</div><div class="stat-label">Total Project Value</div><div class="stat" id="projectTotal">₹0</div></div>
+    <div class="stat-card brown"><div class="stat-icon">◷</div><div class="stat-label">Total Outstanding</div><div class="stat" id="outstanding">₹0</div></div>
+    <div class="stat-card green"><div class="stat-icon">✓</div><div class="stat-label">Received by Company</div><div class="stat good" id="companyReceived">₹0</div></div>
+    <div class="stat-card orange"><div class="stat-icon">₹</div><div class="stat-label">Received by Dealers</div><div class="stat" id="dealerReceived">₹0</div></div>
+  </div>
+  <div class="panel section-card">
+    <div class="section-title"><h3>Recent Payments</h3><button class="secondary small" onclick="goTab('payments')">View All Payments</button></div>
+    <div id="recentPayments" class="empty-state">No payment records available.</div>
+  </div>
+</section>
 
-  <main class="content">
+<section id="dealers" class="tab">
+  <div class="page-heading"><div><h2>Dealer Management</h2><p>Add, edit and manage your solar dealers</p></div></div>
+  <div class="panel">
+    <div class="section-title"><h3>Add New Dealer</h3></div>
+    <div class="formgrid">
+      <input id="dName" placeholder="Dealer name">
+      <input id="dPhone" placeholder="Phone">
+      <input id="dCity" placeholder="City">
+      <button id="addDealer">+ Add Dealer</button>
+    </div>
+  </div>
+  <div class="panel section-card"><div class="section-title"><h3>Dealer List</h3></div><div id="dealerList"></div></div>
+</section>
 
-    <section id="dashboard" class="tab active-page">
-      <div class="page-heading">
-        <div>
-          <h2>Dashboard Overview</h2>
-          <p>Welcome to Siddhivinayak Engineering Company Solar ERP</p>
-        </div>
-      </div>
+<section id="customers" class="tab">
+  <div class="page-heading"><div><h2>Customer Management</h2><p>Manage dealer-linked and company direct customers</p></div></div>
+  <div class="panel">
+    <div class="section-title"><h3>Add New Customer</h3></div>
+    <div class="formgrid">
+      <input id="cName" placeholder="Customer name">
+      <input id="cPhone" placeholder="Phone">
+      <input id="cCity" placeholder="City">
+      <select id="cDealer"><option value="">Company Direct Customer</option></select>
+      <input id="cAmount" type="number" min="0" placeholder="Project Amount ₹">
+      <button id="addCustomer">+ Add Customer</button>
+    </div>
+  </div>
+  <div class="panel section-card"><div class="section-title"><h3>Customer List</h3></div><div id="customerList"></div></div>
+</section>
 
-      <div class="grid">
-        <div class="stat-card">
-          <div class="stat-icon">♙</div>
-          <div class="stat-label">Total Dealers</div>
-          <div class="stat" id="dealerCount">0</div>
-        </div>
-        <div class="stat-card orange">
-          <div class="stat-icon">♧</div>
-          <div class="stat-label">Total Customers</div>
-          <div class="stat" id="customerCount">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">☀</div>
-          <div class="stat-label">Total Project Value</div>
-          <div class="stat" id="projectTotal">₹0</div>
-        </div>
-        <div class="stat-card brown">
-          <div class="stat-icon">◷</div>
-          <div class="stat-label">Total Outstanding</div>
-          <div class="stat" id="outstanding">₹0</div>
-        </div>
-        <div class="stat-card green">
-          <div class="stat-icon">✓</div>
-          <div class="stat-label">Received by Company</div>
-          <div class="stat good" id="companyReceived">₹0</div>
-        </div>
-        <div class="stat-card orange">
-          <div class="stat-icon">₹</div>
-          <div class="stat-label">Received by Dealers</div>
-          <div class="stat" id="dealerReceived">₹0</div>
-        </div>
-      </div>
+<section id="customerDetails" class="tab">
+  <div class="page-heading">
+    <div><h2 id="detailName">Customer Details</h2><p>Customer project and payment information</p></div>
+    <button class="secondary small" id="backCustomers">← Back to Customers</button>
+  </div>
+  <div class="panel" id="detailInfo"></div>
+  <div class="grid section-card">
+    <div class="stat-card"><div class="stat-label">Project Amount</div><div class="stat" id="detailProject">₹0</div></div>
+    <div class="stat-card green"><div class="stat-label">Total Paid</div><div class="stat good" id="detailPaid">₹0</div></div>
+    <div class="stat-card orange"><div class="stat-label">Remaining Balance</div><div class="stat" id="detailBalance">₹0</div></div>
+  </div>
+  <div class="panel section-card"><div class="section-title"><h3>Payment History</h3></div><div id="detailPayments"></div></div>
+</section>
 
-      <div class="panel section-card">
-        <div class="section-title">
-          <h3>Recent Payments</h3>
-          <button class="secondary small" onclick="goTab('payments')">View All Payments</button>
-        </div>
-        <div id="recentPayments" class="empty-state">No payment records available.</div>
-      </div>
-    </section>
+<section id="payments" class="tab">
+  <div class="page-heading"><div><h2>Payment Management</h2><p>Record and track customer payments</p></div></div>
+  <div class="panel">
+    <div class="section-title"><h3>New Payment Entry</h3></div>
+    <div class="formgrid">
+      <select id="pCustomer"><option value="">Select Customer</option></select>
+      <select id="pRecipient"><option value="company">Received by Company</option><option value="dealer">Received by Dealer</option></select>
+      <input id="pAmount" type="number" min="1" placeholder="Amount ₹">
+      <input id="pDate" type="date">
+      <select id="pMode">
+        <option value="UPI">UPI</option><option value="Bank Transfer">Bank Transfer</option>
+        <option value="Cash">Cash</option><option value="Cheque">Cheque</option><option value="Other">Other</option>
+      </select>
+      <input id="pRef" placeholder="Reference / Transaction ID">
+      <button id="addPayment">Save Payment</button>
+    </div>
+  </div>
+  <div class="panel section-card">
+    <div class="section-title"><h3>Payment Records</h3><span class="muted" id="paymentCount"></span></div>
+    <input id="paymentSearch" class="payment-search" type="search" placeholder="Search customer, date, amount, mode or transaction ID..." oninput="renderPayments()" autocomplete="off">
+    <div id="paymentList"></div>
+  </div>
+</section>
 
-    <section id="dealers" class="tab">
-      <div class="page-heading">
-        <div>
-          <h2>Dealer Management</h2>
-          <p>Add, edit and manage your solar dealers</p>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="section-title"><h3>Add New Dealer</h3></div>
-        <div class="formgrid">
-          <input id="dName" placeholder="Dealer name">
-          <input id="dPhone" placeholder="Phone">
-          <input id="dCity" placeholder="City">
-          <button id="addDealer">+ Add Dealer</button>
-        </div>
-      </div>
-      <div class="panel section-card">
-        <div class="section-title"><h3>Dealer List</h3></div>
-        <div id="dealerList"></div>
-      </div>
-    </section>
+<!-- DISPATCH CHALLAN MODULE -->
+<section id="dispatch" class="tab">
+  <div class="page-heading">
+    <div><h2>Dispatch Challan Management</h2><p>Create and manage material dispatch challans</p></div>
+    <button class="secondary" onclick="resetChallanForm()">+ New Challan</button>
+  </div>
 
-    <section id="customers" class="tab">
-      <div class="page-heading">
-        <div>
-          <h2>Customer Management</h2>
-          <p>Manage dealer-linked and company direct customers</p>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="section-title"><h3>Add New Customer</h3></div>
-        <div class="formgrid">
-          <input id="cName" placeholder="Customer name">
-          <input id="cPhone" placeholder="Phone">
-          <input id="cCity" placeholder="City">
-          <select id="cDealer"><option value="">Company Direct Customer</option></select>
-          <input id="cAmount" type="number" min="0" placeholder="Project Amount ₹">
-          <button id="addCustomer">+ Add Customer</button>
-        </div>
-      </div>
-      <div class="panel section-card">
-        <div class="section-title"><h3>Customer List</h3></div>
-        <div id="customerList"></div>
-      </div>
-    </section>
+  <div class="panel">
+    <div class="section-title"><h3 id="challanFormTitle">Create Dispatch Challan</h3><span class="muted">Company: Siddhivinayak Engineering Company</span></div>
 
-    <section id="customerDetails" class="tab">
-      <div class="page-heading">
-        <div>
-          <h2 id="detailName">Customer Details</h2>
-          <p>Customer project and payment information</p>
-        </div>
-        <button class="secondary small" id="backCustomers">← Back to Customers</button>
-      </div>
-      <div class="panel" id="detailInfo"></div>
-      <div class="grid section-card">
-        <div class="stat-card"><div class="stat-label">Project Amount</div><div class="stat" id="detailProject">₹0</div></div>
-        <div class="stat-card green"><div class="stat-label">Total Paid</div><div class="stat good" id="detailPaid">₹0</div></div>
-        <div class="stat-card orange"><div class="stat-label">Remaining Balance</div><div class="stat" id="detailBalance">₹0</div></div>
-      </div>
-      <div class="panel section-card">
-        <div class="section-title"><h3>Payment History</h3></div>
-        <div id="detailPayments"></div>
-      </div>
-    </section>
+    <input type="hidden" id="editChallanId">
 
-    <section id="payments" class="tab">
-      <div class="page-heading">
-        <div>
-          <h2>Payment Management</h2>
-          <p>Record and track customer payments</p>
-        </div>
+    <div class="formgrid">
+      <div><label>Dispatch Date</label><input id="dcDate" type="date"></div>
+      <div><label>Recipient Type</label>
+        <select id="dcRecipientType">
+          <option value="dealer">Dealer</option>
+          <option value="customer">Customer</option>
+        </select>
       </div>
-      <div class="panel">
-        <div class="section-title"><h3>New Payment Entry</h3></div>
-        <div class="formgrid">
-          <select id="pCustomer"><option value="">Select Customer</option></select>
-          <select id="pRecipient">
-            <option value="company">Received by Company</option>
-            <option value="dealer">Received by Dealer</option>
-          </select>
-          <input id="pAmount" type="number" min="1" placeholder="Amount ₹">
-          <input id="pDate" type="date">
-          <select id="pMode">
-            <option value="UPI">UPI</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Cash">Cash</option>
-            <option value="Cheque">Cheque</option>
-            <option value="Other">Other</option>
-          </select>
-          <input id="pRef" placeholder="Reference / Transaction ID">
-          <button id="addPayment">Save Payment</button>
-        </div>
+      <div><label>Select Dealer / Customer</label>
+        <select id="dcRecipient"><option value="">Select recipient</option></select>
       </div>
-      <div class="panel section-card">
-        <div class="section-title">
-          <h3>Payment Records</h3>
-          <span class="muted" id="paymentCount"></span>
-        </div>
-        <input id="paymentSearch" class="payment-search" type="search"
-          placeholder="Search customer, date, amount, mode or transaction ID..."
-          oninput="renderPayments()" autocomplete="off">
-        <div id="paymentList"></div>
-      </div>
-    </section>
+      <div><label>Vehicle Number</label><input id="dcVehicle" placeholder="GJ XX XX XXXX"></div>
+      <div><label>Driver Name</label><input id="dcDriver" placeholder="Driver name"></div>
+      <div><label>Driver Mobile</label><input id="dcDriverPhone" type="tel" placeholder="Driver mobile number"></div>
+      <div><label>Transporter Name</label><input id="dcTransporter" placeholder="Transporter name"></div>
+      <div><label>Dispatch From</label><input id="dcFrom" value="Siddhivinayak Engineering Company"></div>
+    </div>
 
-  </main>
-  <div id="globalMsg" class="msg"></div>
+    <label>Delivery Address</label>
+    <textarea id="dcAddress" placeholder="Enter complete delivery address"></textarea>
+
+    <div class="section-title section-card">
+      <h3>Material Details</h3>
+      <button type="button" class="secondary small" onclick="addChallanItem()">+ Add Material</button>
+    </div>
+
+    <div class="muted" style="font-size:12px">Enter material name, description, quantity and unit.</div>
+    <div id="challanItems"></div>
+
+    <label>Remarks</label>
+    <textarea id="dcRemarks" placeholder="Remarks / Notes"></textarea>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button id="saveChallan" type="button">Save Dispatch Challan</button>
+      <button type="button" class="secondary" onclick="resetChallanForm()">Clear Form</button>
+    </div>
+    <div id="challanFormMsg" class="msg"></div>
+  </div>
+
+  <div class="panel section-card">
+    <div class="section-title">
+      <h3>Dispatch Challan History</h3>
+      <span class="muted" id="challanCount"></span>
+    </div>
+    <input id="challanSearch" class="challan-search" type="search" placeholder="Search challan number, dealer, customer, vehicle..." oninput="renderChallans()">
+    <div id="challanList"></div>
+  </div>
+</section>
+
+</main>
+<div id="globalMsg" class="msg"></div>
 </div>
 </div>
 
 <script>
-const SUPABASE_URL = "https://mvrekgmqbmbtkgrdceqt.supabase.co";
-const SUPABASE_KEY = "sb_publishable_XdzM6Q4fDD10jU4Pp8lVOw_6CTNcdni";
+const SUPABASE_URL="https://mvrekgmqbmbtkgrdceqt.supabase.co";
+const SUPABASE_KEY="sb_publishable_XdzM6Q4fDD10jU4Pp8lVOw_6CTNcdni";
+const COMPANY_NAME="Siddhivinayak Engineering Company";
+const COMPANY_PHONE="9905954548 / 9904954549";
 
-const rememberPreferenceKey = "solar_erp_remember_me";
-const authStorage = {
-  getItem: key => {
-    const remember = localStorage.getItem(rememberPreferenceKey) === "true";
-    return (remember ? localStorage : sessionStorage).getItem(key);
-  },
-  setItem: (key,value) => {
-    const remember = localStorage.getItem(rememberPreferenceKey) === "true";
-    (remember ? localStorage : sessionStorage).setItem(key,value);
-    (remember ? sessionStorage : localStorage).removeItem(key);
-  },
-  removeItem: key => {
-    localStorage.removeItem(key);
-    sessionStorage.removeItem(key);
-  }
+const rememberPreferenceKey="solar_erp_remember_me";
+const authStorage={
+ getItem:key=>{const remember=localStorage.getItem(rememberPreferenceKey)==="true";return(remember?localStorage:sessionStorage).getItem(key)},
+ setItem:(key,value)=>{const remember=localStorage.getItem(rememberPreferenceKey)==="true";(remember?localStorage:sessionStorage).setItem(key,value);(remember?sessionStorage:localStorage).removeItem(key)},
+ removeItem:key=>{localStorage.removeItem(key);sessionStorage.removeItem(key)}
 };
 
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
-  auth:{storage:authStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+ auth:{storage:authStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
 });
 
-const $ = id => document.getElementById(id);
-const money = n => "₹" + Number(n || 0).toLocaleString("en-IN",{maximumFractionDigits:2});
-const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
-const show = (id,value) => $(id).classList.toggle("hidden",!value);
-const say = message => $("globalMsg").textContent = message;
+const $=id=>document.getElementById(id);
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const show=(id,value)=>$(id).classList.toggle("hidden",!value);
+const say=message=>$("globalMsg").textContent=message;
 
-let dealersData = [];
-let customersData = [];
-let projectsData = [];
-let paymentsData = [];
-let selectedCustomer = null;
+let dealersData=[];
+let customersData=[];
+let projectsData=[];
+let paymentsData=[];
+let challansData=[];
+let challanItemsData=[];
+let selectedCustomer=null;
 
-function setAuthMessage(message,isError=false) {
-  $("authMsg").textContent = message;
-  $("authMsg").className = isError ? "msg danger" : "msg good";
+function setAuthMessage(message,isError=false){
+ $("authMsg").textContent=message;
+ $("authMsg").className=isError?"msg danger":"msg good";
 }
-function setAuthMode(mode) {
-  show("passwordPanel",mode==="password");
-  show("resetPanel",mode==="reset");
-  show("resetOtpPanel",false);
-  show("newPasswordPanel",false);
-  $("authMsg").textContent = "";
+function setAuthMode(mode){
+ show("passwordPanel",mode==="password");
+ show("resetPanel",mode==="reset");
+ show("resetOtpPanel",false);
+ show("newPasswordPanel",false);
+ $("authMsg").textContent="";
 }
-function isEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-async function checkLogin() {
-  const {data,error} = await db.auth.getSession();
-  if(error) { say(error.message); return; }
-  const loggedIn = !!data.session;
-  show("auth",!loggedIn);
-  show("app",loggedIn);
-  if(loggedIn) await refreshData();
-}
-$("rememberMe").checked = localStorage.getItem(rememberPreferenceKey)==="true";
+function isEmail(value){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)}
 
-$("login").onclick = async () => {
-  const email = $("loginId").value.trim().toLowerCase();
-  const password = $("password").value;
-  if(!isEmail(email)) { setAuthMessage("Enter a valid registered email address.",true); return; }
-  if(!password) { setAuthMessage("Enter your password.",true); return; }
+async function checkLogin(){
+ const {data,error}=await db.auth.getSession();
+ if(error){say(error.message);return}
+ const loggedIn=!!data.session;
+ show("auth",!loggedIn);
+ show("app",loggedIn);
+ if(loggedIn)await refreshData();
+}
+$("rememberMe").checked=localStorage.getItem(rememberPreferenceKey)==="true";
 
-  localStorage.setItem(rememberPreferenceKey,$("rememberMe").checked?"true":"false");
-  if(!$("rememberMe").checked) {
-    Object.keys(localStorage).filter(k=>k.startsWith("sb-")&&k.endsWith("-auth-token")).forEach(k=>localStorage.removeItem(k));
+$("login").onclick=async()=>{
+ const email=$("loginId").value.trim().toLowerCase();
+ const password=$("password").value;
+ if(!isEmail(email)){setAuthMessage("Enter a valid registered email address.",true);return}
+ if(!password){setAuthMessage("Enter your password.",true);return}
+ localStorage.setItem(rememberPreferenceKey,$("rememberMe").checked?"true":"false");
+ if(!$("rememberMe").checked){
+  Object.keys(localStorage).filter(k=>k.startsWith("sb-")&&k.endsWith("-auth-token")).forEach(k=>localStorage.removeItem(k));
+ }
+ const {error}=await db.auth.signInWithPassword({email,password});
+ if(error){setAuthMessage(error.message,true);return}
+ setAuthMessage("Login successful.");
+ await checkLogin();
+};
+
+$("forgotPassword").onclick=()=>{
+ setAuthMode("reset");
+ $("resetEmail").value=isEmail($("loginId").value.trim())?$("loginId").value.trim():"";
+};
+$("backToLogin").onclick=()=>setAuthMode("password");
+
+$("sendReset").onclick=async()=>{
+ const email=$("resetEmail").value.trim().toLowerCase();
+ if(!isEmail(email)){setAuthMessage("Enter a valid registered email address.",true);return}
+ const {error}=await db.auth.resetPasswordForEmail(email);
+ if(error){setAuthMessage(error.message,true);return}
+ show("resetOtpPanel",true);
+ show("newPasswordPanel",false);
+ $("resetOtp").value="";
+ setAuthMessage("If this email belongs to an account, an 8-digit OTP has been sent. Check your inbox and spam folder.");
+};
+
+$("verifyResetOtp").onclick=async()=>{
+ const email=$("resetEmail").value.trim().toLowerCase();
+ const token=$("resetOtp").value.trim();
+ if(!isEmail(email)){setAuthMessage("Enter a valid registered email address.",true);return}
+ if(!/^\d{8}$/.test(token)){setAuthMessage("Enter the 8-digit OTP from your email.",true);return}
+ const {error}=await db.auth.verifyOtp({email,token,type:"recovery"});
+ if(error){setAuthMessage(error.message,true);return}
+ show("newPasswordPanel",true);
+ setAuthMessage("OTP verified. Enter your new password.");
+};
+
+$("saveNewPassword").onclick=async()=>{
+ const password=$("newPassword").value;
+ const confirmPassword=$("confirmNewPassword").value;
+ if(password.length<8){setAuthMessage("New password must be at least 8 characters long.",true);return}
+ if(password!==confirmPassword){setAuthMessage("New password and confirm password do not match.",true);return}
+ const {error}=await db.auth.updateUser({password});
+ if(error){setAuthMessage(error.message,true);return}
+ await db.auth.signOut();
+ $("password").value="";
+ $("newPassword").value="";
+ $("confirmNewPassword").value="";
+ $("resetOtp").value="";
+ setAuthMode("password");
+ await checkLogin();
+ setAuthMessage("Password updated successfully. Please sign in with your new password.");
+};
+
+$("logout").onclick=async()=>{
+ const {error}=await db.auth.signOut();
+ if(error){say(error.message);return}
+ show("app",false);show("auth",true);setAuthMode("password");
+};
+
+async function refreshData(){
+ say("Loading data...");
+ const results=await Promise.all([
+  db.from("dealers").select("*").order("created_at",{ascending:false}),
+  db.from("customers").select("*").order("created_at",{ascending:false}),
+  db.from("projects").select("*"),
+  db.from("payments").select("*").order("payment_date",{ascending:false}),
+  db.from("dispatch_challans").select("*").order("created_at",{ascending:false}),
+  db.from("dispatch_challan_items").select("*")
+ ]);
+ const error=results.find(r=>r.error);
+ if(error){say("Database error: "+error.error.message);return}
+ dealersData=results[0].data||[];
+ customersData=results[1].data||[];
+ projectsData=results[2].data||[];
+ paymentsData=results[3].data||[];
+ challansData=results[4].data||[];
+ challanItemsData=results[5].data||[];
+ renderAll();
+ say("Data loaded successfully.");
+}
+
+function projectAmount(customerId){
+ return projectsData.filter(p=>p.customer_id===customerId).reduce((sum,p)=>sum+Number(p.project_amount||0),0);
+}
+function customerPayments(customerId){return paymentsData.filter(p=>p.customer_id===customerId)}
+function totalPaid(customerId){return customerPayments(customerId).reduce((sum,p)=>sum+Number(p.amount||0),0)}
+function balance(customerId){return Math.max(0,projectAmount(customerId)-totalPaid(customerId))}
+function dealerName(id){return dealersData.find(d=>d.id===id)?.name||"—"}
+function customerName(id){return customersData.find(c=>c.id===id)?.name||"—"}
+
+function renderDashboard(){
+ $("dealerCount").textContent=dealersData.length;
+ $("customerCount").textContent=customersData.length;
+ const totalProjects=projectsData.reduce((s,p)=>s+Number(p.project_amount||0),0);
+ const totalOutstanding=customersData.reduce((s,c)=>s+balance(c.id),0);
+ const companyTotal=paymentsData.filter(p=>p.received_by==="company").reduce((s,p)=>s+Number(p.amount||0),0);
+ const dealerTotal=paymentsData.filter(p=>p.received_by==="dealer").reduce((s,p)=>s+Number(p.amount||0),0);
+ $("projectTotal").textContent=money(totalProjects);
+ $("outstanding").textContent=money(totalOutstanding);
+ $("companyReceived").textContent=money(companyTotal);
+ $("dealerReceived").textContent=money(dealerTotal);
+ const recent=paymentsData.slice(0,5);
+ $("recentPayments").innerHTML=recent.length?`
+ <table><thead><tr><th>Date</th><th>Customer</th><th>Received By</th><th>Amount</th></tr></thead>
+ <tbody>${recent.map(p=>{const c=customersData.find(x=>x.id===p.customer_id);return `<tr><td>${esc(p.payment_date)}</td><td>${esc(c?.name||"Unknown")}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td></tr>`}).join("")}</tbody></table>`:
+ '<div class="empty-state">No payment records available.</div>';
+}
+
+function renderDealers(){
+ $("dealerList").innerHTML=dealersData.length?`
+ <table><thead><tr><th>Dealer</th><th>Phone</th><th>City</th><th>Customers</th><th>Actions</th></tr></thead>
+ <tbody>${dealersData.map(d=>{
+  const count=customersData.filter(c=>c.dealer_id===d.id).length;
+  return `<tr><td>${esc(d.name)}</td><td>${esc(d.phone)}</td><td>${esc(d.city)}</td><td>${count}</td>
+  <td><button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
+  <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove</button></td></tr>`;
+ }).join("")}</tbody></table>`:'<div class="empty-state">No dealers added yet.</div>';
+ $("cDealer").innerHTML='<option value="">Company Direct Customer</option>'+dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
+}
+
+$("addDealer").onclick=async()=>{
+ const name=$("dName").value.trim();
+ if(!name){say("Enter dealer name.");return}
+ const {error}=await db.from("dealers").insert({name,phone:$("dPhone").value.trim(),city:$("dCity").value.trim()});
+ if(error){say("Dealer add failed: "+error.message);return}
+ ["dName","dPhone","dCity"].forEach(id=>$(id).value="");
+ await refreshData();say("Dealer added successfully.");
+};
+
+window.editDealer=async function(id){
+ const dealer=dealersData.find(d=>String(d.id)===String(id));
+ if(!dealer){say("Dealer not found.");return}
+ const name=prompt("Enter Dealer Name:",dealer.name||"");
+ if(name===null)return;
+ if(!name.trim()){say("Dealer name is required.");return}
+ const phone=prompt("Enter Dealer Phone:",dealer.phone||"");
+ if(phone===null)return;
+ const city=prompt("Enter Dealer City:",dealer.city||"");
+ if(city===null)return;
+ const {error}=await db.from("dealers").update({name:name.trim(),phone:phone.trim(),city:city.trim()}).eq("id",id);
+ if(error){say("Dealer update failed: "+error.message);return}
+ await refreshData();say("Dealer updated successfully.");
+};
+
+window.removeDealer=async function(id){
+ const dealer=dealersData.find(d=>String(d.id)===String(id));
+ if(!dealer){say("Dealer not found.");return}
+ const linkedCustomers=customersData.filter(c=>String(c.dealer_id)===String(id));
+ if(linkedCustomers.length>0){say("Cannot remove this dealer. "+linkedCustomers.length+" customer(s) are linked. Reassign those customers first.");return}
+ if(!confirm("Are you sure you want to remove dealer: "+dealer.name+"?"))return;
+ const {error}=await db.from("dealers").delete().eq("id",id);
+ if(error){say("Dealer removal failed: "+error.message);return}
+ await refreshData();say("Dealer removed successfully.");
+};
+
+function renderCustomers(){
+ $("customerList").innerHTML=customersData.length?`
+ <table><thead><tr><th>Customer</th><th>Dealer</th><th>Project</th><th>Paid</th><th>Balance</th><th>Details</th></tr></thead>
+ <tbody>${customersData.map(c=>`<tr><td>${esc(c.name)}</td><td>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</td>
+ <td>${money(projectAmount(c.id))}</td><td>${money(totalPaid(c.id))}</td><td>${money(balance(c.id))}</td>
+ <td><button class="small" onclick="openCustomer('${c.id}')">Open</button></td></tr>`).join("")}</tbody></table>`:
+ '<div class="empty-state">No customers added yet.</div>';
+ $("pCustomer").innerHTML='<option value="">Select Customer</option>'+customersData.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+}
+
+$("addCustomer").onclick=async()=>{
+ const name=$("cName").value.trim();
+ const amount=Number($("cAmount").value||0);
+ if(!name){say("Enter customer name.");return}
+ if(amount<0){say("Project amount cannot be negative.");return}
+ const {data,error}=await db.from("customers").insert({
+  name,phone:$("cPhone").value.trim(),city:$("cCity").value.trim(),dealer_id:$("cDealer").value||null
+ }).select().single();
+ if(error){say(error.message);return}
+ if(amount>0){
+  const result=await db.from("projects").insert({customer_id:data.id,project_amount:amount});
+  if(result.error){say("Customer created, but project save failed: "+result.error.message);return}
+ }
+ ["cName","cPhone","cCity","cAmount"].forEach(id=>$(id).value="");
+ $("cDealer").value="";
+ await refreshData();say("Customer added successfully.");
+};
+
+window.openCustomer=function(id){
+ selectedCustomer=id;
+ const c=customersData.find(x=>x.id===id);
+ if(!c)return;
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
+ $("customerDetails").classList.add("active-page");
+ document.querySelectorAll(".side-nav button").forEach(b=>b.classList.remove("active"));
+ $("pageTitle").textContent="Customer Details";
+ $("detailName").textContent=c.name;
+ $("detailInfo").textContent=(c.dealer_id?"Dealer: "+dealerName(c.dealer_id):"Company Direct")+" | Phone: "+(c.phone||"—")+" | City: "+(c.city||"—");
+ $("detailProject").textContent=money(projectAmount(id));
+ $("detailPaid").textContent=money(totalPaid(id));
+ $("detailBalance").textContent=money(balance(id));
+ const list=customerPayments(id);
+ $("detailPayments").innerHTML=list.length?`
+ <table><thead><tr><th>Date</th><th>Received By</th><th>Amount</th><th>Mode</th><th>Reference</th></tr></thead>
+ <tbody>${list.map(p=>`<tr><td>${esc(p.payment_date)}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td><td>${esc(p.payment_mode)}</td><td>${esc(p.reference_no)}</td></tr>`).join("")}</tbody></table>`:
+ '<div class="empty-state">No payments recorded for this customer.</div>';
+};
+
+$("backCustomers").onclick=()=>{selectedCustomer=null;goTab("customers")};
+
+function renderPayments(){
+ const searchInput=$("paymentSearch");
+ const search=searchInput?searchInput.value.trim().toLowerCase():"";
+ const filteredPayments=paymentsData.filter(p=>{
+  const c=customersData.find(x=>x.id===p.customer_id);
+  const text=[c?.name,c?.phone,c?.city,p.payment_date,p.received_by,p.amount,p.payment_mode,p.reference_no].join(" ").toLowerCase();
+  return text.includes(search);
+ });
+ $("paymentCount").textContent=filteredPayments.length+" of "+paymentsData.length+" records";
+ $("paymentList").innerHTML=filteredPayments.length?`
+ <table><thead><tr><th>Date</th><th>Customer</th><th>Received By</th><th>Amount</th><th>Mode</th><th>Reference</th></tr></thead>
+ <tbody>${filteredPayments.map(p=>{const c=customersData.find(x=>x.id===p.customer_id);return `<tr><td>${esc(p.payment_date)}</td><td>${esc(c?.name||"Unknown")}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td><td>${esc(p.payment_mode)}</td><td>${esc(p.reference_no)}</td></tr>`}).join("")}</tbody></table>`:
+ `<div class="empty-state">${search?"No matching payment records found.":"No payment records yet."}</div>`;
+}
+
+$("addPayment").onclick=async()=>{
+ const customerId=$("pCustomer").value;
+ const amount=Number($("pAmount").value);
+ if(!customerId||amount<=0){say("Select a customer and enter a valid amount.");return}
+ const {error}=await db.from("payments").insert({
+  customer_id:customerId,amount,received_by:$("pRecipient").value,
+  payment_date:$("pDate").value||new Date().toISOString().slice(0,10),
+  payment_mode:$("pMode").value,reference_no:$("pRef").value.trim()
+ });
+ if(error){say(error.message);return}
+ $("pAmount").value="";$("pRef").value="";
+ await refreshData();say("Payment saved successfully.");
+};
+
+/* ================================
+   DISPATCH CHALLAN FUNCTIONS
+================================ */
+
+function recipientLabel(type,id){
+ if(type==="dealer"){
+  const d=dealersData.find(x=>String(x.id)===String(id));
+  return d?d.name:"Unknown Dealer";
+ }
+ const c=customersData.find(x=>String(x.id)===String(id));
+ return c?c.name:"Unknown Customer";
+}
+
+function updateRecipientOptions(selectedValue=""){
+ const type=$("dcRecipientType").value;
+ const list=type==="dealer"?dealersData:customersData;
+ const label=type==="dealer"?"Select Dealer":"Select Customer";
+ $("dcRecipient").innerHTML=`<option value="">${label}</option>`+
+  list.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}${x.phone?" - "+esc(x.phone):""}</option>`).join("");
+ if(selectedValue)$("dcRecipient").value=selectedValue;
+}
+
+$("dcRecipientType").onchange=()=>updateRecipientOptions();
+
+function addChallanItem(item={}){
+ const row=document.createElement("div");
+ row.className="item-row";
+ row.innerHTML=`
+  <input class="item-name" placeholder="Material name" value="${esc(item.material_name||"")}">
+  <input class="item-description" placeholder="Description" value="${esc(item.description||"")}">
+  <input class="item-quantity" type="number" min="0.01" step="0.01" placeholder="Quantity" value="${item.quantity??""}">
+  <select class="item-unit">
+   ${["Nos","Set","Kg","Meter","Box","Roll","Watt","Other"].map(u=>`<option value="${u}" ${item.unit===u?"selected":""}>${u}</option>`).join("")}
+  </select>
+  <button type="button" class="small" style="background:#c43d3d" title="Remove material">×</button>
+ `;
+ row.querySelector("button").onclick=()=>{row.remove();};
+ $("challanItems").appendChild(row);
+}
+
+function getChallanItems(){
+ return [...document.querySelectorAll("#challanItems .item-row")].map(row=>({
+  material_name:row.querySelector(".item-name").value.trim(),
+  description:row.querySelector(".item-description").value.trim(),
+  quantity:Number(row.querySelector(".item-quantity").value),
+  unit:row.querySelector(".item-unit").value
+ }));
+}
+
+function resetChallanForm(){
+ $("editChallanId").value="";
+ $("challanFormTitle").textContent="Create Dispatch Challan";
+ $("saveChallan").textContent="Save Dispatch Challan";
+ $("dcDate").value=new Date().toISOString().slice(0,10);
+ $("dcRecipientType").value="dealer";
+ updateRecipientOptions();
+ ["dcVehicle","dcDriver","dcDriverPhone","dcTransporter","dcAddress","dcRemarks"].forEach(id=>$(id).value="");
+ $("dcFrom").value=COMPANY_NAME;
+ $("challanItems").innerHTML="";
+ addChallanItem();
+ $("challanFormMsg").textContent="";
+}
+
+function challanFormMessage(message,isError=false){
+ $("challanFormMsg").textContent=message;
+ $("challanFormMsg").className=isError?"msg danger":"msg good";
+}
+
+$("saveChallan").onclick=async()=>{
+ const editId=$("editChallanId").value;
+ const type=$("dcRecipientType").value;
+ const recipientId=$("dcRecipient").value;
+ const items=getChallanItems();
+
+ if(!recipientId){challanFormMessage("Select a dealer or customer.",true);return}
+ if(items.length===0){challanFormMessage("Add at least one material item.",true);return}
+ if(items.some(i=>!i.material_name||!Number.isFinite(i.quantity)||i.quantity<=0)){
+  challanFormMessage("Enter material name and valid quantity for every item.",true);return;
+ }
+
+ const payload={
+  dispatch_date:$("dcDate").value||new Date().toISOString().slice(0,10),
+  recipient_type:type,
+  dealer_id:type==="dealer"?recipientId:null,
+  customer_id:type==="customer"?recipientId:null,
+  delivery_address:$("dcAddress").value.trim(),
+  dispatch_from:$("dcFrom").value.trim()||COMPANY_NAME,
+  vehicle_number:$("dcVehicle").value.trim(),
+  driver_name:$("dcDriver").value.trim(),
+  driver_phone:$("dcDriverPhone").value.trim(),
+  transporter_name:$("dcTransporter").value.trim(),
+  remarks:$("dcRemarks").value.trim()
+ };
+
+ $("saveChallan").disabled=true;
+ $("saveChallan").textContent="Saving...";
+
+ try{
+  let challanId=editId;
+  let challanNo="";
+
+  if(editId){
+   const {error}=await db.from("dispatch_challans").update(payload).eq("id",editId);
+   if(error)throw error;
+
+   const del=await db.from("dispatch_challan_items").delete().eq("challan_id",editId);
+   if(del.error)throw del.error;
+
+   const inserted=await db.from("dispatch_challan_items").insert(items.map(i=>({...i,challan_id:editId})));
+   if(inserted.error)throw inserted.error;
+
+   challanNo=challansData.find(c=>c.id===editId)?.challan_no||"";
+  }else{
+   const {data,error}=await db.from("dispatch_challans").insert(payload).select().single();
+   if(error)throw error;
+   challanId=data.id;
+   challanNo=data.challan_no;
+
+   const inserted=await db.from("dispatch_challan_items").insert(items.map(i=>({...i,challan_id:challanId})));
+   if(inserted.error){
+    await db.from("dispatch_challans").delete().eq("id",challanId);
+    throw inserted.error;
+   }
   }
-  const {error} = await db.auth.signInWithPassword({email,password});
-  if(error) { setAuthMessage(error.message,true); return; }
-  setAuthMessage("Login successful.");
-  await checkLogin();
-};
 
-$("forgotPassword").onclick = () => {
-  setAuthMode("reset");
-  $("resetEmail").value = isEmail($("loginId").value.trim()) ? $("loginId").value.trim() : "";
-};
-$("backToLogin").onclick = () => setAuthMode("password");
-
-$("sendReset").onclick = async () => {
-  const email = $("resetEmail").value.trim().toLowerCase();
-  if(!isEmail(email)) { setAuthMessage("Enter a valid registered email address.",true); return; }
-  const {error} = await db.auth.resetPasswordForEmail(email);
-  if(error) { setAuthMessage(error.message,true); return; }
-  show("resetOtpPanel",true);
-  show("newPasswordPanel",false);
-  $("resetOtp").value = "";
-  setAuthMessage("If this email belongs to an account, an 8-digit OTP has been sent. Check your inbox and spam folder.");
-};
-
-$("verifyResetOtp").onclick = async () => {
-  const email = $("resetEmail").value.trim().toLowerCase();
-  const token = $("resetOtp").value.trim();
-  if(!isEmail(email)) { setAuthMessage("Enter a valid registered email address.",true); return; }
-  if(!/^\d{8}$/.test(token)) { setAuthMessage("Enter the 8-digit OTP from your email.",true); return; }
-  const {error} = await db.auth.verifyOtp({email,token,type:"recovery"});
-  if(error) { setAuthMessage(error.message,true); return; }
-  show("newPasswordPanel",true);
-  setAuthMessage("OTP verified. Enter your new password.");
-};
-
-$("saveNewPassword").onclick = async () => {
-  const password = $("newPassword").value;
-  const confirmPassword = $("confirmNewPassword").value;
-  if(password.length<8) { setAuthMessage("New password must be at least 8 characters long.",true); return; }
-  if(password!==confirmPassword) { setAuthMessage("New password and confirm password do not match.",true); return; }
-  const {error} = await db.auth.updateUser({password});
-  if(error) { setAuthMessage(error.message,true); return; }
-  await db.auth.signOut();
-  $("password").value = "";
-  $("newPassword").value = "";
-  $("confirmNewPassword").value = "";
-  $("resetOtp").value = "";
-  setAuthMode("password");
-  await checkLogin();
-  setAuthMessage("Password updated successfully. Please sign in with your new password.");
-};
-
-$("logout").onclick = async () => {
-  const {error} = await db.auth.signOut();
-  if(error) { say(error.message); return; }
-  show("app",false);
-  show("auth",true);
-  setAuthMode("password");
-};
-
-async function refreshData() {
-  say("Loading data...");
-  const results = await Promise.all([
-    db.from("dealers").select("*").order("created_at",{ascending:false}),
-    db.from("customers").select("*").order("created_at",{ascending:false}),
-    db.from("projects").select("*"),
-    db.from("payments").select("*").order("payment_date",{ascending:false})
-  ]);
-  const error = results.find(r=>r.error);
-  if(error) { say("Database error: "+error.error.message); return; }
-  dealersData = results[0].data || [];
-  customersData = results[1].data || [];
-  projectsData = results[2].data || [];
-  paymentsData = results[3].data || [];
-  renderAll();
-  say("Data loaded successfully.");
-}
-
-function projectAmount(customerId) {
-  return projectsData.filter(p=>p.customer_id===customerId)
-    .reduce((sum,p)=>sum+Number(p.project_amount||0),0);
-}
-function customerPayments(customerId) {
-  return paymentsData.filter(p=>p.customer_id===customerId);
-}
-function totalPaid(customerId) {
-  return customerPayments(customerId).reduce((sum,p)=>sum+Number(p.amount||0),0);
-}
-function balance(customerId) {
-  return Math.max(0,projectAmount(customerId)-totalPaid(customerId));
-}
-function dealerName(id) {
-  return dealersData.find(d=>d.id===id)?.name || "—";
-}
-
-function renderDashboard() {
-  $("dealerCount").textContent = dealersData.length;
-  $("customerCount").textContent = customersData.length;
-  const totalProjects = projectsData.reduce((s,p)=>s+Number(p.project_amount||0),0);
-  const totalOutstanding = customersData.reduce((s,c)=>s+balance(c.id),0);
-  const companyTotal = paymentsData.filter(p=>p.received_by==="company").reduce((s,p)=>s+Number(p.amount||0),0);
-  const dealerTotal = paymentsData.filter(p=>p.received_by==="dealer").reduce((s,p)=>s+Number(p.amount||0),0);
-  $("projectTotal").textContent = money(totalProjects);
-  $("outstanding").textContent = money(totalOutstanding);
-  $("companyReceived").textContent = money(companyTotal);
-  $("dealerReceived").textContent = money(dealerTotal);
-
-  const recent = paymentsData.slice(0,5);
-  $("recentPayments").innerHTML = recent.length ? `
-    <table><thead><tr><th>Date</th><th>Customer</th><th>Received By</th><th>Amount</th></tr></thead>
-    <tbody>${recent.map(p=>{
-      const c = customersData.find(x=>x.id===p.customer_id);
-      return `<tr><td>${esc(p.payment_date)}</td><td>${esc(c?.name||"Unknown")}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td></tr>`;
-    }).join("")}</tbody></table>` : '<div class="empty-state">No payment records available.</div>';
-}
-
-/* DEALER MANAGEMENT: ADD, EDIT AND REMOVE */
-
-function renderDealers() {
-  $("dealerList").innerHTML = dealersData.length ? `
-    <table>
-      <thead>
-        <tr>
-          <th>Dealer</th>
-          <th>Phone</th>
-          <th>City</th>
-          <th>Customers</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${dealersData.map(d=>{
-          const count = customersData.filter(c=>c.dealer_id===d.id).length;
-          return `
-            <tr>
-              <td>${esc(d.name)}</td>
-              <td>${esc(d.phone)}</td>
-              <td>${esc(d.city)}</td>
-              <td>${count}</td>
-              <td>
-                <button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
-                <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove</button>
-              </td>
-            </tr>
-          `;
-        }).join("")}
-      </tbody>
-    </table>
-  ` : '<div class="empty-state">No dealers added yet.</div>';
-
-  $("cDealer").innerHTML = '<option value="">Company Direct Customer</option>' +
-    dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
-}
-
-$("addDealer").onclick = async () => {
-  const name = $("dName").value.trim();
-  if(!name) { say("Enter dealer name."); return; }
-
-  const {error} = await db.from("dealers").insert({
-    name,
-    phone:$("dPhone").value.trim(),
-    city:$("dCity").value.trim()
-  });
-
-  if(error) { say("Dealer add failed: "+error.message); return; }
-
-  ["dName","dPhone","dCity"].forEach(id=>$(id).value="");
   await refreshData();
-  say("Dealer added successfully.");
+  resetChallanForm();
+  challanFormMessage(editId?"Challan updated successfully.":"Challan saved successfully. Challan No: "+challanNo);
+  say(editId?"Dispatch Challan updated.":"Dispatch Challan created: "+challanNo);
+ }catch(error){
+  challanFormMessage("Save failed: "+(error.message||"Unknown error"),true);
+ }finally{
+  $("saveChallan").disabled=false;
+  $("saveChallan").textContent=$("editChallanId").value?"Update Dispatch Challan":"Save Dispatch Challan";
+ }
 };
 
-window.editDealer = async function(id) {
-  const dealer = dealersData.find(d=>String(d.id)===String(id));
+function renderChallans(){
+ const search=$("challanSearch").value.trim().toLowerCase();
+ const filtered=challansData.filter(c=>{
+  const recipient=recipientLabel(c.recipient_type,c.recipient_type==="dealer"?c.dealer_id:c.customer_id);
+  const text=[c.challan_no,c.dispatch_date,recipient,c.vehicle_number,c.driver_name,c.transporter_name,c.status].join(" ").toLowerCase();
+  return text.includes(search);
+ });
 
-  if(!dealer) {
-    say("Dealer not found.");
-    return;
-  }
-
-  const name = prompt("Enter Dealer Name:",dealer.name||"");
-  if(name===null) return;
-
-  if(!name.trim()) {
-    say("Dealer name is required.");
-    return;
-  }
-
-  const phone = prompt("Enter Dealer Phone:",dealer.phone||"");
-  if(phone===null) return;
-
-  const city = prompt("Enter Dealer City:",dealer.city||"");
-  if(city===null) return;
-
-  const {error} = await db.from("dealers")
-    .update({
-      name:name.trim(),
-      phone:phone.trim(),
-      city:city.trim()
-    })
-    .eq("id",id);
-
-  if(error) {
-    say("Dealer update failed: "+error.message);
-    return;
-  }
-
-  await refreshData();
-  say("Dealer updated successfully.");
-};
-
-window.removeDealer = async function(id) {
-  const dealer = dealersData.find(d=>String(d.id)===String(id));
-
-  if(!dealer) {
-    say("Dealer not found.");
-    return;
-  }
-
-  const linkedCustomers = customersData.filter(c=>String(c.dealer_id)===String(id));
-
-  if(linkedCustomers.length>0) {
-    say("Cannot remove this dealer. "+linkedCustomers.length+
-      " customer(s) are linked. Reassign those customers first.");
-    return;
-  }
-
-  const confirmed = confirm(
-    "Are you sure you want to remove dealer: "+dealer.name+"?"
-  );
-
-  if(!confirmed) return;
-
-  const {error} = await db.from("dealers")
-    .delete()
-    .eq("id",id);
-
-  if(error) {
-    say("Dealer removal failed: "+error.message);
-    return;
-  }
-
-  await refreshData();
-  say("Dealer removed successfully.");
-};
-
-function renderCustomers() {
-  $("customerList").innerHTML = customersData.length ? `
-    <table><thead><tr><th>Customer</th><th>Dealer</th><th>Project</th><th>Paid</th><th>Balance</th><th>Details</th></tr></thead>
-    <tbody>${customersData.map(c=>`
-      <tr>
-        <td>${esc(c.name)}</td>
-        <td>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</td>
-        <td>${money(projectAmount(c.id))}</td>
-        <td>${money(totalPaid(c.id))}</td>
-        <td>${money(balance(c.id))}</td>
-        <td><button class="small" onclick="openCustomer('${c.id}')">Open</button></td>
-      </tr>`).join("")}</tbody></table>` : '<div class="empty-state">No customers added yet.</div>';
-
-  $("pCustomer").innerHTML = '<option value="">Select Customer</option>' +
-    customersData.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+ $("challanCount").textContent=filtered.length+" of "+challansData.length+" challans";
+ $("challanList").innerHTML=filtered.length?`
+ <table>
+  <thead><tr><th>Challan No.</th><th>Date</th><th>Recipient</th><th>Vehicle</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody>${filtered.map(c=>{
+   const recipient=recipientLabel(c.recipient_type,c.recipient_type==="dealer"?c.dealer_id:c.customer_id);
+   return `<tr>
+    <td><strong>${esc(c.challan_no)}</strong></td>
+    <td>${esc(c.dispatch_date)}</td>
+    <td>${esc(recipient)}<br><span class="muted">${esc(c.recipient_type)}</span></td>
+    <td>${esc(c.vehicle_number||"—")}</td>
+    <td>${c.status==="Cancelled"?'<span class="danger">Cancelled</span>':'<span class="good">Issued</span>'}</td>
+    <td>
+     <button class="secondary small" onclick="printChallan('${c.id}')">Print</button>
+     ${c.status!=="Cancelled"?`<button class="small" onclick="editChallan('${c.id}')">Edit</button>
+     <button class="small" style="background:#c43d3d" onclick="cancelChallan('${c.id}')">Cancel</button>`:""}
+    </td>
+   </tr>`;
+  }).join("")}</tbody>
+ </table>`:'<div class="empty-state">No dispatch challans found.</div>';
 }
 
-$("addCustomer").onclick = async () => {
-  const name = $("cName").value.trim();
-  const amount = Number($("cAmount").value||0);
-  if(!name) { say("Enter customer name."); return; }
-  if(amount<0) { say("Project amount cannot be negative."); return; }
+window.editChallan=async function(id){
+ const c=challansData.find(x=>x.id===id);
+ if(!c){say("Challan not found.");return}
+ if(c.status==="Cancelled"){say("Cancelled challans cannot be edited.");return}
 
-  const {data,error} = await db.from("customers").insert({
-    name,phone:$("cPhone").value.trim(),city:$("cCity").value.trim(),
-    dealer_id:$("cDealer").value||null
-  }).select().single();
-
-  if(error) { say(error.message); return; }
-
-  if(amount>0) {
-    const result = await db.from("projects").insert({customer_id:data.id,project_amount:amount});
-    if(result.error) { say("Customer created, but project save failed: "+result.error.message); return; }
-  }
-
-  ["cName","cPhone","cCity","cAmount"].forEach(id=>$(id).value="");
-  $("cDealer").value="";
-  await refreshData();
-  say("Customer added successfully.");
+ $("editChallanId").value=c.id;
+ $("challanFormTitle").textContent="Edit Dispatch Challan: "+c.challan_no;
+ $("saveChallan").textContent="Update Dispatch Challan";
+ $("dcDate").value=c.dispatch_date||"";
+ $("dcRecipientType").value=c.recipient_type;
+ updateRecipientOptions(c.recipient_type==="dealer"?c.dealer_id:c.customer_id);
+ $("dcVehicle").value=c.vehicle_number||"";
+ $("dcDriver").value=c.driver_name||"";
+ $("dcDriverPhone").value=c.driver_phone||"";
+ $("dcTransporter").value=c.transporter_name||"";
+ $("dcFrom").value=c.dispatch_from||COMPANY_NAME;
+ $("dcAddress").value=c.delivery_address||"";
+ $("dcRemarks").value=c.remarks||"";
+ $("challanItems").innerHTML="";
+ const items=challanItemsData.filter(i=>i.challan_id===id);
+ items.forEach(i=>addChallanItem(i));
+ if(!items.length)addChallanItem();
+ challanFormMessage("Editing "+c.challan_no);
+ goTab("dispatch");
+ window.scrollTo({top:0,behavior:"smooth"});
 };
 
-window.openCustomer = function(id) {
-  selectedCustomer = id;
-  const c = customersData.find(x=>x.id===id);
-  if(!c) return;
-
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
-  $("customerDetails").classList.add("active-page");
-  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.remove("active"));
-  $("pageTitle").textContent = "Customer Details";
-
-  $("detailName").textContent = c.name;
-  $("detailInfo").textContent = (c.dealer_id?"Dealer: "+dealerName(c.dealer_id):"Company Direct") +
-    " | Phone: "+(c.phone||"—")+" | City: "+(c.city||"—");
-  $("detailProject").textContent = money(projectAmount(id));
-  $("detailPaid").textContent = money(totalPaid(id));
-  $("detailBalance").textContent = money(balance(id));
-
-  const list = customerPayments(id);
-  $("detailPayments").innerHTML = list.length ? `
-    <table><thead><tr><th>Date</th><th>Received By</th><th>Amount</th><th>Mode</th><th>Reference</th></tr></thead>
-    <tbody>${list.map(p=>`<tr><td>${esc(p.payment_date)}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td><td>${esc(p.payment_mode)}</td><td>${esc(p.reference_no)}</td></tr>`).join("")}</tbody></table>` : '<div class="empty-state">No payments recorded for this customer.</div>';
+window.cancelChallan=async function(id){
+ const c=challansData.find(x=>x.id===id);
+ if(!c)return;
+ if(!confirm("Cancel dispatch challan "+c.challan_no+"? This will mark it as Cancelled."))return;
+ const {error}=await db.from("dispatch_challans").update({status:"Cancelled",updated_at:new Date().toISOString()}).eq("id",id);
+ if(error){say("Cancel failed: "+error.message);return}
+ await refreshData();
+ say("Challan "+c.challan_no+" cancelled.");
 };
 
-$("backCustomers").onclick = () => {
-  selectedCustomer = null;
-  goTab("customers");
+window.printChallan=function(id){
+ const c=challansData.find(x=>x.id===id);
+ if(!c){say("Challan not found.");return}
+ const items=challanItemsData.filter(i=>i.challan_id===id);
+ const recipient=recipientLabel(c.recipient_type,c.recipient_type==="dealer"?c.dealer_id:c.customer_id);
+ const recipientRecord=c.recipient_type==="dealer"
+  ?dealersData.find(d=>d.id===c.dealer_id)
+  :customersData.find(x=>x.id===c.customer_id);
+
+ const rows=items.map((i,index)=>`
+  <tr>
+   <td>${index+1}</td>
+   <td>${esc(i.material_name)}</td>
+   <td>${esc(i.description||"—")}</td>
+   <td style="text-align:right">${esc(i.quantity)}</td>
+   <td>${esc(i.unit)}</td>
+  </tr>`).join("");
+
+ const html=`<!DOCTYPE html>
+ <html><head><meta charset="UTF-8"><title>${esc(c.challan_no)}</title>
+ <style>
+ body{font-family:Arial,sans-serif;color:#111;margin:25px}
+ .sheet{max-width:850px;margin:auto;border:1px solid #333;padding:25px}
+ .head{text-align:center;border-bottom:2px solid #222;padding-bottom:14px}
+ h1{font-size:23px;margin:5px 0}
+ h2{font-size:18px;margin:18px 0}
+ .phone{font-size:13px;margin:7px}
+ .meta{display:flex;justify-content:space-between;gap:20px;margin:20px 0}
+ .box{width:50%;line-height:1.7;font-size:13px}
+ table{width:100%;border-collapse:collapse;margin-top:18px}
+ th,td{border:1px solid #444;padding:9px;font-size:12px;text-align:left}
+ th{background:#eee}
+ .remarks{margin-top:18px;font-size:13px}
+ .sign{display:flex;justify-content:space-between;margin-top:75px;font-size:13px}
+ .footer{margin-top:30px;text-align:center;font-size:11px}
+ .cancel{color:#b00020;font-size:20px;font-weight:bold}
+ @media print{body{margin:0}.sheet{border:0}}
+ </style></head><body>
+ <div class="sheet">
+  <div class="head">
+   <h1>${COMPANY_NAME}</h1>
+   <div class="phone">Contact: ${COMPANY_PHONE}</div>
+   <h2>DELIVERY / DISPATCH CHALLAN</h2>
+   ${c.status==="Cancelled"?'<div class="cancel">CANCELLED</div>':""}
+  </div>
+  <div class="meta">
+   <div class="box">
+    <strong>Challan No:</strong> ${esc(c.challan_no)}<br>
+    <strong>Dispatch Date:</strong> ${esc(c.dispatch_date)}<br>
+    <strong>Dispatch From:</strong> ${esc(c.dispatch_from||COMPANY_NAME)}
+   </div>
+   <div class="box">
+    <strong>Recipient Type:</strong> ${esc(c.recipient_type)}<br>
+    <strong>Recipient Name:</strong> ${esc(recipient)}<br>
+    <strong>Phone:</strong> ${esc(recipientRecord?.phone||"—")}
+   </div>
+  </div>
+  <div style="font-size:13px;line-height:1.7">
+   <strong>Delivery Address:</strong> ${esc(c.delivery_address||"—")}
+  </div>
+  <table>
+   <thead><tr><th style="width:45px">Sr.</th><th>Material Name</th><th>Description</th><th>Quantity</th><th>Unit</th></tr></thead>
+   <tbody>${rows}</tbody>
+  </table>
+  <div class="remarks">
+   <strong>Vehicle Number:</strong> ${esc(c.vehicle_number||"—")}<br>
+   <strong>Driver Name:</strong> ${esc(c.driver_name||"—")}<br>
+   <strong>Driver Mobile:</strong> ${esc(c.driver_phone||"—")}<br>
+   <strong>Transporter:</strong> ${esc(c.transporter_name||"—")}<br>
+   <strong>Remarks:</strong> ${esc(c.remarks||"—")}
+  </div>
+  <div class="sign">
+   <div>Receiver's Signature<br><br>________________________</div>
+   <div>Authorized Signature<br><br>________________________</div>
+  </div>
+  <div class="footer">${COMPANY_NAME} | ${COMPANY_PHONE}</div>
+ </div>
+ <script>window.onload=function(){window.print()}<\/script>
+ </body></html>`;
+
+ const win=window.open("","_blank");
+ if(!win){say("Please allow pop-ups to print the challan.");return}
+ win.document.open();
+ win.document.write(html);
+ win.document.close();
 };
 
-function renderPayments() {
-  const searchInput = $("paymentSearch");
-  const search = searchInput ? searchInput.value.trim().toLowerCase() : "";
-
-  const filteredPayments = paymentsData.filter(p => {
-    const c = customersData.find(x => x.id === p.customer_id);
-
-    const searchableText = [
-      c?.name,c?.phone,c?.city,p.payment_date,p.received_by,
-      p.amount,p.payment_mode,p.reference_no
-    ].join(" ").toLowerCase();
-
-    return searchableText.includes(search);
-  });
-
-  $("paymentCount").textContent =
-    filteredPayments.length+" of "+paymentsData.length+" records";
-
-  $("paymentList").innerHTML = filteredPayments.length ? `
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th><th>Customer</th><th>Received By</th>
-          <th>Amount</th><th>Mode</th><th>Reference</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${filteredPayments.map(p=>{
-          const c = customersData.find(x=>x.id===p.customer_id);
-          return `
-            <tr>
-              <td>${esc(p.payment_date)}</td>
-              <td>${esc(c?.name||"Unknown")}</td>
-              <td>${esc(p.received_by)}</td>
-              <td>${money(p.amount)}</td>
-              <td>${esc(p.payment_mode)}</td>
-              <td>${esc(p.reference_no)}</td>
-            </tr>
-          `;
-        }).join("")}
-      </tbody>
-    </table>
-  ` : `<div class="empty-state">${search?"No matching payment records found.":"No payment records yet."}</div>`;
+function renderAll(){
+ renderDashboard();
+ renderDealers();
+ renderCustomers();
+ renderPayments();
+ renderChallans();
+ updateRecipientOptions();
 }
 
-$("addPayment").onclick = async () => {
-  const customerId = $("pCustomer").value;
-  const amount = Number($("pAmount").value);
-
-  if(!customerId||amount<=0) {
-    say("Select a customer and enter a valid amount.");
-    return;
-  }
-
-  const {error} = await db.from("payments").insert({
-    customer_id:customerId,
-    amount,
-    received_by:$("pRecipient").value,
-    payment_date:$("pDate").value||new Date().toISOString().slice(0,10),
-    payment_mode:$("pMode").value,
-    reference_no:$("pRef").value.trim()
-  });
-
-  if(error) { say(error.message); return; }
-
-  $("pAmount").value="";
-  $("pRef").value="";
-  await refreshData();
-  say("Payment saved successfully.");
-};
-
-function renderAll() {
-  renderDashboard();
-  renderDealers();
-  renderCustomers();
-  renderPayments();
-}
-
-window.goTab = function(id) {
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
-  $(id).classList.add("active-page");
-  document.querySelectorAll(".side-nav button").forEach(b=>
-    b.classList.toggle("active",b.dataset.tab===id)
-  );
-
-  const titles = {
-    dashboard:"Dashboard",
-    dealers:"Dealers",
-    customers:"Customers",
-    payments:"Payments",
-    customerDetails:"Customer Details"
-  };
-
-  $("pageTitle").textContent = titles[id]||"Solar ERP";
+window.goTab=function(id){
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active-page"));
+ $(id).classList.add("active-page");
+ document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
+ const titles={
+  dashboard:"Dashboard",dealers:"Dealers",customers:"Customers",
+  payments:"Payments",customerDetails:"Customer Details",dispatch:"Dispatch Challan"
+ };
+ $("pageTitle").textContent=titles[id]||"Solar ERP";
 };
 
 document.querySelectorAll(".side-nav button").forEach(button=>{
-  button.onclick = ()=>goTab(button.dataset.tab);
+ button.onclick=()=>goTab(button.dataset.tab);
 });
 
+$("pDate").value=new Date().toISOString().slice(0,10);
+resetChallanForm();
 checkLogin();
 </script>
 </body>
