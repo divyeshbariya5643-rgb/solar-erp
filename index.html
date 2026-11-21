@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,11 +134,11 @@ th { color: var(--navy-dark); background: #f5f8fa; }
   <div id="resetPanel" class="hidden">
     <label>Registered Email</label>
     <input id="resetEmail" type="email" autocomplete="email" placeholder="Enter your account email">
-    <button id="sendReset" type="button">Send 6-Digit OTP</button>
+    <button id="sendReset" type="button">Send 8-Digit OTP</button>
 
     <div id="resetOtpPanel" class="hidden">
-      <label>Enter 6-Digit OTP</label>
-      <input id="resetOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter OTP from email">
+      <label>Enter 8-Digit OTP</label>
+      <input id="resetOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter OTP from email">
       <button id="verifyResetOtp" type="button">Verify OTP</button>
     </div>
 
@@ -150,7 +151,7 @@ th { color: var(--navy-dark); background: #f5f8fa; }
     </div>
 
     <button type="button" id="backToLogin" class="auth-link">← Back to Login</button>
-    <div class="auth-note">A 6-digit password reset OTP will be sent to your registered email address.</div>
+    <div class="auth-note">An 8-digit password reset OTP will be sent to your registered email address.</div>
   </div>
 
   <div id="authMsg" class="msg" role="status" aria-live="polite"></div>
@@ -191,7 +192,6 @@ th { color: var(--navy-dark); background: #f5f8fa; }
     <button data-tab="payments">Payments</button>
   </nav>
 
-  <!-- DEALERS -->
   <section id="dealers" class="panel tab">
     <h2>Dealer Management</h2>
     <div class="formgrid">
@@ -203,25 +203,21 @@ th { color: var(--navy-dark); background: #f5f8fa; }
     <div id="dealerList"></div>
   </section>
 
-  <!-- CUSTOMERS -->
   <section id="customers" class="panel tab hidden">
     <h2>Customer Management</h2>
     <div class="formgrid">
       <input id="cName" placeholder="Customer name">
       <input id="cPhone" placeholder="Phone">
       <input id="cCity" placeholder="City">
-
       <select id="cDealer">
         <option value="">Company Direct Customer</option>
       </select>
-
       <input id="cAmount" type="number" min="0" placeholder="Project Amount ₹">
       <button id="addCustomer">Add Customer</button>
     </div>
     <div id="customerList"></div>
   </section>
 
-  <!-- CUSTOMER DETAILS -->
   <section id="customerDetails" class="panel hidden">
     <button class="secondary small" id="backCustomers">← Back to Customers</button>
     <h2 id="detailName">Customer Details</h2>
@@ -244,22 +240,18 @@ th { color: var(--navy-dark); background: #f5f8fa; }
     <div id="detailPayments"></div>
   </section>
 
-  <!-- PAYMENTS -->
   <section id="payments" class="panel tab hidden">
     <h2>Payment Entry</h2>
     <div class="formgrid">
       <select id="pCustomer">
         <option value="">Select Customer</option>
       </select>
-
       <select id="pRecipient">
         <option value="company">Received by Company</option>
         <option value="dealer">Received by Dealer</option>
       </select>
-
       <input id="pAmount" type="number" min="1" placeholder="Amount ₹">
       <input id="pDate" type="date">
-
       <select id="pMode">
         <option value="UPI">UPI</option>
         <option value="Bank Transfer">Bank Transfer</option>
@@ -267,11 +259,9 @@ th { color: var(--navy-dark); background: #f5f8fa; }
         <option value="Cheque">Cheque</option>
         <option value="Other">Other</option>
       </select>
-
       <input id="pRef" placeholder="Reference / Transaction ID">
       <button id="addPayment">Save Payment</button>
     </div>
-
     <div id="paymentList"></div>
   </section>
 
@@ -285,7 +275,6 @@ th { color: var(--navy-dark); background: #f5f8fa; }
 const SUPABASE_URL = "https://mvrekgmqbmbtkgrdceqt.supabase.co";
 const SUPABASE_KEY = "sb_publishable_XdzM6Q4fDD10jU4Pp8lVOw_6CTNcdni";
 
-// Remember Me: use persistent browser storage only when the user opts in.
 const rememberPreferenceKey = "solar_erp_remember_me";
 const authStorage = {
   getItem: (key) => {
@@ -386,7 +375,6 @@ $("login").onclick = async () => {
 
   localStorage.setItem(rememberPreferenceKey, $("rememberMe").checked ? "true" : "false");
   if (!$("rememberMe").checked) {
-    // Clear any previous persistent session when Remember Me is turned off.
     Object.keys(localStorage).filter(k => k.startsWith("sb-") && k.endsWith("-auth-token")).forEach(k => localStorage.removeItem(k));
   }
 
@@ -421,7 +409,8 @@ $("sendReset").onclick = async () => {
 
   show("resetOtpPanel", true);
   show("newPasswordPanel", false);
-  setAuthMessage("If this email belongs to an account, a 6-digit OTP has been sent. Check your inbox and spam folder.");
+  $("resetOtp").value = "";
+  setAuthMessage("If this email belongs to an account, an 8-digit OTP has been sent. Check your inbox and spam folder.");
 };
 
 $("verifyResetOtp").onclick = async () => {
@@ -432,8 +421,8 @@ $("verifyResetOtp").onclick = async () => {
     setAuthMessage("Enter a valid registered email address.", true);
     return;
   }
-  if (!/^\d{6}$/.test(token)) {
-    setAuthMessage("Enter the 6-digit OTP from your email.", true);
+  if (!/^\d{8}$/.test(token)) {
+    setAuthMessage("Enter the 8-digit OTP from your email.", true);
     return;
   }
 
