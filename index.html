@@ -364,6 +364,7 @@ const SUPABASE_URL="https://mvrekgmqbmbtkgrdceqt.supabase.co";
 const SUPABASE_KEY="sb_publishable_XdzM6Q4fDD10jU4Pp8lVOw_6CTNcdni";
 const COMPANY_NAME="Siddhivinayak Engineering Company";
 const COMPANY_PHONE="9905954548 / 9904954549";
+const COMPANY_ADDRESS="Rampark Street No.1, Nr. Aji Dem Chowkdi, Opp. Ganesh Weight Bridge, Manda Dungar, Rajkot";
 
 const rememberPreferenceKey="solar_erp_remember_me";
 const authStorage={
@@ -860,6 +861,7 @@ window.cancelChallan=async function(id){
 
 /* ======================================
    PRINT CHALLAN WITH LOGO + WATERMARK
+   COMPANY ADDRESS ADDED
 ====================================== */
 
 window.printChallan=function(id){
@@ -950,6 +952,13 @@ window.printChallan=function(id){
  h2{font-size:18px;margin:18px 0}
  .phone{font-size:13px;margin:7px}
 
+ .company-address{
+  font-size:12px;
+  line-height:1.5;
+  margin:6px auto;
+  max-width:550px;
+ }
+
  .meta{
   display:flex;
   justify-content:space-between;
@@ -995,6 +1004,7 @@ window.printChallan=function(id){
   margin-top:30px;
   text-align:center;
   font-size:11px;
+  line-height:1.7;
   border-top:1px solid #aaa;
   padding-top:10px;
  }
@@ -1032,6 +1042,7 @@ window.printChallan=function(id){
   .company-logo{width:75px;height:70px}
   h1{font-size:17px}
   h2{font-size:15px}
+  .company-address{font-size:10px}
  }
  </style>
  </head>
@@ -1049,8 +1060,15 @@ window.printChallan=function(id){
 
     <div class="company-info">
      <h1>${esc(COMPANY_NAME)}</h1>
+
+     <div class="company-address">
+      Office: ${esc(COMPANY_ADDRESS)}
+     </div>
+
      <div class="phone">Contact: ${esc(COMPANY_PHONE)}</div>
+
      <h2>DELIVERY / DISPATCH CHALLAN</h2>
+
      ${c.status==="Cancelled"?'<div class="cancel">CANCELLED</div>':""}
     </div>
    </div>
@@ -1100,7 +1118,9 @@ window.printChallan=function(id){
    </div>
 
    <div class="footer">
-    ${esc(COMPANY_NAME)} | ${esc(COMPANY_PHONE)}
+    <strong>${esc(COMPANY_NAME)}</strong><br>
+    ${esc(COMPANY_ADDRESS)}<br>
+    Contact: ${esc(COMPANY_PHONE)}
    </div>
 
   </div>
