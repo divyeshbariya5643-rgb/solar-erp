@@ -91,6 +91,7 @@ tbody tr:hover { background:#f9fbfc; }
 #auth h2 { text-align:center; color:var(--navy); }
 #globalMsg { padding:0 26px; }
 .empty-state { color:#718292; text-align:center; padding:25px; font-size:14px; }
+.payment-search { margin:0 0 14px; max-width:500px; border:1px solid var(--border); }
 @media(max-width:800px) {
  .app-layout { flex-direction:column; }
  .sidebar { width:100%; padding:12px; border-right:0; border-bottom:1px solid var(--border); }
@@ -344,7 +345,18 @@ tbody tr:hover { background:#f9fbfc; }
         </div>
       </div>
       <div class="panel section-card">
-        <div class="section-title"><h3>Payment Records</h3></div>
+        <div class="section-title">
+          <h3>Payment Records</h3>
+          <span class="muted" id="paymentCount"></span>
+        </div>
+        <input
+          id="paymentSearch"
+          class="payment-search"
+          type="search"
+          placeholder="Search customer, date, amount, mode or transaction ID..."
+          oninput="renderPayments()"
+          autocomplete="off"
+        >
         <div id="paymentList"></div>
       </div>
     </section>
@@ -633,12 +645,61 @@ $("backCustomers").onclick = () => {
 };
 
 function renderPayments() {
-  $("paymentList").innerHTML = paymentsData.length ? `
-    <table><thead><tr><th>Date</th><th>Customer</th><th>Received By</th><th>Amount</th><th>Mode</th><th>Reference</th></tr></thead>
-    <tbody>${paymentsData.map(p=>{
-      const c = customersData.find(x=>x.id===p.customer_id);
-      return `<tr><td>${esc(p.payment_date)}</td><td>${esc(c?.name||"Unknown")}</td><td>${esc(p.received_by)}</td><td>${money(p.amount)}</td><td>${esc(p.payment_mode)}</td><td>${esc(p.reference_no)}</td></tr>`;
-    }).join("")}</tbody></table>` : '<div class="empty-state">No payment records yet.</div>';
+  const searchInput = $("paymentSearch");
+  const search = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+  const filteredPayments = paymentsData.filter(p => {
+    const c = customersData.find(x => x.id === p.customer_id);
+
+    const searchableText = [
+      c?.name,
+      c?.phone,
+      c?.city,
+      p.payment_date,
+      p.received_by,
+      p.amount,
+      p.payment_mode,
+      p.reference_no
+    ].join(" ").toLowerCase();
+
+    return searchableText.includes(search);
+  });
+
+  $("paymentCount").textContent =
+    filteredPayments.length + " of " + paymentsData.length + " records";
+
+  $("paymentList").innerHTML = filteredPayments.length ? `
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Received By</th>
+          <th>Amount</th>
+          <th>Mode</th>
+          <th>Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${filteredPayments.map(p => {
+          const c = customersData.find(x => x.id === p.customer_id);
+
+          return `
+            <tr>
+              <td>${esc(p.payment_date)}</td>
+              <td>${esc(c?.name || "Unknown")}</td>
+              <td>${esc(p.received_by)}</td>
+              <td>${money(p.amount)}</td>
+              <td>${esc(p.payment_mode)}</td>
+              <td>${esc(p.reference_no)}</td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : `<div class="empty-state">${
+    search ? "No matching payment records found." : "No payment records yet."
+  }</div>`;
 }
 
 $("addPayment").onclick = async () => {
