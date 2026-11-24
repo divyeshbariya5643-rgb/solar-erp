@@ -785,11 +785,68 @@ function customerNumberOrNull(id){
  return Number.isFinite(number)?number:null;
 }
 
+function normalizeDuplicateText(value){
+ return String(value??"").trim().toLowerCase().replace(/\s+/g," ");
+}
+
+function normalizeDuplicatePhone(value){
+ const digits=String(value??"").replace(/\D/g,"");
+ return digits||"";
+}
+
+function findDuplicateCustomer(payload,currentId=""){
+ const checks=[
+  {
+   field:"name",
+   label:"Customer Name",
+   normalize:normalizeDuplicateText
+  },
+  {
+   field:"phone",
+   label:"Mobile Number",
+   normalize:normalizeDuplicatePhone
+  },
+  {
+   field:"national_application_number",
+   label:"National Application Number",
+   normalize:normalizeDuplicateText
+  },
+  {
+   field:"consumer_number",
+   label:"Consumer Number",
+   normalize:normalizeDuplicateText
+  }
+ ];
+
+ for(const check of checks){
+  const newValue=check.normalize(payload[check.field]);
+  if(!newValue)continue;
+
+  const existing=customersData.find(c=>{
+   if(currentId && String(c.id)===String(currentId))return false;
+
+   const oldValue=check.normalize(c[check.field]);
+   return oldValue!=="" && oldValue===newValue;
+  });
+
+  if(existing){
+   return {
+    field:check.label,
+    customer:existing.name||"Existing Customer"
+   };
+  }
+ }
+
+ return null;
+}
+
 $("saveCustomer").onclick=async()=>{
  const id=$("editCustomerId").value;
  const name=$("cName").value.trim();
+
  const amountValue=$("cAmount").value.trim();
  const amount=amountValue===""?0:Number(amountValue);
+
  const capacityValue=$("cCapacity").value.trim();
  const capacity=capacityValue===""?null:Number(capacityValue);
 
@@ -797,12 +854,35 @@ $("saveCustomer").onclick=async()=>{
  const panelQty=customerNumberOrNull("cPanelQty");
  const inverterCapacity=customerNumberOrNull("cInverterCapacity");
 
- if(!name){say("Enter customer name.");return}
- if(!Number.isFinite(amount)||amount<0){say("Project amount cannot be negative.");return}
- if(capacity!==null&&(!Number.isFinite(capacity)||capacity<0)){say("Enter a valid system capacity in kW.");return}
- if(panelWatt!==null&&panelWatt<0){say("Enter a valid panel watt.");return}
- if(panelQty!==null&&(!Number.isInteger(panelQty)||panelQty<0)){say("Panel quantity must be a whole number.");return}
- if(inverterCapacity!==null&&inverterCapacity<0){say("Enter a valid inverter capacity.");return}
+ if(!name){
+  say("Enter customer name.");
+  return;
+ }
+
+ if(!Number.isFinite(amount)||amount<0){
+  say("Project amount cannot be negative.");
+  return;
+ }
+
+ if(capacity!==null&&(!Number.isFinite(capacity)||capacity<0)){
+  say("Enter a valid system capacity in kW.");
+  return;
+ }
+
+ if(panelWatt!==null&&panelWatt<0){
+  say("Enter a valid panel watt.");
+  return;
+ }
+
+ if(panelQty!==null&&(!Number.isInteger(panelQty)||panelQty<0)){
+  say("Panel quantity must be a whole number.");
+  return;
+ }
+
+ if(inverterCapacity!==null&&inverterCapacity<0){
+  say("Enter a valid inverter capacity.");
+  return;
+ }
 
  const payload={
   name,
@@ -828,80 +908,125 @@ $("saveCustomer").onclick=async()=>{
   subsidy_status:$("cSubsidyStatus").value||null
  };
 
+ // DUPLICATE CUSTOMER CHECK
+ const duplicate=findDuplicateCustomer(payload,id);
+
+ if(duplicate){
+  say(
+   "Customer Already Exists! Same "+duplicate.field+
+   " is already registered under: "+duplicate.customer
+  );
+  return;
+ }
+
  $("saveCustomer").disabled=true;
  $("saveCustomer").textContent="Saving...";
 
  try{
-  let customerId=id;
-
   if(id){
-   const {error}=await db.from("customers").update(payload).eq("id",id);
-   if(error)throw new Error("Customer update failed: "+error.message);
+   const {error}=await db.from("customers")
+    .update(payload)
+    .eq("id",id);
 
-   const projectRows=projectsData.filter(p=>String(p.customer_id)===String(id));
+   if(error){
+    throw new Error("Customer update failed: "+error.message);
+   }
+
+   const projectRows=projectsData.filter(
+    p=>String(p.customer_id)===String(id)
+   );
 
    if(projectRows.length>1&&amount!==projectAmount(id)){
-    say("Customer details updated, but project amount was not changed because this customer has multiple project records.");
+    say(
+     "Customer details updated, but project amount was not changed because this customer has multiple project records."
+    );
     await refreshData();
     cancelCustomerForm();
     return;
    }
 
-   if(projectRows.length===1&&amount!==Number(projectRows[0].project_amount||0)){
-    const {error:projectError}=await db.from("projects").update({project_amount:amount}).eq("id",projectRows[0].id);
-    if(projectError)throw new Error("Customer updated, but project amount update failed: "+projectError.message);
+   if(
+    projectRows.length===1 &&
+    amount!==Number(projectRows[0].project_amount||0)
+   ){
+    const {error:projectError}=await db.from("projects")
+     .update({project_amount:amount})
+     .eq("id",projectRows[0].id);
+
+    if(projectError){
+     throw new Error(
+      "Customer updated, but project amount update failed: "+
+      projectError.message
+     );
+    }
+
    }else if(projectRows.length===0&&amount>0){
-    const {error:projectError}=await db.from("projects").insert({customer_id:id,project_amount:amount});
-    if(projectError)throw new Error("Customer updated, but project amount save failed: "+projectError.message);
+
+    const {error:projectError}=await db.from("projects")
+     .insert({
+      customer_id:id,
+      project_amount:amount
+     });
+
+    if(projectError){
+     throw new Error(
+      "Customer updated, but project amount save failed: "+
+      projectError.message
+     );
+    }
    }
 
   }else{
-   const {data,error}=await db.from("customers").insert(payload).select().single();
-   if(error)throw new Error("Customer add failed: "+error.message);
 
-   customerId=data.id;
+   const {data,error}=await db.from("customers")
+    .insert(payload)
+    .select()
+    .single();
+
+   if(error){
+    throw new Error("Customer add failed: "+error.message);
+   }
+
+   const customerId=data.id;
 
    if(amount>0){
-    const {error:projectError}=await db.from("projects").insert({customer_id:customerId,project_amount:amount});
-    if(projectError)throw new Error("Customer created, but project save failed: "+projectError.message);
+    const {error:projectError}=await db.from("projects")
+     .insert({
+      customer_id:customerId,
+      project_amount:amount
+     });
+
+    if(projectError){
+     throw new Error(
+      "Customer created, but project save failed: "+
+      projectError.message
+     );
+    }
    }
   }
 
   await refreshData();
   cancelCustomerForm();
-  say(id?"Customer updated successfully.":"Customer added successfully.");
+
+  say(id?
+   "Customer updated successfully.":
+   "Customer added successfully."
+  );
 
  }catch(error){
+
   say(error.message||"Customer save failed.");
+
  }finally{
+
   $("saveCustomer").disabled=false;
-  $("saveCustomer").textContent=$("editCustomerId").value?"Update Customer":"Save Customer";
+
+  $("saveCustomer").textContent=
+   $("editCustomerId").value?
+   "Update Customer":
+   "Save Customer";
  }
 };
-
-window.openDealerCustomers=function(id){
- const dealer=dealersData.find(d=>String(d.id)===String(id));
- if(!dealer){say("Dealer not found.");return}
- const linked=customersData.filter(c=>String(c.dealer_id)===String(id));
-
- $("dealerCustomersTitle").textContent=dealer.name+" — Customers";
- $("dealerCustomersInfo").textContent=(dealer.phone||"No phone")+" | "+(dealer.city||"No city")+" | "+linked.length+" customer(s)";
-
- $("dealerCustomersList").innerHTML=linked.length?`
- <table><thead><tr><th>Customer</th><th>Phone</th><th>City</th><th>Capacity (kW)</th><th>Project Amount</th><th>Paid</th><th>Balance</th><th>Details</th></tr></thead>
- <tbody>${linked.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone||"—")}</td><td>${esc(c.city||"—")}</td>
- <td>${c.system_capacity==null?"—":esc(c.system_capacity)}</td>
- <td>${money(projectAmount(c.id))}</td><td>${money(totalPaid(c.id))}</td><td>${money(balance(c.id))}</td>
- <td><button class="small" onclick="openCustomer('${esc(c.id)}')">Open</button></td></tr>`).join("")}</tbody></table>`:
- '<div class="empty-state">No customers are linked to this dealer yet.</div>';
-
- show("dealerCustomersPanel",true);
- $("dealerCustomersPanel").scrollIntoView({behavior:"smooth",block:"start"});
-};
-
-window.closeDealerCustomers=function(){show("dealerCustomersPanel",false)};
-
-window.openCustomer=function(id){
  selectedCustomer=id;
  const c=customersData.find(x=>String(x.id)===String(id));
  if(!c){say("Customer not found.");return}
