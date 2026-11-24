@@ -104,6 +104,26 @@ tbody tr:hover{background:#f9fbfc}
 .detail-field{padding:12px;background:#f5f8fa;border:1px solid var(--border);border-radius:8px;min-width:0}
 .detail-field small{display:block;color:#718292;margin-bottom:6px;font-size:11px}
 .detail-field strong{display:block;color:var(--navy-dark);font-size:14px;overflow-wrap:anywhere}
+/* Consistent medium sizing for Dealer and Customer sections */
+#dealers input,
+#dealers select,
+#dealers textarea,
+#customers input,
+#customers select,
+#customers textarea {
+  font-size:14px;
+  padding:9px 11px;
+  min-height:40px;
+}
+#dealers label,
+#customers label {font-size:13px}
+#dealers button,
+#customers button {font-size:13px;padding:9px 12px}
+#dealers .small,
+#customers .small {font-size:12px;padding:7px 10px}
+#dealers td,#dealers th,
+#customers td,#customers th {font-size:13px;padding:10px 9px}
+
 @media(max-width:600px){.form-actions button{flex:1}}
 @media(max-width:800px){
  .app-layout{flex-direction:column}
@@ -1027,6 +1047,7 @@ $("saveCustomer").onclick=async()=>{
    "Save Customer";
  }
 };
+window.openCustomer=function(id){
  selectedCustomer=id;
  const c=customersData.find(x=>String(x.id)===String(id));
  if(!c){say("Customer not found.");return}
