@@ -93,6 +93,10 @@ tbody tr:hover{background:#f9fbfc}
 .item-row input,.item-row select{margin:4px 0 9px}
 .item-row button{margin-bottom:5px}
 .challan-search{max-width:500px}
+.primary-blue{background:#1769d2;color:#fff}
+.form-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.dealer-customer-panel{margin-top:18px}
+@media(max-width:600px){.form-actions button{flex:1}}
 
 @media(max-width:800px){
  .app-layout{flex-direction:column}
@@ -238,19 +242,35 @@ tbody tr:hover{background:#f9fbfc}
     </div>
   </div>
   <div class="panel section-card"><div class="section-title"><h3>Dealer List</h3></div><div id="dealerList"></div></div>
+  <div id="dealerCustomersPanel" class="panel dealer-customer-panel hidden">
+    <div class="section-title">
+      <div><h3 id="dealerCustomersTitle">Dealer Customers</h3><p class="muted" id="dealerCustomersInfo"></p></div>
+      <button type="button" class="secondary small" onclick="closeDealerCustomers()">Close</button>
+    </div>
+    <div id="dealerCustomersList"></div>
+  </div>
 </section>
 
 <section id="customers" class="tab">
-  <div class="page-heading"><div><h2>Customer Management</h2><p>Manage dealer-linked and company direct customers</p></div></div>
-  <div class="panel">
-    <div class="section-title"><h3>Add New Customer</h3></div>
+  <div class="page-heading">
+    <div><h2>Customer Management</h2><p>Manage dealer-linked and company direct customers</p></div>
+    <button id="showCustomerForm" class="primary-blue">+ Add Customer</button>
+  </div>
+  <div id="customerFormPanel" class="panel hidden">
+    <div class="section-title"><h3 id="customerFormTitle">Add New Customer</h3></div>
+    <input id="editCustomerId" type="hidden">
     <div class="formgrid">
-      <input id="cName" placeholder="Customer name">
-      <input id="cPhone" placeholder="Phone">
-      <input id="cCity" placeholder="City">
-      <select id="cDealer"><option value="">Company Direct Customer</option></select>
-      <input id="cAmount" type="number" min="0" placeholder="Project Amount ₹">
-      <button id="addCustomer">+ Add Customer</button>
+      <div><label>Customer Name</label><input id="cName" placeholder="Customer name"></div>
+      <div><label>Phone</label><input id="cPhone" type="tel" placeholder="Phone"></div>
+      <div><label>City</label><input id="cCity" placeholder="City"></div>
+      <div><label>Dealer</label><select id="cDealer"><option value="">Company Direct Customer</option></select></div>
+      <div><label>System Capacity (kW)</label><input id="cCapacity" type="number" min="0" step="0.01" placeholder="System Capacity kW"></div>
+      <div><label>Project Amount (₹)</label><input id="cAmount" type="number" min="0" step="0.01" placeholder="Project Amount ₹"></div>
+    </div>
+    <div id="projectEditNote" class="auth-note"></div>
+    <div class="form-actions">
+      <button id="saveCustomer" type="button">Save Customer</button>
+      <button id="cancelCustomerForm" type="button" class="secondary">Cancel</button>
     </div>
   </div>
   <div class="panel section-card"><div class="section-title"><h3>Customer List</h3></div><div id="customerList"></div></div>
@@ -535,7 +555,8 @@ function renderDealers(){
  <tbody>${dealersData.map(d=>{
   const count=customersData.filter(c=>c.dealer_id===d.id).length;
   return `<tr><td>${esc(d.name)}</td><td>${esc(d.phone)}</td><td>${esc(d.city)}</td><td>${count}</td>
-  <td><button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
+  <td><button class="small primary-blue" onclick="openDealerCustomers('${esc(d.id)}')">Open</button>
+  <button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
   <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove</button></td></tr>`;
  }).join("")}</tbody></table>`:'<div class="empty-state">No dealers added yet.</div>';
  $("cDealer").innerHTML='<option value="">Company Direct Customer</option>'+dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
@@ -578,31 +599,126 @@ window.removeDealer=async function(id){
 
 function renderCustomers(){
  $("customerList").innerHTML=customersData.length?`
- <table><thead><tr><th>Customer</th><th>Dealer</th><th>Project</th><th>Paid</th><th>Balance</th><th>Details</th></tr></thead>
+ <table><thead><tr><th>Customer</th><th>Dealer</th><th>Capacity (kW)</th><th>Project</th><th>Paid</th><th>Balance</th><th>Actions</th></tr></thead>
  <tbody>${customersData.map(c=>`<tr><td>${esc(c.name)}</td><td>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</td>
+ <td>${c.system_capacity===null||c.system_capacity===undefined?"—":esc(c.system_capacity)}</td>
  <td>${money(projectAmount(c.id))}</td><td>${money(totalPaid(c.id))}</td><td>${money(balance(c.id))}</td>
- <td><button class="small" onclick="openCustomer('${c.id}')">Open</button></td></tr>`).join("")}</tbody></table>`:
+ <td><button class="secondary small" onclick="editCustomer('${esc(c.id)}')">Edit</button>
+ <button class="small" onclick="openCustomer('${esc(c.id)}')">Open</button></td></tr>`).join("")}</tbody></table>`:
  '<div class="empty-state">No customers added yet.</div>';
- $("pCustomer").innerHTML='<option value="">Select Customer</option>'+customersData.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+ $("pCustomer").innerHTML='<option value="">Select Customer</option>'+customersData.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
 }
 
-$("addCustomer").onclick=async()=>{
+function resetCustomerForm(){
+ $("editCustomerId").value="";
+ $("customerFormTitle").textContent="Add New Customer";
+ $("saveCustomer").textContent="Save Customer";
+ ["cName","cPhone","cCity","cCapacity","cAmount"].forEach(id=>$(id).value="");
+ $("cDealer").value="";
+ $("cAmount").disabled=false;
+ $("projectEditNote").textContent="";
+}
+
+window.openCustomerForm=function(){
+ resetCustomerForm();
+ show("customerFormPanel",true);
+ $("cName").focus();
+};
+
+window.cancelCustomerForm=function(){
+ resetCustomerForm();
+ show("customerFormPanel",false);
+};
+
+window.editCustomer=function(id){
+ const c=customersData.find(x=>String(x.id)===String(id));
+ if(!c){say("Customer not found.");return}
+ resetCustomerForm();
+ $("editCustomerId").value=c.id;
+ $("customerFormTitle").textContent="Edit Customer: "+c.name;
+ $("saveCustomer").textContent="Update Customer";
+ $("cName").value=c.name||"";
+ $("cPhone").value=c.phone||"";
+ $("cCity").value=c.city||"";
+ $("cDealer").value=c.dealer_id||"";
+ $("cCapacity").value=c.system_capacity??"";
+ $("cAmount").value=projectAmount(c.id);
+ const projectRows=projectsData.filter(p=>String(p.customer_id)===String(c.id));
+ $("projectEditNote").textContent=projectRows.length>1
+  ?"This customer has multiple project records. Project Amount is shown as the total and cannot be changed here, to protect existing project/payment history. Other customer details and capacity can still be updated."
+  :"Project amount can be updated. Existing payment records will remain unchanged.";
+ $("cAmount").disabled=projectRows.length>1;
+ show("customerFormPanel",true);
+ $("cName").focus();
+};
+
+$("showCustomerForm").onclick=openCustomerForm;
+$("cancelCustomerForm").onclick=cancelCustomerForm;
+
+$("saveCustomer").onclick=async()=>{
+ const id=$("editCustomerId").value;
  const name=$("cName").value.trim();
  const amount=Number($("cAmount").value||0);
+ const capacityValue=$("cCapacity").value.trim();
+ const capacity=capacityValue===""?null:Number(capacityValue);
  if(!name){say("Enter customer name.");return}
- if(amount<0){say("Project amount cannot be negative.");return}
- const {data,error}=await db.from("customers").insert({
-  name,phone:$("cPhone").value.trim(),city:$("cCity").value.trim(),dealer_id:$("cDealer").value||null
- }).select().single();
- if(error){say(error.message);return}
- if(amount>0){
-  const result=await db.from("projects").insert({customer_id:data.id,project_amount:amount});
-  if(result.error){say("Customer created, but project save failed: "+result.error.message);return}
+ if(!Number.isFinite(amount)||amount<0){say("Project amount cannot be negative.");return}
+ if(capacity!==null&&(!Number.isFinite(capacity)||capacity<0)){say("Enter a valid system capacity in kW.");return}
+ const payload={
+  name,
+  phone:$("cPhone").value.trim()||null,
+  city:$("cCity").value.trim()||null,
+  dealer_id:$("cDealer").value||null,
+  system_capacity:capacity
+ };
+ let customerId=id;
+ if(id){
+  const {error}=await db.from("customers").update(payload).eq("id",id);
+  if(error){say("Customer update failed: "+error.message);return}
+  const projectRows=projectsData.filter(p=>String(p.customer_id)===String(id));
+  if(projectRows.length>1&&amount!==projectAmount(id)){
+   say("Customer details updated, but project amount was not changed because this customer has multiple project records.");
+   await refreshData();cancelCustomerForm();return;
+  }
+  if(projectRows.length===1&&amount!==Number(projectRows[0].project_amount||0)){
+   const {error:projectError}=await db.from("projects").update({project_amount:amount}).eq("id",projectRows[0].id);
+   if(projectError){say("Customer details updated, but project amount update failed: "+projectError.message);await refreshData();return}
+  }else if(projectRows.length===0&&amount>0){
+   const {error:projectError}=await db.from("projects").insert({customer_id:id,project_amount:amount});
+   if(projectError){say("Customer details updated, but project amount save failed: "+projectError.message);await refreshData();return}
+  }
+ }else{
+  const {data,error}=await db.from("customers").insert(payload).select().single();
+  if(error){say("Customer add failed: "+error.message);return}
+  customerId=data.id;
+  if(amount>0){
+   const {error:projectError}=await db.from("projects").insert({customer_id:customerId,project_amount:amount});
+   if(projectError){say("Customer created, but project save failed: "+projectError.message);await refreshData();return}
+  }
  }
- ["cName","cPhone","cCity","cAmount"].forEach(id=>$(id).value="");
- $("cDealer").value="";
- await refreshData();say("Customer added successfully.");
+ await refreshData();
+ cancelCustomerForm();
+ say(id?"Customer updated successfully.":"Customer added successfully.");
 };
+
+window.openDealerCustomers=function(id){
+ const dealer=dealersData.find(d=>String(d.id)===String(id));
+ if(!dealer){say("Dealer not found.");return}
+ const linked=customersData.filter(c=>String(c.dealer_id)===String(id));
+ $("dealerCustomersTitle").textContent=dealer.name+" — Customers";
+ $("dealerCustomersInfo").textContent=(dealer.phone||"No phone")+" | "+(dealer.city||"No city")+" | "+linked.length+" customer(s)";
+ $("dealerCustomersList").innerHTML=linked.length?`
+ <table><thead><tr><th>Customer</th><th>Phone</th><th>City</th><th>Capacity (kW)</th><th>Project Amount</th><th>Paid</th><th>Balance</th><th>Details</th></tr></thead>
+ <tbody>${linked.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone||"—")}</td><td>${esc(c.city||"—")}</td>
+ <td>${c.system_capacity===null||c.system_capacity===undefined?"—":esc(c.system_capacity)}</td>
+ <td>${money(projectAmount(c.id))}</td><td>${money(totalPaid(c.id))}</td><td>${money(balance(c.id))}</td>
+ <td><button class="small" onclick="openCustomer('${esc(c.id)}')">Open</button></td></tr>`).join("")}</tbody></table>`:
+ '<div class="empty-state">No customers are linked to this dealer yet.</div>';
+ show("dealerCustomersPanel",true);
+ $("dealerCustomersPanel").scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+window.closeDealerCustomers=function(){show("dealerCustomersPanel",false)};
 
 window.openCustomer=function(id){
  selectedCustomer=id;
@@ -613,7 +729,7 @@ window.openCustomer=function(id){
  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.remove("active"));
  $("pageTitle").textContent="Customer Details";
  $("detailName").textContent=c.name;
- $("detailInfo").textContent=(c.dealer_id?"Dealer: "+dealerName(c.dealer_id):"Company Direct")+" | Phone: "+(c.phone||"—")+" | City: "+(c.city||"—");
+ $("detailInfo").textContent=(c.dealer_id?"Dealer: "+dealerName(c.dealer_id):"Company Direct")+" | Phone: "+(c.phone||"—")+" | City: "+(c.city||"—")+" | System Capacity: "+(c.system_capacity===null||c.system_capacity===undefined?"—":c.system_capacity+" kW");
  $("detailProject").textContent=money(projectAmount(id));
  $("detailPaid").textContent=money(totalPaid(id));
  $("detailBalance").textContent=money(balance(id));
