@@ -285,7 +285,20 @@ tbody tr:hover{background:#f9fbfc}
     <button id="showCustomerForm" class="primary-blue">+ Add Customer</button>
   </div>
 
-  <div id="customerFormPanel" class="panel hidden">
+
+  <div class="panel section-card">
+    <div class="section-title"><h3>Customer List</h3></div>
+    <div id="customerList" class="customer-table-wrap"></div>
+  </div>
+</section>
+
+
+<section id="customerFormPage" class="tab">
+  <div class="page-heading">
+    <div><h2 id="customerFormPageHeading">Add New Customer</h2><p>Enter customer, solar equipment, payment and project information</p></div>
+    <button type="button" class="secondary small" id="backFromCustomerForm">← Back to Customers</button>
+  </div>
+  <div id="customerFormPanel" class="panel">
     <div class="section-title"><h3 id="customerFormTitle">Add New Customer</h3></div>
     <input id="editCustomerId" type="hidden">
 
@@ -366,11 +379,9 @@ tbody tr:hover{background:#f9fbfc}
     </div>
   </div>
 
-  <div class="panel section-card">
-    <div class="section-title"><h3>Customer List</h3></div>
-    <div id="customerList" class="customer-table-wrap"></div>
-  </div>
 </section>
+
+
 
 <section id="customerDetails" class="tab">
   <div class="page-heading">
@@ -378,7 +389,7 @@ tbody tr:hover{background:#f9fbfc}
     <button class="secondary small" id="backCustomers">← Back to Customers</button>
   </div>
   <div class="panel" id="detailInfo"></div>
-  <div class="grid section-card">
+  <div class="grid section-card" id="customerFinancialStats">
     <div class="stat-card"><div class="stat-label">Project Amount</div><div class="stat" id="detailProject">₹0</div></div>
     <div class="stat-card green"><div class="stat-label">Total Paid</div><div class="stat good" id="detailPaid">₹0</div></div>
     <div class="stat-card orange"><div class="stat-label">Remaining Balance</div><div class="stat" id="detailBalance">₹0</div></div>
@@ -700,9 +711,9 @@ function renderCustomers(){
   <td>${esc(c.phone||"—")}</td>
   <td>${esc(c.city||"—")}</td>
   <td>${c.system_capacity==null?"—":esc(c.system_capacity)}</td>
-  <td>${money(projectAmount(c.id))}</td>
-  <td>${money(totalPaid(c.id))}</td>
-  <td>${money(balance(c.id))}</td>
+  <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(projectAmount(c.id))}</td>
+  <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(totalPaid(c.id))}</td>
+  <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(balance(c.id))}</td>
   <td>${esc(c.installation_status||"Pending")}</td>
   <td>${esc(c.subsidy_status||"Pending")}</td>
   <td>
@@ -755,13 +766,16 @@ function resetCustomerForm(){
 
 window.openCustomerForm=function(){
  resetCustomerForm();
+ $("customerFormTitle").textContent="Add New Customer";
+ $("customerFormPageHeading").textContent="Add New Customer";
  show("customerFormPanel",true);
+ goTab("customerFormPage");
  $("cName").focus();
 };
 
 window.cancelCustomerForm=function(){
  resetCustomerForm();
- show("customerFormPanel",false);
+ goTab("customers");
 };
 
 window.editCustomer=function(id){
@@ -803,9 +817,11 @@ window.editCustomer=function(id){
   ?"This customer has multiple project records. Project Amount is shown as the total and cannot be changed here, to protect existing project/payment history. Other customer details and capacity can still be updated."
   :"Project amount can be updated. Existing payment records will remain unchanged.";
 
+ $("customerFormPageHeading").textContent="Edit Customer";
  updateProjectAmountAvailability();
 
  show("customerFormPanel",true);
+ goTab("customerFormPage");
  $("cName").focus();
 };
 
@@ -1099,6 +1115,8 @@ window.openCustomer=function(id){
   </div>
  `;
 
+ const isCashCustomer=String(c.payment_type||"").trim().toLowerCase()==="cash";
+ show("customerFinancialStats",!isCashCustomer);
  $("detailProject").textContent=money(projectAmount(id));
  $("detailPaid").textContent=money(totalPaid(id));
  $("detailBalance").textContent=money(balance(id));
@@ -1505,7 +1523,7 @@ window.goTab=function(id){
  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
  const titles={
   dashboard:"Dashboard",dealers:"Dealers",customers:"Customers",
-  payments:"Payments",customerDetails:"Customer Details",dispatch:"Dispatch Challan"
+  customerFormPage:"Customer Form",payments:"Payments",customerDetails:"Customer Details",dispatch:"Dispatch Challan"
  };
  $("pageTitle").textContent=titles[id]||"Solar ERP";
 };
@@ -1513,6 +1531,8 @@ window.goTab=function(id){
 document.querySelectorAll(".side-nav button").forEach(button=>{
  button.onclick=()=>goTab(button.dataset.tab);
 });
+
+$("backFromCustomerForm").onclick=cancelCustomerForm;
 
 $("pDate").value=new Date().toISOString().slice(0,10);
 resetChallanForm();
