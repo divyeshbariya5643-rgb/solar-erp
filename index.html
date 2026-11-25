@@ -157,36 +157,36 @@ tbody tr:hover{background:#f9fbfc}
 
 <section id="auth" class="panel auth-panel hidden">
   <img class="login-logo" src="LOGO.Png.jpeg" alt="Company Logo">
-  <h2>Team Login</h2>
+  <h2>Team Login (ટીમ લોગિન)</h2>
   <div id="passwordPanel">
-    <label>Registered Email</label>
+    <label>Registered Email (રજિસ્ટર્ડ ઇમેઇલ)</label>
     <input id="loginId" type="email" autocomplete="username" placeholder="Enter your registered email">
-    <label>Password</label>
+    <label>Password (પાસવર્ડ)</label>
     <input id="password" type="password" autocomplete="current-password" placeholder="Enter password">
     <div class="auth-actions">
       <label><input id="rememberMe" type="checkbox"> Remember Me</label>
-      <button type="button" id="forgotPassword" class="auth-link">Forgot Password?</button>
+      <button type="button" id="forgotPassword" class="auth-link">Forgot Password? (પાસવર્ડ ભૂલી ગયા?)</button>
     </div>
-    <button id="login" type="button">Sign In</button>
+    <button id="login" type="button">Sign In (લોગ ઇન કરો)</button>
   </div>
 
   <div id="resetPanel" class="hidden">
-    <label>Registered Email</label>
+    <label>Registered Email (રજિસ્ટર્ડ ઇમેઇલ)</label>
     <input id="resetEmail" type="email" autocomplete="email" placeholder="Enter your account email">
-    <button id="sendReset" type="button">Send 8-Digit OTP</button>
+    <button id="sendReset" type="button">Send 8-Digit OTP (8 અંકનો OTP મોકલો)</button>
     <div id="resetOtpPanel" class="hidden">
-      <label>Enter 8-Digit OTP</label>
+      <label>Enter 8-Digit OTP (8 અંકનો OTP દાખલ કરો)</label>
       <input id="resetOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter OTP from email">
-      <button id="verifyResetOtp" type="button">Verify OTP</button>
+      <button id="verifyResetOtp" type="button">Verify OTP (OTP ચકાસો)</button>
     </div>
     <div id="newPasswordPanel" class="hidden">
-      <label>New Password</label>
+      <label>New Password (નવો પાસવર્ડ)</label>
       <input id="newPassword" type="password" autocomplete="new-password" placeholder="Enter new password">
-      <label>Confirm New Password</label>
+      <label>Confirm New Password (નવા પાસવર્ડની પુષ્ટિ કરો)</label>
       <input id="confirmNewPassword" type="password" autocomplete="new-password" placeholder="Confirm new password">
-      <button id="saveNewPassword" type="button">Update Password</button>
+      <button id="saveNewPassword" type="button">Update Password (પાસવર્ડ અપડેટ કરો)</button>
     </div>
-    <button type="button" id="backToLogin" class="auth-link">← Back to Login</button>
+    <button type="button" id="backToLogin" class="auth-link">← Back to Login (લોગિન પર પાછા જાઓ)</button>
     <div class="auth-note">An 8-digit password reset OTP will be sent to your registered email address.</div>
   </div>
   <div id="authMsg" class="msg" role="status" aria-live="polite"></div>
@@ -208,11 +208,11 @@ tbody tr:hover{background:#f9fbfc}
 
   <div class="sidebar-label">MAIN MENU</div>
   <nav class="side-nav">
-    <button class="active" data-tab="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
-    <button data-tab="dealers"><span class="nav-icon">♙</span>Dealers</button>
-    <button data-tab="customers"><span class="nav-icon">♧</span>Customers</button>
-    <button data-tab="payments"><span class="nav-icon">₹</span>Payments</button>
-    <button data-tab="dispatch"><span class="nav-icon">🚚</span>Dispatch Challan</button>
+    <button class="active" data-tab="dashboard"><span class="nav-icon">▦</span>Dashboard (ડેશબોર્ડ)</button>
+    <button data-tab="dealers"><span class="nav-icon">♙</span>Dealers (ડીલરો)</button>
+    <button data-tab="customers"><span class="nav-icon">♧</span>Customers (ગ્રાહકો)</button>
+    <button data-tab="payments"><span class="nav-icon">₹</span>Payments (ચુકવણીઓ)</button>
+    <button data-tab="dispatch"><span class="nav-icon">🚚</span>Dispatch Challan (ડિસ્પેચ ચલણ)</button>
   </nav>
 
   <div class="sidebar-bottom">
@@ -226,10 +226,10 @@ tbody tr:hover{background:#f9fbfc}
 
 <div class="main-area">
 <header class="topbar">
-  <h2 id="pageTitle">Dashboard</h2>
+  <h2 id="pageTitle">Dashboard (ડેશબોર્ડ)</h2>
   <div class="topbar-right">
     <div class="user-chip">● Team Workspace</div>
-    <button id="logout" class="secondary small">Log out</button>
+    <button id="logout" class="secondary small">Log out (લોગ આઉટ)</button>
   </div>
 </header>
 
@@ -238,7 +238,7 @@ tbody tr:hover{background:#f9fbfc}
 <section id="dashboard" class="tab active-page">
   <div class="page-heading">
     <div>
-      <h2>Dashboard Overview</h2>
+      <h2>Dashboard Overview (ડેશબોર્ડની માહિતી)</h2>
       <p>Welcome to Siddhivinayak Engineering Company Solar ERP</p>
       <p class="contact-line">Contact: 9905954548 / 9904954549</p>
     </div>
@@ -248,31 +248,31 @@ tbody tr:hover{background:#f9fbfc}
     <div class="stat-card orange"><div class="stat-icon">♧</div><div class="stat-label">Total Customers</div><div class="stat" id="customerCount">0</div></div>
     <div class="stat-card"><div class="stat-icon">☀</div><div class="stat-label">Total Project Value</div><div class="stat" id="projectTotal">₹0</div></div>
     <div class="stat-card brown"><div class="stat-icon">◷</div><div class="stat-label">Total Outstanding</div><div class="stat" id="outstanding">₹0</div></div>
-    <div class="stat-card green"><div class="stat-icon">✓</div><div class="stat-label">Received by Company</div><div class="stat good" id="companyReceived">₹0</div></div>
+    <div class="stat-card green"><div class="stat-icon">✓</div><div class="stat-label">Received by Company (કંપની દ્વારા પ્રાપ્ત)</div><div class="stat good" id="companyReceived">₹0</div></div>
     <div class="stat-card orange"><div class="stat-icon">₹</div><div class="stat-label">Received by Dealers</div><div class="stat" id="dealerReceived">₹0</div></div>
   </div>
   <div class="panel section-card">
-    <div class="section-title"><h3>Recent Payments</h3><button class="secondary small" onclick="goTab('payments')">View All Payments</button></div>
+    <div class="section-title"><h3>Recent Payments (તાજેતરની ચુકવણીઓ)</h3><button class="secondary small" onclick="goTab('payments')">View All Payments (બધી ચુકવણીઓ જુઓ)</button></div>
     <div id="recentPayments" class="empty-state">No payment records available.</div>
   </div>
 </section>
 
 <section id="dealers" class="tab">
-  <div class="page-heading"><div><h2>Dealer Management</h2><p>Add, edit and manage your solar dealers</p></div></div>
+  <div class="page-heading"><div><h2>Dealer Management (ડીલર વ્યવસ્થાપન)</h2><p>Add, edit and manage your solar dealers</p></div></div>
   <div class="panel">
-    <div class="section-title"><h3>Add New Dealer</h3></div>
+    <div class="section-title"><h3>Add New Dealer (નવો ડીલર ઉમેરો)</h3></div>
     <div class="formgrid">
       <input id="dName" placeholder="Dealer name">
-      <input id="dPhone" placeholder="Phone">
-      <input id="dCity" placeholder="City">
-      <button id="addDealer">+ Add Dealer</button>
+      <input id="dPhone" placeholder="Phone (ફોન નંબર)">
+      <input id="dCity" placeholder="City (શહેર)">
+      <button id="addDealer">+ Add Dealer (ડીલર ઉમેરો)</button>
     </div>
   </div>
-  <div class="panel section-card"><div class="section-title"><h3>Dealer List</h3></div><div id="dealerList"></div></div>
+  <div class="panel section-card"><div class="section-title"><h3>Dealer List (ડીલરોની યાદી)</h3></div><div id="dealerList"></div></div>
   <div id="dealerCustomersPanel" class="panel dealer-customer-panel hidden">
     <div class="section-title">
-      <div><h3 id="dealerCustomersTitle">Dealer Customers</h3><p class="muted" id="dealerCustomersInfo"></p></div>
-      <button type="button" class="secondary small" onclick="closeDealerCustomers()">Close</button>
+      <div><h3 id="dealerCustomersTitle">Dealer Customers (ડીલરના ગ્રાહકો)</h3><p class="muted" id="dealerCustomersInfo"></p></div>
+      <button type="button" class="secondary small" onclick="closeDealerCustomers()">Close (બંધ કરો)</button>
     </div>
     <div id="dealerCustomersList"></div>
   </div>
@@ -281,13 +281,13 @@ tbody tr:hover{background:#f9fbfc}
 <!-- UPDATED CUSTOMER MANAGEMENT -->
 <section id="customers" class="tab">
   <div class="page-heading">
-    <div><h2>Customer Management</h2><p>Manage dealer-linked and company direct customers</p></div>
-    <button id="showCustomerForm" class="primary-blue">+ Add Customer</button>
+    <div><h2>Customer Management (ગ્રાહક વ્યવસ્થાપન)</h2><p>Manage dealer-linked and company direct customers</p></div>
+    <button id="showCustomerForm" class="primary-blue">+ Add Customer (ગ્રાહક ઉમેરો)</button>
   </div>
 
 
   <div class="panel section-card">
-    <div class="section-title"><h3>Customer List</h3></div>
+    <div class="section-title"><h3>Customer List (ગ્રાહકોની યાદી)</h3></div>
     <div id="customerList" class="customer-table-wrap"></div>
   </div>
 </section>
@@ -295,87 +295,87 @@ tbody tr:hover{background:#f9fbfc}
 
 <section id="customerFormPage" class="tab">
   <div class="page-heading">
-    <div><h2 id="customerFormPageHeading">Add New Customer</h2><p>Enter customer, solar equipment, payment and project information</p></div>
-    <button type="button" class="secondary small" id="backFromCustomerForm">← Back to Customers</button>
+    <div><h2 id="customerFormPageHeading">Add New Customer (નવો ગ્રાહક ઉમેરો)</h2><p>Enter customer, solar equipment, payment and project information</p></div>
+    <button type="button" class="secondary small" id="backFromCustomerForm">← Back to Customers (ગ્રાહકોની યાદીમાં પાછા જાઓ)</button>
   </div>
   <div id="customerFormPanel" class="panel">
-    <div class="section-title"><h3 id="customerFormTitle">Add New Customer</h3></div>
+    <div class="section-title"><h3 id="customerFormTitle">Add New Customer (નવો ગ્રાહક ઉમેરો)</h3></div>
     <input id="editCustomerId" type="hidden">
 
-    <h4>Customer Information</h4>
+    <h4>Customer Information (ગ્રાહકની માહિતી)</h4>
     <div class="formgrid">
-      <div><label>Customer Name *</label><input id="cName" placeholder="Customer name"></div>
-      <div><label>Phone</label><input id="cPhone" type="tel" placeholder="Phone number"></div>
-      <div><label>City</label><input id="cCity" placeholder="City"></div>
-      <div><label>District</label><input id="cDistrict" placeholder="District"></div>
-      <div><label>Dealer</label><select id="cDealer"><option value="">Company Direct Customer</option></select></div>
-      <div><label>System Capacity (kW)</label><input id="cCapacity" type="number" min="0" step="0.01" placeholder="System Capacity kW"></div>
-      <div><label>National Application Number</label><input id="cNationalApp" placeholder="Application number"></div>
-      <div><label>Consumer Number</label><input id="cConsumer" placeholder="Consumer number"></div>
+      <div><label>Customer Name * (ગ્રાહકનું નામ)</label><input id="cName" placeholder="Customer name (ગ્રાહકનું નામ)"></div>
+      <div><label>Phone (ફોન નંબર)</label><input id="cPhone" type="tel" placeholder="Phone number (ફોન નંબર)"></div>
+      <div><label>City (શહેર)</label><input id="cCity" placeholder="City (શહેર)"></div>
+      <div><label>District (જિલ્લો)</label><input id="cDistrict" placeholder="District (જિલ્લો)"></div>
+      <div><label>Dealer (ડીલર)</label><select id="cDealer"><option value="">Company Direct Customer (કંપનીનો સીધો ગ્રાહક)</option></select></div>
+      <div><label>System Capacity (kW) (સિસ્ટમ ક્ષમતા)</label><input id="cCapacity" type="number" min="0" step="0.01" placeholder="System Capacity kW (સિસ્ટમ ક્ષમતા)"></div>
+      <div><label>National Application Number (નેશનલ એપ્લિકેશન નંબર)</label><input id="cNationalApp" placeholder="Application number (અરજી નંબર)"></div>
+      <div><label>Consumer Number (કન્ઝ્યુમર નંબર)</label><input id="cConsumer" placeholder="Consumer number (કન્ઝ્યુમર નંબર)"></div>
     </div>
 
-    <h4>Solar Panel Details</h4>
+    <h4>Solar Panel Details (સોલાર પેનલની વિગતો)</h4>
     <div class="formgrid">
-      <div><label>Panel Company</label><input id="cPanelCompany" placeholder="Panel company"></div>
-      <div><label>Panel Watt</label><input id="cPanelWatt" type="number" min="0" step="1" placeholder="e.g. 550"></div>
-      <div><label>Panel Quantity</label><input id="cPanelQty" type="number" min="0" step="1" placeholder="Number of panels"></div>
+      <div><label>Panel Company (પેનલ કંપની)</label><input id="cPanelCompany" placeholder="Panel company (પેનલ કંપની)"></div>
+      <div><label>Panel Watt (પેનલ વોટ)</label><input id="cPanelWatt" type="number" min="0" step="1" placeholder="e.g. 550 (ઉદાહરણ: 550)"></div>
+      <div><label>Panel Quantity (પેનલની સંખ્યા)</label><input id="cPanelQty" type="number" min="0" step="1" placeholder="Number of panels (પેનલની સંખ્યા)"></div>
     </div>
 
-    <h4>Inverter Details</h4>
+    <h4>Inverter Details (ઇન્વર્ટરની વિગતો)</h4>
     <div class="formgrid">
-      <div><label>Inverter Company</label><input id="cInverterCompany" placeholder="Inverter company"></div>
-      <div><label>Inverter Model</label><input id="cInverterModel" placeholder="Inverter model"></div>
-      <div><label>Inverter Capacity (kW)</label><input id="cInverterCapacity" type="number" min="0" step="0.01" placeholder="Inverter capacity"></div>
+      <div><label>Inverter Company (ઇન્વર્ટર કંપની)</label><input id="cInverterCompany" placeholder="Inverter company (ઇન્વર્ટર કંપની)"></div>
+      <div><label>Inverter Model (ઇન્વર્ટર મોડેલ)</label><input id="cInverterModel" placeholder="Inverter model (ઇન્વર્ટર મોડેલ)"></div>
+      <div><label>Inverter Capacity (kW) (ઇન્વર્ટરની ક્ષમતા)</label><input id="cInverterCapacity" type="number" min="0" step="0.01" placeholder="Inverter capacity (ઇન્વર્ટરની ક્ષમતા)"></div>
     </div>
 
-    <h4>Project & Payment Details</h4>
+    <h4>Project & Payment Details (પ્રોજેક્ટ અને ચુકવણીની વિગતો)</h4>
     <div class="formgrid">
       <div>
-        <label>Payment Mode</label>
+        <label>Payment Mode (ચુકવણીનો પ્રકાર)</label>
         <select id="cPaymentType">
-          <option value="">Select Payment Mode</option>
-          <option>Finance</option>
-          <option>JanSamarth</option>
-          <option>Cash</option>
+          <option value="">Select Payment Mode (ચુકવણીનો પ્રકાર પસંદ કરો)</option>
+          <option>Finance (ફાઇનાન્સ)</option>
+          <option>JanSamarth (જનસમર્થ)</option>
+          <option>Cash (રોકડ)</option>
         </select>
       </div>
-      <div><label>Project Amount (₹)</label><input id="cAmount" type="number" min="0" step="0.01" placeholder="Project Amount ₹"></div>
+      <div><label>Project Amount (₹) (પ્રોજેક્ટની રકમ)</label><input id="cAmount" type="number" min="0" step="0.01" placeholder="Project Amount ₹ (પ્રોજેક્ટની રકમ)"></div>
     </div>
 
-    <h4>Installation & Subsidy Status</h4>
+    <h4>Installation & Subsidy Status (ઇન્સ્ટોલેશન અને સબસિડીની સ્થિતિ)</h4>
     <div class="formgrid">
       <div>
-        <label>Installation Status</label>
+        <label>Installation Status (ઇન્સ્ટોલેશનની સ્થિતિ)</label>
         <select id="cInstallationStatus">
-          <option value="">Select Status</option>
-          <option>Pending</option>
-          <option>Site Survey</option>
-          <option>Material Pending</option>
-          <option>Installation In Progress</option>
-          <option>Installed</option>
-          <option>Completed</option>
-          <option>Other</option>
+          <option value="">Select Status (સ્થિતિ પસંદ કરો)</option>
+          <option>Pending (બાકી)</option>
+          <option>Site Survey (સાઇટ સર્વે)</option>
+          <option>Material Pending (માલ બાકી)</option>
+          <option>Installation In Progress (ઇન્સ્ટોલેશન ચાલુ છે)</option>
+          <option>Installed (ઇન્સ્ટોલ થઈ ગયું)</option>
+          <option>Completed (પૂર્ણ)</option>
+          <option>Other (અન્ય)</option>
         </select>
       </div>
       <div>
-        <label>Subsidy Status</label>
+        <label>Subsidy Status (સબસિડીની સ્થિતિ)</label>
         <select id="cSubsidyStatus">
-          <option value="">Select Status</option>
-          <option>Pending</option>
-          <option>Application Submitted</option>
-          <option>Under Process</option>
-          <option>Approved</option>
-          <option>Subsidy Received</option>
-          <option>Rejected</option>
-          <option>Other</option>
+          <option value="">Select Status (સ્થિતિ પસંદ કરો)</option>
+          <option>Pending (બાકી)</option>
+          <option>Application Submitted (અરજી સબમિટ થઈ)</option>
+          <option>Under Process (પ્રક્રિયા હેઠળ)</option>
+          <option>Approved (મંજૂર)</option>
+          <option>Subsidy Received (સબસિડી મળી ગઈ)</option>
+          <option>Rejected (નામંજૂર)</option>
+          <option>Other (અન્ય)</option>
         </select>
       </div>
     </div>
 
     <div id="projectEditNote" class="auth-note"></div>
     <div class="form-actions">
-      <button id="saveCustomer" type="button">Save Customer</button>
-      <button id="cancelCustomerForm" type="button" class="secondary">Cancel</button>
+      <button id="saveCustomer" type="button">Save Customer (ગ્રાહક સેવ કરો)</button>
+      <button id="cancelCustomerForm" type="button" class="secondary">Cancel (રદ કરો)</button>
     </div>
   </div>
 
@@ -385,8 +385,8 @@ tbody tr:hover{background:#f9fbfc}
 
 <section id="customerDetails" class="tab">
   <div class="page-heading">
-    <div><h2 id="detailName">Customer Details</h2><p>Customer project and payment information</p></div>
-    <button class="secondary small" id="backCustomers">← Back to Customers</button>
+    <div><h2 id="detailName">Customer Details (ગ્રાહકની વિગતો)</h2><p>Customer project and payment information</p></div>
+    <button class="secondary small" id="backCustomers">← Back to Customers (ગ્રાહકોની યાદીમાં પાછા જાઓ)</button>
   </div>
   <div class="panel" id="detailInfo"></div>
   <div class="grid section-card" id="customerFinancialStats">
@@ -394,28 +394,28 @@ tbody tr:hover{background:#f9fbfc}
     <div class="stat-card green"><div class="stat-label">Total Paid</div><div class="stat good" id="detailPaid">₹0</div></div>
     <div class="stat-card orange"><div class="stat-label">Remaining Balance</div><div class="stat" id="detailBalance">₹0</div></div>
   </div>
-  <div class="panel section-card"><div class="section-title"><h3>Payment History</h3></div><div id="detailPayments"></div></div>
+  <div class="panel section-card"><div class="section-title"><h3>Payment History (ચુકવણીનો ઇતિહાસ)</h3></div><div id="detailPayments"></div></div>
 </section>
 
 <section id="payments" class="tab">
-  <div class="page-heading"><div><h2>Payment Management</h2><p>Record and track customer payments</p></div></div>
+  <div class="page-heading"><div><h2>Payment Management (ચુકવણી વ્યવસ્થાપન)</h2><p>Record and track customer payments</p></div></div>
   <div class="panel">
-    <div class="section-title"><h3>New Payment Entry</h3></div>
+    <div class="section-title"><h3>New Payment Entry (નવી ચુકવણી નોંધો)</h3></div>
     <div class="formgrid">
-      <select id="pCustomer"><option value="">Select Customer</option></select>
-      <select id="pRecipient"><option value="company">Received by Company</option><option value="dealer">Received by Dealer</option></select>
+      <select id="pCustomer"><option value="">Select Customer (ગ્રાહક પસંદ કરો)</option></select>
+      <select id="pRecipient"><option value="company">Received by Company (કંપની દ્વારા પ્રાપ્ત)</option><option value="dealer">Received by Dealer (ડીલર દ્વારા પ્રાપ્ત)</option></select>
       <input id="pAmount" type="number" min="1" placeholder="Amount ₹">
       <input id="pDate" type="date">
       <select id="pMode">
-        <option value="UPI">UPI</option><option value="Bank Transfer">Bank Transfer</option>
-        <option value="Cash">Cash</option><option value="Cheque">Cheque</option><option value="Other">Other</option>
+        <option value="UPI (યુપીઆઈ)">UPI (યુપીઆઈ)</option><option value="Bank Transfer (બેંક ટ્રાન્સફર)">Bank Transfer (બેંક ટ્રાન્સફર)</option>
+        <option value="Cash (રોકડ)">Cash (રોકડ)</option><option value="Cheque (ચેક)">Cheque (ચેક)</option><option value="Other (અન્ય)">Other (અન્ય)</option>
       </select>
       <input id="pRef" placeholder="Reference / Transaction ID">
-      <button id="addPayment">Save Payment</button>
+      <button id="addPayment">Save Payment (ચુકવણી સેવ કરો)</button>
     </div>
   </div>
   <div class="panel section-card">
-    <div class="section-title"><h3>Payment Records</h3><span class="muted" id="paymentCount"></span></div>
+    <div class="section-title"><h3>Payment Records (ચુકવણીની નોંધો)</h3><span class="muted" id="paymentCount"></span></div>
     <input id="paymentSearch" class="payment-search" type="search" placeholder="Search customer, date, amount, mode or transaction ID..." oninput="renderPayments()" autocomplete="off">
     <div id="paymentList"></div>
   </div>
@@ -423,49 +423,49 @@ tbody tr:hover{background:#f9fbfc}
 
 <section id="dispatch" class="tab">
   <div class="page-heading">
-    <div><h2>Dispatch Challan Management</h2><p>Create and manage material dispatch challans</p></div>
-    <button class="secondary" onclick="resetChallanForm()">+ New Challan</button>
+    <div><h2>Dispatch Challan Management (ડિસ્પેચ ચલણ વ્યવસ્થાપન)</h2><p>Create and manage material dispatch challans</p></div>
+    <button class="secondary" onclick="resetChallanForm()">+ New Challan (નવું ચલણ બનાવો)</button>
   </div>
 
   <div class="panel">
-    <div class="section-title"><h3 id="challanFormTitle">Create Dispatch Challan</h3><span class="muted">Company: Siddhivinayak Engineering Company</span></div>
+    <div class="section-title"><h3 id="challanFormTitle">Create Dispatch Challan (ડિસ્પેચ ચલણ બનાવો)</h3><span class="muted">Company: Siddhivinayak Engineering Company</span></div>
     <input type="hidden" id="editChallanId">
 
     <div class="formgrid">
-      <div><label>Dispatch Date</label><input id="dcDate" type="date"></div>
-      <div><label>Recipient Type</label>
-        <select id="dcRecipientType"><option value="dealer">Dealer</option><option value="customer">Customer</option></select>
+      <div><label>Dispatch Date (ડિસ્પેચની તારીખ)</label><input id="dcDate" type="date"></div>
+      <div><label>Recipient Type (મેળવનારનો પ્રકાર)</label>
+        <select id="dcRecipientType"><option value="dealer">Dealer (ડીલર)</option><option value="customer">Customer</option></select>
       </div>
-      <div><label>Select Dealer / Customer</label><select id="dcRecipient"><option value="">Select recipient</option></select></div>
-      <div><label>Vehicle Number</label><input id="dcVehicle" placeholder="GJ XX XX XXXX"></div>
-      <div><label>Driver Name</label><input id="dcDriver" placeholder="Driver name"></div>
-      <div><label>Driver Mobile</label><input id="dcDriverPhone" type="tel" placeholder="Driver mobile number"></div>
-      <div><label>Transporter Name</label><input id="dcTransporter" placeholder="Transporter name"></div>
-      <div><label>Dispatch From</label><input id="dcFrom" value="Siddhivinayak Engineering Company"></div>
+      <div><label>Select Dealer / Customer (ડીલર / ગ્રાહક પસંદ કરો)</label><select id="dcRecipient"><option value="">Select recipient</option></select></div>
+      <div><label>Vehicle Number (વાહન નંબર)</label><input id="dcVehicle" placeholder="GJ XX XX XXXX"></div>
+      <div><label>Driver Name (ડ્રાઇવરનું નામ)</label><input id="dcDriver" placeholder="Driver name"></div>
+      <div><label>Driver Mobile (ડ્રાઇવરનો મોબાઇલ)</label><input id="dcDriverPhone" type="tel" placeholder="Driver mobile number"></div>
+      <div><label>Transporter Name (ટ્રાન્સપોર્ટરનું નામ)</label><input id="dcTransporter" placeholder="Transporter name"></div>
+      <div><label>Dispatch From (મોકલવાનું સ્થળ)</label><input id="dcFrom" value="Siddhivinayak Engineering Company"></div>
     </div>
 
-    <label>Delivery Address</label>
+    <label>Delivery Address (ડિલિવરીનું સરનામું)</label>
     <textarea id="dcAddress" placeholder="Enter complete delivery address"></textarea>
 
     <div class="section-title section-card">
-      <h3>Material Details</h3>
-      <button type="button" class="secondary small" onclick="addChallanItem()">+ Add Material</button>
+      <h3>Material Details (માલની વિગતો)</h3>
+      <button type="button" class="secondary small" onclick="addChallanItem()">+ Add Material (માલ ઉમેરો)</button>
     </div>
     <div class="muted" style="font-size:12px">Enter material name, description, quantity and unit.</div>
     <div id="challanItems"></div>
 
-    <label>Remarks</label>
+    <label>Remarks (નોંધ)</label>
     <textarea id="dcRemarks" placeholder="Remarks / Notes"></textarea>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <button id="saveChallan" type="button">Save Dispatch Challan</button>
-      <button type="button" class="secondary" onclick="resetChallanForm()">Clear Form</button>
+      <button id="saveChallan" type="button">Save Dispatch Challan (ડિસ્પેચ ચલણ સેવ કરો)</button>
+      <button type="button" class="secondary" onclick="resetChallanForm()">Clear Form (ફોર્મ સાફ કરો)</button>
     </div>
     <div id="challanFormMsg" class="msg"></div>
   </div>
 
   <div class="panel section-card">
-    <div class="section-title"><h3>Dispatch Challan History</h3><span class="muted" id="challanCount"></span></div>
+    <div class="section-title"><h3>Dispatch Challan History (ડિસ્પેચ ચલણનો ઇતિહાસ)</h3><span class="muted" id="challanCount"></span></div>
     <input id="challanSearch" class="challan-search" type="search" placeholder="Search challan number, dealer, customer, vehicle..." oninput="renderChallans()">
     <div id="challanList"></div>
   </div>
@@ -648,15 +648,15 @@ function renderDashboard(){
 
 function renderDealers(){
  $("dealerList").innerHTML=dealersData.length?`
- <table><thead><tr><th>Dealer</th><th>Phone</th><th>City</th><th>Customers</th><th>Actions</th></tr></thead>
+ <table><thead><tr><th>Dealer (ડીલર)</th><th>Phone (ફોન નંબર)</th><th>City (શહેર)</th><th>Customers (ગ્રાહકો)</th><th>Actions</th></tr></thead>
  <tbody>${dealersData.map(d=>{
   const count=customersData.filter(c=>String(c.dealer_id)===String(d.id)).length;
   return `<tr><td>${esc(d.name)}</td><td>${esc(d.phone)}</td><td>${esc(d.city)}</td><td>${count}</td>
-  <td><button class="small primary-blue" onclick="openDealerCustomers('${esc(d.id)}')">Open</button>
-  <button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit</button>
-  <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove</button></td></tr>`;
+  <td><button class="small primary-blue" onclick="openDealerCustomers('${esc(d.id)}')">Open (ખોલો)</button>
+  <button class="secondary small" onclick="editDealer('${esc(d.id)}')">Edit (ફેરફાર કરો)</button>
+  <button class="small" style="background:#c43d3d" onclick="removeDealer('${esc(d.id)}')">Remove (દૂર કરો)</button></td></tr>`;
  }).join("")}</tbody></table>`:'<div class="empty-state">No dealers added yet.</div>';
- $("cDealer").innerHTML='<option value="">Company Direct Customer</option>'+dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
+ $("cDealer").innerHTML='<option value="">Company Direct Customer (કંપનીનો સીધો ગ્રાહક)</option>'+dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
 }
 
 $("addDealer").onclick=async()=>{
@@ -702,7 +702,7 @@ function renderCustomers(){
  $("customerList").innerHTML=customersData.length?`
  <table>
  <thead><tr>
-  <th>Customer</th><th>Dealer</th><th>Phone</th><th>City</th><th>Capacity (kW)</th>
+  <th>Customer</th><th>Dealer (ડીલર)</th><th>Phone (ફોન નંબર)</th><th>City (શહેર)</th><th>Capacity (kW)</th>
   <th>Project</th><th>Paid</th><th>Balance</th><th>Installation</th><th>Subsidy</th><th>Actions</th>
  </tr></thead>
  <tbody>${customersData.map(c=>`<tr>
@@ -714,16 +714,16 @@ function renderCustomers(){
   <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(projectAmount(c.id))}</td>
   <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(totalPaid(c.id))}</td>
   <td>${String(c.payment_type||"").trim().toLowerCase()==="cash"?"":money(balance(c.id))}</td>
-  <td>${esc(c.installation_status||"Pending")}</td>
-  <td>${esc(c.subsidy_status||"Pending")}</td>
+  <td>${esc(c.installation_status||"Pending (બાકી)")}</td>
+  <td>${esc(c.subsidy_status||"Pending (બાકી)")}</td>
   <td>
-   <button class="secondary small" onclick="editCustomer('${esc(c.id)}')">Edit</button>
-   <button class="small" onclick="openCustomer('${esc(c.id)}')">Open</button>
+   <button class="secondary small" onclick="editCustomer('${esc(c.id)}')">Edit (ફેરફાર કરો)</button>
+   <button class="small" onclick="openCustomer('${esc(c.id)}')">Open (ખોલો)</button>
   </td>
  </tr>`).join("")}</tbody></table>`:
  '<div class="empty-state">No customers added yet.</div>';
 
- $("pCustomer").innerHTML='<option value="">Select Customer</option>'+customersData.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
+ $("pCustomer").innerHTML='<option value="">Select Customer (ગ્રાહક પસંદ કરો)</option>'+customersData.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
 }
 
 function updateProjectAmountAvailability(){
@@ -747,8 +747,8 @@ $("cPaymentType").addEventListener("change",updateProjectAmountAvailability);
 
 function resetCustomerForm(){
  $("editCustomerId").value="";
- $("customerFormTitle").textContent="Add New Customer";
- $("saveCustomer").textContent="Save Customer";
+ $("customerFormTitle").textContent="Add New Customer (નવો ગ્રાહક ઉમેરો)";
+ $("saveCustomer").textContent="Save Customer (ગ્રાહક સેવ કરો)";
 
  [
   "cName","cPhone","cCity","cDistrict","cCapacity","cAmount",
@@ -766,8 +766,8 @@ function resetCustomerForm(){
 
 window.openCustomerForm=function(){
  resetCustomerForm();
- $("customerFormTitle").textContent="Add New Customer";
- $("customerFormPageHeading").textContent="Add New Customer";
+ $("customerFormTitle").textContent="Add New Customer (નવો ગ્રાહક ઉમેરો)";
+ $("customerFormPageHeading").textContent="Add New Customer (નવો ગ્રાહક ઉમેરો)";
  show("customerFormPanel",true);
  goTab("customerFormPage");
  $("cName").focus();
@@ -786,7 +786,7 @@ window.editCustomer=function(id){
 
  $("editCustomerId").value=c.id;
  $("customerFormTitle").textContent="Edit Customer: "+c.name;
- $("saveCustomer").textContent="Update Customer";
+ $("saveCustomer").textContent="Update Customer (ગ્રાહક અપડેટ કરો)";
 
  $("cName").value=c.name||"";
  $("cPhone").value=c.phone||"";
@@ -858,12 +858,12 @@ function findDuplicateCustomer(payload,currentId=""){
   },
   {
    field:"national_application_number",
-   label:"National Application Number",
+   label:"National Application Number (નેશનલ એપ્લિકેશન નંબર)",
    normalize:normalizeDuplicateText
   },
   {
    field:"consumer_number",
-   label:"Consumer Number",
+   label:"Consumer Number (કન્ઝ્યુમર નંબર)",
    normalize:normalizeDuplicateText
   }
  ];
@@ -1073,8 +1073,8 @@ $("saveCustomer").onclick=async()=>{
 
   $("saveCustomer").textContent=
    $("editCustomerId").value?
-   "Update Customer":
-   "Save Customer";
+   "Update Customer (ગ્રાહક અપડેટ કરો)":
+   "Save Customer (ગ્રાહક સેવ કરો)";
  }
 };
 window.openCustomer=function(id){
@@ -1086,32 +1086,32 @@ window.openCustomer=function(id){
  $("customerDetails").classList.add("active-page");
  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.remove("active"));
 
- $("pageTitle").textContent="Customer Details";
+ $("pageTitle").textContent="Customer Details (ગ્રાહકની વિગતો)";
  $("detailName").textContent=c.name;
 
  $("detailInfo").innerHTML=`
-  <h3 style="margin-top:0;color:var(--navy-dark)">Customer Information</h3>
+  <h3 style="margin-top:0;color:var(--navy-dark)">Customer Information (ગ્રાહકની માહિતી)</h3>
   <div class="detail-grid">
    <div class="detail-field"><small>Customer Name</small><strong>${esc(c.name||"—")}</strong></div>
-   <div class="detail-field"><small>Phone</small><strong>${esc(c.phone||"—")}</strong></div>
-   <div class="detail-field"><small>Dealer</small><strong>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</strong></div>
-   <div class="detail-field"><small>City</small><strong>${esc(c.city||"—")}</strong></div>
-   <div class="detail-field"><small>District</small><strong>${esc(c.district||"—")}</strong></div>
-   <div class="detail-field"><small>National Application Number</small><strong>${esc(c.national_application_number||"—")}</strong></div>
-   <div class="detail-field"><small>Consumer Number</small><strong>${esc(c.consumer_number||"—")}</strong></div>
+   <div class="detail-field"><small>Phone (ફોન નંબર)</small><strong>${esc(c.phone||"—")}</strong></div>
+   <div class="detail-field"><small>Dealer (ડીલર)</small><strong>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</strong></div>
+   <div class="detail-field"><small>City (શહેર)</small><strong>${esc(c.city||"—")}</strong></div>
+   <div class="detail-field"><small>District (જિલ્લો)</small><strong>${esc(c.district||"—")}</strong></div>
+   <div class="detail-field"><small>National Application Number (નેશનલ એપ્લિકેશન નંબર)</small><strong>${esc(c.national_application_number||"—")}</strong></div>
+   <div class="detail-field"><small>Consumer Number (કન્ઝ્યુમર નંબર)</small><strong>${esc(c.consumer_number||"—")}</strong></div>
    <div class="detail-field"><small>System Capacity</small><strong>${c.system_capacity==null?"—":esc(c.system_capacity)+" kW"}</strong></div>
 
-   <div class="detail-field"><small>Panel Company</small><strong>${esc(c.panel_company||"—")}</strong></div>
-   <div class="detail-field"><small>Panel Watt</small><strong>${c.panel_watt==null?"—":esc(c.panel_watt)+" W"}</strong></div>
-   <div class="detail-field"><small>Panel Quantity</small><strong>${c.panel_quantity==null?"—":esc(c.panel_quantity)}</strong></div>
+   <div class="detail-field"><small>Panel Company (પેનલ કંપની)</small><strong>${esc(c.panel_company||"—")}</strong></div>
+   <div class="detail-field"><small>Panel Watt (પેનલ વોટ)</small><strong>${c.panel_watt==null?"—":esc(c.panel_watt)+" W"}</strong></div>
+   <div class="detail-field"><small>Panel Quantity (પેનલની સંખ્યા)</small><strong>${c.panel_quantity==null?"—":esc(c.panel_quantity)}</strong></div>
 
-   <div class="detail-field"><small>Inverter Company</small><strong>${esc(c.inverter_company||"—")}</strong></div>
-   <div class="detail-field"><small>Inverter Model</small><strong>${esc(c.inverter_model||"—")}</strong></div>
+   <div class="detail-field"><small>Inverter Company (ઇન્વર્ટર કંપની)</small><strong>${esc(c.inverter_company||"—")}</strong></div>
+   <div class="detail-field"><small>Inverter Model (ઇન્વર્ટર મોડેલ)</small><strong>${esc(c.inverter_model||"—")}</strong></div>
    <div class="detail-field"><small>Inverter Capacity</small><strong>${c.inverter_capacity==null?"—":esc(c.inverter_capacity)+" kW"}</strong></div>
 
    <div class="detail-field"><small>Payment Type</small><strong>${esc(c.payment_type||"—")}</strong></div>
-   <div class="detail-field"><small>Installation Status</small><strong>${esc(c.installation_status||"Pending")}</strong></div>
-   <div class="detail-field"><small>Subsidy Status</small><strong>${esc(c.subsidy_status||"Pending")}</strong></div>
+   <div class="detail-field"><small>Installation Status (ઇન્સ્ટોલેશનની સ્થિતિ)</small><strong>${esc(c.installation_status||"Pending (બાકી)")}</strong></div>
+   <div class="detail-field"><small>Subsidy Status (સબસિડીની સ્થિતિ)</small><strong>${esc(c.subsidy_status||"Pending (બાકી)")}</strong></div>
   </div>
  `;
 
@@ -1177,7 +1177,7 @@ function recipientLabel(type,id){
 function updateRecipientOptions(selectedValue=""){
  const type=$("dcRecipientType").value;
  const list=type==="dealer"?dealersData:customersData;
- const label=type==="dealer"?"Select Dealer":"Select Customer";
+ const label=type==="dealer"?"Select Dealer":"Select Customer (ગ્રાહક પસંદ કરો)";
  $("dcRecipient").innerHTML=`<option value="">${label}</option>`+
   list.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}${x.phone?" - "+esc(x.phone):""}</option>`).join("");
  if(selectedValue)$("dcRecipient").value=selectedValue;
@@ -1193,7 +1193,7 @@ function addChallanItem(item={}){
   <input class="item-description" placeholder="Description" value="${esc(item.description||"")}">
   <input class="item-quantity" type="number" min="0.01" step="0.01" placeholder="Quantity" value="${item.quantity??""}">
   <select class="item-unit">
-   ${["Nos","Set","Kg","Meter","Box","Roll","Watt","Other"].map(u=>`<option value="${u}" ${item.unit===u?"selected":""}>${u}</option>`).join("")}
+   ${["Nos","Set","Kg","Meter","Box","Roll","Watt","Other (અન્ય)"].map(u=>`<option value="${u}" ${item.unit===u?"selected":""}>${u}</option>`).join("")}
   </select>
   <button type="button" class="small" style="background:#c43d3d" title="Remove material">×</button>
  `;
@@ -1212,8 +1212,8 @@ function getChallanItems(){
 
 function resetChallanForm(){
  $("editChallanId").value="";
- $("challanFormTitle").textContent="Create Dispatch Challan";
- $("saveChallan").textContent="Save Dispatch Challan";
+ $("challanFormTitle").textContent="Create Dispatch Challan (ડિસ્પેચ ચલણ બનાવો)";
+ $("saveChallan").textContent="Save Dispatch Challan (ડિસ્પેચ ચલણ સેવ કરો)";
  $("dcDate").value=new Date().toISOString().slice(0,10);
  $("dcRecipientType").value="dealer";
  updateRecipientOptions();
@@ -1294,7 +1294,7 @@ $("saveChallan").onclick=async()=>{
   challanFormMessage("Save failed: "+(error.message||"Unknown error"),true);
  }finally{
   $("saveChallan").disabled=false;
-  $("saveChallan").textContent=$("editChallanId").value?"Update Dispatch Challan":"Save Dispatch Challan";
+  $("saveChallan").textContent=$("editChallanId").value?"Update Dispatch Challan":"Save Dispatch Challan (ડિસ્પેચ ચલણ સેવ કરો)";
  }
 };
 
@@ -1319,9 +1319,9 @@ function renderChallans(){
     <td>${esc(c.vehicle_number||"—")}</td>
     <td>${c.status==="Cancelled"?'<span class="danger">Cancelled</span>':'<span class="good">Issued</span>'}</td>
     <td>
-     <button class="secondary small" onclick="printChallan('${esc(c.id)}')">Print</button>
-     ${c.status!=="Cancelled"?`<button class="small" onclick="editChallan('${esc(c.id)}')">Edit</button>
-     <button class="small" style="background:#c43d3d" onclick="cancelChallan('${esc(c.id)}')">Cancel</button>`:""}
+     <button class="secondary small" onclick="printChallan('${esc(c.id)}')">Print (પ્રિન્ટ કરો)</button>
+     ${c.status!=="Cancelled"?`<button class="small" onclick="editChallan('${esc(c.id)}')">Edit (ફેરફાર કરો)</button>
+     <button class="small" style="background:#c43d3d" onclick="cancelChallan('${esc(c.id)}')">Cancel (રદ કરો)</button>`:""}
     </td>
    </tr>`;
   }).join("")}</tbody>
@@ -1522,8 +1522,8 @@ window.goTab=function(id){
  $(id).classList.add("active-page");
  document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
  const titles={
-  dashboard:"Dashboard",dealers:"Dealers",customers:"Customers",
-  customerFormPage:"Customer Form",payments:"Payments",customerDetails:"Customer Details",dispatch:"Dispatch Challan"
+  dashboard:"Dashboard (ડેશબોર્ડ)",dealers:"Dealers (ડીલરો)",customers:"Customers (ગ્રાહકો)",
+  customerFormPage:"Customer Form (ગ્રાહક ફોર્મ)",payments:"Payments (ચુકવણીઓ)",customerDetails:"Customer Details (ગ્રાહકની વિગતો)",dispatch:"Dispatch Challan (ડિસ્પેચ ચલણ)"
  };
  $("pageTitle").textContent=titles[id]||"Solar ERP";
 };
