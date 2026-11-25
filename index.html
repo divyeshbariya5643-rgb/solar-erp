@@ -694,6 +694,62 @@ window.removeDealer=async function(id){
  await refreshData();say("Dealer removed successfully.");
 };
 
+// Open the selected dealer's linked customer list.
+window.openDealerCustomers=function(id){
+ const dealer=dealersData.find(d=>String(d.id)===String(id));
+ if(!dealer){say("Dealer not found.");return}
+
+ const linkedCustomers=customersData.filter(
+  c=>String(c.dealer_id)===String(id)
+ );
+
+ $("dealerCustomersTitle").textContent=
+  dealer.name+" - Customers (ડીલરના ગ્રાહકો)";
+ $("dealerCustomersInfo").textContent=
+  linkedCustomers.length+" customer(s) linked (જોડાયેલા ગ્રાહકો)";
+
+ $("dealerCustomersList").innerHTML=linkedCustomers.length?`
+  <div class="customer-table-wrap">
+   <table>
+    <thead><tr>
+     <th>Customer (ગ્રાહક)</th>
+     <th>Phone (ફોન નંબર)</th>
+     <th>City (શહેર)</th>
+     <th>Capacity (ક્ષમતા kW)</th>
+     <th>Project (પ્રોજેક્ટ)</th>
+     <th>Paid (ચૂકવેલ)</th>
+     <th>Balance (બાકી)</th>
+     <th>Actions (કાર્યवाही)</th>
+    </tr></thead>
+    <tbody>${linkedCustomers.map(c=>{
+     const isCash=String(c.payment_type||"").trim().toLowerCase()==="cash";
+     return `<tr>
+      <td>${esc(c.name||"—")}</td>
+      <td>${esc(c.phone||"—")}</td>
+      <td>${esc(c.city||"—")}</td>
+      <td>${c.system_capacity==null?"—":esc(c.system_capacity)}</td>
+      <td>${isCash?"":money(projectAmount(c.id))}</td>
+      <td>${isCash?"":money(totalPaid(c.id))}</td>
+      <td>${isCash?"":money(balance(c.id))}</td>
+      <td>
+       <button class="secondary small" onclick="editCustomer('${esc(c.id)}')">Edit (ફેરફાર)</button>
+       <button class="small" onclick="openCustomer('${esc(c.id)}')">Open (ખોલો)</button>
+      </td>
+     </tr>`;
+    }).join("")}</tbody>
+   </table>
+  </div>`:
+  '<div class="empty-state">No customers linked to this dealer yet. (હજુ સુધી આ ડીલર સાથે કોઈ ગ્રાહક જોડાયેલ નથી.)</div>';
+
+ show("dealerCustomersPanel",true);
+ $("dealerCustomersPanel").scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+window.closeDealerCustomers=function(){
+ show("dealerCustomersPanel",false);
+ $("dealerCustomersList").innerHTML="";
+};
+
 /* ============================
    CUSTOMER MANAGEMENT
 ============================ */
