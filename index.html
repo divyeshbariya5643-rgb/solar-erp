@@ -317,7 +317,6 @@ tbody tr:hover{background:#f9fbfc}
 
     <h4>Project & Payment Details</h4>
     <div class="formgrid">
-      <div><label>Project Amount (₹)</label><input id="cAmount" type="number" min="0" step="0.01" placeholder="Project Amount ₹"></div>
       <div>
         <label>Payment Type</label>
         <select id="cPaymentType">
@@ -330,6 +329,7 @@ tbody tr:hover{background:#f9fbfc}
           <option>Other</option>
         </select>
       </div>
+      <div><label>Project Amount (₹)</label><input id="cAmount" type="number" min="0" step="0.01" placeholder="Project Amount ₹"></div>
     </div>
 
     <h4>Installation & Subsidy Status</h4>
@@ -651,53 +651,6 @@ function renderDealers(){
  $("cDealer").innerHTML='<option value="">Company Direct Customer</option>'+dealersData.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
 }
 
-
-/* OPEN BUTTON: SHOW THE SELECTED DEALER'S CUSTOMER LIST */
-window.openDealerCustomers=function(id){
- const dealer=dealersData.find(d=>String(d.id)===String(id));
- if(!dealer){say("Dealer not found.");return}
-
- const linkedCustomers=customersData.filter(c=>String(c.dealer_id)===String(id));
- $("dealerCustomersTitle").textContent=dealer.name+" — Customer List";
- $("dealerCustomersInfo").textContent=
-  "Phone: "+(dealer.phone||"—")+
-  " | City: "+(dealer.city||"—")+
-  " | Total Customers: "+linkedCustomers.length;
-
- $("dealerCustomersList").innerHTML=linkedCustomers.length?`
-  <div class="customer-table-wrap">
-   <table>
-    <thead><tr>
-     <th>Customer</th><th>Phone</th><th>City</th><th>Capacity (kW)</th>
-     <th>Project</th><th>Paid</th><th>Balance</th>
-     <th>Installation</th><th>Subsidy</th><th>Action</th>
-    </tr></thead>
-    <tbody>${linkedCustomers.map(c=>`
-     <tr>
-      <td><strong>${esc(c.name||"—")}</strong></td>
-      <td>${esc(c.phone||"—")}</td>
-      <td>${esc(c.city||"—")}</td>
-      <td>${c.system_capacity==null?"—":esc(c.system_capacity)}</td>
-      <td>${money(projectAmount(c.id))}</td>
-      <td>${money(totalPaid(c.id))}</td>
-      <td>${money(balance(c.id))}</td>
-      <td>${esc(c.installation_status||"Pending")}</td>
-      <td>${esc(c.subsidy_status||"Pending")}</td>
-      <td><button type="button" class="small primary-blue" onclick="openCustomer('${esc(c.id)}')">View Details</button></td>
-     </tr>
-    `).join("")}</tbody>
-   </table>
-  </div>`:
-  '<div class="empty-state">No customers are linked to this dealer yet.</div>';
-
- show("dealerCustomersPanel",true);
- $("dealerCustomersPanel").scrollIntoView({behavior:"smooth",block:"start"});
-};
-
-window.closeDealerCustomers=function(){
- show("dealerCustomersPanel",false);
-};
-
 $("addDealer").onclick=async()=>{
  const name=$("dName").value.trim();
  if(!name){say("Enter dealer name.");return}
@@ -741,8 +694,7 @@ function renderCustomers(){
  $("customerList").innerHTML=customersData.length?`
  <table>
  <thead><tr>
-  <th>Customer</th><th>Dealer</th><th>Phone</th><th>City</th><th>District</th>
-  <th>Application No.</th><th>Consumer No.</th><th>Capacity (kW)</th>
+  <th>Customer</th><th>Dealer</th><th>Phone</th><th>City</th><th>Capacity (kW)</th>
   <th>Project</th><th>Paid</th><th>Balance</th><th>Installation</th><th>Subsidy</th><th>Actions</th>
  </tr></thead>
  <tbody>${customersData.map(c=>`<tr>
@@ -750,9 +702,6 @@ function renderCustomers(){
   <td>${c.dealer_id?esc(dealerName(c.dealer_id)):"Company Direct"}</td>
   <td>${esc(c.phone||"—")}</td>
   <td>${esc(c.city||"—")}</td>
-  <td>${esc(c.district||"—")}</td>
-  <td>${esc(c.national_application_number||"—")}</td>
-  <td>${esc(c.consumer_number||"—")}</td>
   <td>${c.system_capacity==null?"—":esc(c.system_capacity)}</td>
   <td>${money(projectAmount(c.id))}</td>
   <td>${money(totalPaid(c.id))}</td>
@@ -769,6 +718,25 @@ function renderCustomers(){
  $("pCustomer").innerHTML='<option value="">Select Customer</option>'+customersData.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
 }
 
+function updateProjectAmountAvailability(){
+ const cashSelected=$("cPaymentType").value.trim().toLowerCase()==="cash";
+ const customerId=$("editCustomerId").value;
+ const hasMultipleProjects=!!customerId&&projectsData.filter(
+  p=>String(p.customer_id)===String(customerId)
+ ).length>1;
+
+ $("cAmount").disabled=cashSelected||hasMultipleProjects;
+ if(cashSelected){
+  $("cAmount").title="Project Amount is disabled when Payment Type is Cash.";
+ }else if(hasMultipleProjects){
+  $("cAmount").title="Project Amount cannot be edited because this customer has multiple project records.";
+ }else{
+  $("cAmount").title="";
+ }
+}
+
+$("cPaymentType").addEventListener("change",updateProjectAmountAvailability);
+
 function resetCustomerForm(){
  $("editCustomerId").value="";
  $("customerFormTitle").textContent="Add New Customer";
@@ -783,6 +751,8 @@ function resetCustomerForm(){
  ["cDealer","cPaymentType","cInstallationStatus","cSubsidyStatus"].forEach(id=>$(id).value="");
 
  $("cAmount").disabled=false;
+ $("cAmount").title="";
+ updateProjectAmountAvailability();
  $("projectEditNote").textContent="";
 }
 
@@ -836,7 +806,7 @@ window.editCustomer=function(id){
   ?"This customer has multiple project records. Project Amount is shown as the total and cannot be changed here, to protect existing project/payment history. Other customer details and capacity can still be updated."
   :"Project amount can be updated. Existing payment records will remain unchanged.";
 
- $("cAmount").disabled=projectRows.length>1;
+ updateProjectAmountAvailability();
 
  show("customerFormPanel",true);
  $("cName").focus();
